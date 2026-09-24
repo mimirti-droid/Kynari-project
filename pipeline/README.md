@@ -2,17 +2,30 @@
 
 Publisher automático de artículos para Ghost.
 
-Pendiente de subir desde la copia local:
+| Archivo | Función |
+| --- | --- |
+| `kynari-publisher.mjs` | v13. Busca el tema trending, genera el artículo con Claude, obtiene imágenes (TMDB / IGDB / fal.ai) y publica en Ghost |
+| `kynari-server.mjs` | v3. Servidor local en `http://localhost:4173` que sirve el panel y lanza el publisher |
+| `kynari-panel.html` | Panel web: diario (5 categorías), Legacy semanal, tema a elección, últimos publicados y consola |
+| `kynari-daily.example.bat` | Plantilla de lanzador para Windows (sin claves) |
 
-- `kynari-publisher.mjs`: generación y publicación (v11)
-- `kynari-server.mjs`: servidor local
-- `kynari-panel.html`: panel de control
+## Uso
 
-Requisitos: Node.js v24+. Configurar las claves en un `.env` a partir de `../.env.example`.
+```bash
+node kynari-publisher.mjs daily                      # 5 categorías, una vez al día
+node kynari-publisher.mjs legacy                     # 1 ensayo Legacy por semana
+node kynari-publisher.mjs custom --topic "..." --category Cinema --section Featured [--angle "..."] [--youtube URL]
+node kynari-server.mjs                               # panel en http://localhost:4173
+```
 
-Notas técnicas:
+Requisitos: Node.js v24+. Todas las claves van en variables de entorno (ver `../.env.example`).
+
+## Archivos de estado (no se suben)
+
+`kynari-log.json`, `kynari-queue.json`, `kynari-last-daily.json`, `kynari-last-legacy.json` se generan en local al ejecutar.
+
+## Notas técnicas
 
 - JWT de la Admin API de Ghost: `aud: '/admin/'`, caducidad 300 s; la clave se separa por `:` en `[id, secret]` y el secret va en hex.
-- La subida de imágenes a Ghost necesita un multipart/form-data construido a mano como `Uint8Array`.
-- Para extraer JSON de respuestas largas de Claude: `text.match(/\{[\s\S]*\}/)` como respaldo.
-- fal.ai: `landscape_16_9` para la imagen destacada, `portrait_4_3` para las interiores.
+- La subida de imágenes a Ghost usa un multipart/form-data construido a mano.
+- El hero prioriza imágenes verticales (póster TMDB, cover IGDB, fal.ai `portrait_4_3`) para no recortar mal en las tarjetas 3:4; los interiores van en horizontal.

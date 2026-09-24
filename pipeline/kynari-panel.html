@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<title>Kynari Publisher</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Cormorant+Garamond:wght@400;500&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #080808;
+    --surface1: #0D0D0F;
+    --surface2: #111115;
+    --surface3: #16161C;
+    --gold: #B8986A;
+    --lilac: #A78BFA;
+    --text: #E8E6E1;
+    --text-dim: #9A968D;
+    --green: #7FDDAE;
+    --red: #E27878;
+  }
+  * { box-sizing: border-box; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    margin: 0;
+    padding: 2.5rem 1.5rem 4rem;
+    min-height: 100vh;
+  }
+  .wrap { max-width: 920px; margin: 0 auto; }
+  h1 {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--gold);
+    text-align: center;
+    font-size: 2.1rem;
+    margin-bottom: 0.2rem;
+  }
+  .tagline {
+    text-align: center;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    color: var(--text-dim);
+    margin-bottom: 2.5rem;
+  }
+  .version {
+    text-align: center;
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    margin-top: -1.8rem;
+    margin-bottom: 2rem;
+    letter-spacing: 0.05em;
+  }
+  .card {
+    background: var(--surface2);
+    border: 1px solid var(--surface3);
+    border-radius: 10px;
+    padding: 1.5rem 1.75rem;
+    margin-bottom: 1.5rem;
+  }
+  .card h2 {
+    font-family: 'Cinzel', serif;
+    font-size: 1.05rem;
+    letter-spacing: 0.04em;
+    color: var(--gold);
+    margin: 0 0 0.9rem;
+  }
+  .hint {
+    color: var(--text-dim);
+    font-size: 0.88rem;
+    margin: -0.4rem 0 1rem;
+  }
+  label {
+    display: block;
+    font-size: 0.8rem;
+    color: var(--text-dim);
+    margin: 0.7rem 0 0.25rem;
+    letter-spacing: 0.03em;
+  }
+  input[type=text], textarea, select {
+    width: 100%;
+    background: var(--surface1);
+    border: 1px solid var(--surface3);
+    color: var(--text);
+    padding: 0.55rem 0.7rem;
+    border-radius: 6px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    transition: border-color 0.15s;
+  }
+  input[type=text]:focus, textarea:focus, select:focus {
+    outline: none;
+    border-color: var(--gold);
+  }
+  textarea { min-height: 4.5rem; resize: vertical; }
+  button {
+    background: var(--gold);
+    color: #08080a;
+    border: none;
+    padding: 0.7rem 1.4rem;
+    border-radius: 6px;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    font-size: 0.9rem;
+    cursor: pointer;
+    margin-top: 1rem;
+    transition: background 0.15s ease;
+  }
+  button:hover:not(:disabled) { background: var(--lilac); }
+  button:disabled { opacity: 0.45; cursor: not-allowed; }
+  .row { display: flex; gap: 1rem; }
+  .row > div { flex: 1; }
+  .yt-preview {
+    margin-top: 0.4rem;
+    font-size: 0.8rem;
+    min-height: 1.2em;
+  }
+  #log {
+    background: #050505;
+    border: 1px solid var(--surface3);
+    border-radius: 10px;
+    padding: 1rem 1.25rem;
+    font-family: 'Consolas', 'Courier New', monospace;
+    font-size: 0.82rem;
+    line-height: 1.6;
+    white-space: pre-wrap;
+    max-height: 460px;
+    overflow-y: auto;
+    color: #c9c6bd;
+  }
+  #status-line {
+    font-size: 0.82rem;
+    color: var(--text-dim);
+    margin-bottom: 0.5rem;
+    min-height: 1.2em;
+  }
+  .log-ok { color: var(--green); }
+  .log-err { color: var(--red); }
+  .log-topic { color: var(--lilac); }
+  .log-skip { color: var(--gold); opacity: 0.7; }
+  #recent-log { list-style: none; padding: 0; margin: 0; }
+  #recent-log li {
+    display: flex;
+    align-items: baseline;
+    gap: 0.6rem;
+    padding: 0.45rem 0;
+    border-bottom: 1px solid var(--surface3);
+    font-size: 0.85rem;
+  }
+  #recent-log li:last-child { border-bottom: none; }
+  .log-cat {
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    padding: 0.15rem 0.45rem;
+    border-radius: 4px;
+    background: var(--surface3);
+    color: var(--gold);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .log-title { color: var(--text); flex: 1; }
+  .log-title a { color: var(--text); text-decoration: none; }
+  .log-title a:hover { color: var(--lilac); }
+  .log-date { color: var(--text-dim); font-size: 0.75rem; white-space: nowrap; }
+  #recent-loading { color: var(--text-dim); font-size: 0.85rem; }
+  .section-header { display: flex; align-items: center; margin-bottom: 0.9rem; }
+  .section-header h2 { margin: 0; flex: 1; }
+  .refresh-btn {
+    background: transparent;
+    border: 1px solid var(--surface3);
+    color: var(--text-dim);
+    padding: 0.3rem 0.8rem;
+    font-size: 0.78rem;
+    margin-top: 0;
+    margin-left: 0.5rem;
+  }
+  .refresh-btn:hover:not(:disabled) { background: var(--surface3); color: var(--text); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>KYNARI PUBLISHER</h1>
+  <p class="tagline">Crafted with obsession for those who see deeper.</p>
+  <p class="version">v5 &mdash; Anti-repetición &middot; YouTube embed &middot; Trending real</p>
+
+  <div class="card">
+    <h2>Diario &mdash; 5 categorías</h2>
+    <p class="hint">Busca el tema trending de hoy en Cinema, Anime, Games, Culture y Comic. Evita automáticamente repetir temas del historial.</p>
+    <button onclick="run('daily')">Buscar y publicar los 5 de hoy</button>
+  </div>
+
+  <div class="card">
+    <h2>Kynari Legacy &mdash; semanal</h2>
+    <p class="hint">Busca una efeméride, aniversario o hito cultural real de esta semana y publica un ensayo de fondo.</p>
+    <button onclick="run('legacy')">Buscar y publicar el Legacy de esta semana</button>
+  </div>
+
+  <div class="card">
+    <h2>Tema a tu elección</h2>
+    <p class="hint">Tú decides el tema, la categoría y el ángulo editorial. El publisher evita automáticamente repetir temas del historial.</p>
+    <label>Tema</label>
+    <input type="text" id="f-topic" placeholder="Ej: Kimetsu no Yaiba en Crunchyroll" />
+    <div class="row">
+      <div>
+        <label>Categoría</label>
+        <select id="f-category">
+          <option>Cinema</option>
+          <option>Anime</option>
+          <option>Games</option>
+          <option>Culture</option>
+          <option>Comic</option>
+        </select>
+      </div>
+      <div>
+        <label>Sección</label>
+        <select id="f-section">
+          <option>Featured</option>
+          <option>Latest</option>
+          <option>Kynari Legacy</option>
+        </select>
+      </div>
+    </div>
+    <label>Ángulo editorial (opcional)</label>
+    <textarea id="f-angle" placeholder="El punto de vista concreto del artículo..."></textarea>
+    <label>Vídeo de YouTube (opcional — URL completa o ID de 11 caracteres)</label>
+    <input type="text" id="f-youtube" placeholder="https://www.youtube.com/watch?v=..." oninput="previewYoutube(this.value)" />
+    <div class="yt-preview" id="yt-preview"></div>
+    <button onclick="run('custom')">Publicar este artículo</button>
+  </div>
+
+  <div class="card">
+    <div class="section-header">
+      <h2>Últimos publicados</h2>
+      <button class="refresh-btn" onclick="loadRecent()">&#8635; Actualizar</button>
+    </div>
+    <p class="hint" style="margin-top:-0.6rem;">El publisher v5 evita automáticamente repetir estos temas al buscar trending.</p>
+    <div id="recent-loading">Cargando historial...</div>
+    <ul id="recent-log"></ul>
+  </div>
+
+  <div class="card">
+    <h2>Consola</h2>
+    <div id="status-line">Esperando...</div>
+    <div id="log">Listo. Elige una opción arriba.</div>
+  </div>
+</div>
+
+<script>
+var polling = null;
+
+function extractYoutubeId(input) {
+  if (!input) return null;
+  var match = input.match(/(?:youtu\.be\/|v=|embed\/)([a-zA-Z0-9_-]{11})/);
+  if (match) return match[1];
+  if (/^[a-zA-Z0-9_-]{11}$/.test(input)) return input;
+  return null;
+}
+
+function previewYoutube(val) {
+  var id = extractYoutubeId(val.trim());
+  var el = document.getElementById('yt-preview');
+  if (id) {
+    el.textContent = '✓ ID detectado: ' + id;
+    el.style.color = '#7FDDAE';
+  } else if (val.trim()) {
+    el.textContent = '✗ URL no reconocida';
+    el.style.color = '#E27878';
+  } else {
+    el.textContent = '';
+  }
+}
+
+function colorizeLog(raw) {
+  var div = document.getElementById('log');
+  div.innerHTML = '';
+  var lines = raw.split('\n');
+  for (var i = 0; i < lines.length; i++) {
+    var line = lines[i];
+    var span = document.createElement('span');
+    if (/OK\s*->|artículos publicados|Hecho/i.test(line)) {
+      span.className = 'log-ok';
+    } else if (/ERROR|error|faltan/i.test(line)) {
+      span.className = 'log-err';
+    } else if (/Trending:|Encontrado:|YouTube:/i.test(line)) {
+      span.className = 'log-topic';
+    } else if (/Fallback|ya publicado|Cargando historial/i.test(line)) {
+      span.className = 'log-skip';
+    }
+    span.textContent = line + '\n';
+    div.appendChild(span);
+  }
+  div.scrollTop = div.scrollHeight;
+}
+
+function loadRecent() {
+  document.getElementById('recent-loading').textContent = 'Cargando...';
+  document.getElementById('recent-log').innerHTML = '';
+  fetch('/api/log')
+    .then(function(r) { return r.json(); })
+    .then(function(entries) {
+      document.getElementById('recent-loading').textContent = '';
+      var ul = document.getElementById('recent-log');
+      if (!entries || entries.length === 0) {
+        document.getElementById('recent-loading').textContent = 'No hay artículos publicados aún.';
+        return;
+      }
+      for (var i = 0; i < entries.length; i++) {
+        var e = entries[i];
+        var li = document.createElement('li');
+        var date = new Date(e.timestamp).toLocaleDateString('es-ES', { day: '2-digit', month: 'short' });
+        var titleHtml = e.url
+          ? '<a href="' + e.url + '" target="_blank">' + e.title + '</a>'
+          : e.title;
+        li.innerHTML =
+          '<span class="log-cat">' + (e.category || '—') + '</span>' +
+          '<span class="log-title">' + titleHtml + '</span>' +
+          '<span class="log-date">' + date + '</span>';
+        ul.appendChild(li);
+      }
+    })
+    .catch(function() {
+      document.getElementById('recent-loading').textContent = 'Error al cargar el historial.';
+    });
+}
+
+function setButtonsDisabled(disabled) {
+  var buttons = document.querySelectorAll('button:not(.refresh-btn)');
+  for (var i = 0; i < buttons.length; i++) {
+    buttons[i].disabled = disabled;
+  }
+}
+
+function run(mode) {
+  setButtonsDisabled(true);
+  document.getElementById('status-line').textContent = 'Ejecutando ' + mode + '...';
+  document.getElementById('log').textContent = '';
+
+  var body = { mode: mode };
+  if (mode === 'custom') {
+    body.topic = document.getElementById('f-topic').value.trim();
+    body.category = document.getElementById('f-category').value;
+    body.section = document.getElementById('f-section').value;
+    body.angle = document.getElementById('f-angle').value.trim();
+    body.youtube = document.getElementById('f-youtube').value.trim();
+    if (!body.topic) {
+      alert('Escribe un tema antes de publicar.');
+      setButtonsDisabled(false);
+      document.getElementById('status-line').textContent = 'Esperando...';
+      return;
+    }
+  }
+
+  fetch('/api/run', {
+    method: 'POST',
+    headers: { 'content-type': 'application/json' },
+    body: JSON.stringify(body)
+  })
+  .then(function(res) { return res.json(); })
+  .then(function(data) {
+    var jobId = data.jobId;
+    polling = setInterval(function() {
+      fetch('/api/status/' + jobId)
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+          colorizeLog(data.output || '');
+          if (data.done) {
+            clearInterval(polling);
+            setButtonsDisabled(false);
+            document.getElementById('status-line').textContent =
+              data.code === 0 ? '✓ Terminado correctamente.' : '✗ Terminado con errores (revisa la consola).';
+            if (data.code === 0) loadRecent();
+          }
+        });
+    }, 1000);
+  })
+  .catch(function(err) {
+    setButtonsDisabled(false);
+    document.getElementById('status-line').textContent = 'Error al conectar con el servidor.';
+    document.getElementById('log').textContent = err.toString();
+  });
+}
+
+loadRecent();
+</script>
+</body>
+</html>

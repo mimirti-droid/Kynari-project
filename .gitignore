@@ -14,3 +14,10 @@ desktop.ini
 
 # Ghost theme builds
 theme/*.zip
+
+# Estado local del pipeline
+pipeline/kynari-*.json
+
+# Lanzadores con claves reales
+*.bat
+!*.example.bat
