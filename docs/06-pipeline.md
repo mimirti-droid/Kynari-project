@@ -1,8 +1,6 @@
 # 06 · Pipeline de artículos
 
-## Sistema actual: Ghost publisher
-
-Código en [`/pipeline`](../pipeline).
+Código en [`/pipeline`](../pipeline). Publica directamente en **Ghost** vía Admin API.
 
 | Pieza | Función |
 | --- | --- |
@@ -10,7 +8,7 @@ Código en [`/pipeline`](../pipeline).
 | `kynari-server.mjs` | Servidor local que controla el publisher |
 | `kynari-panel.html` | Panel web para lanzar y supervisar el pipeline |
 
-**Características:**
+## Características
 
 - Anti-repetición: los últimos 30 títulos publicados se pasan a Claude antes de buscar temas.
 - Deduplicación de temas en el mismo día entre las cinco categorías.
@@ -30,18 +28,10 @@ Código en [`/pipeline`](../pipeline).
 - Tags
 - SEO: meta title, slug, meta description, excerpt social
 
-## Diseño original (junio 2026)
+## Principios
 
-Lista de temas en Notion → Make.com detecta un tema nuevo → Claude API genera el artículo estructurado → fal.ai genera 2–4 imágenes → todo aterriza en Notion → plugin oficial sincroniza con Framer.
-
-**Modalidad:** semi-automática. El pipeline deja el artículo listo para revisión y no publica sin supervisión.
-
-**Descartado:**
-
-- Vídeo automático: coste, latencia y calidad irregular. Se deja prompt de vídeo para generación manual.
-- Full-auto con trending automático: riesgo de diluir la voz editorial.
-
-El escenario de Make.com (Notion → Claude → JSON → Notion) sigue existiendo como sistema paralelo.
+- **Semi-automático:** el pipeline genera y publica, pero bajo supervisión; la voz editorial manda sobre el volumen.
+- **Sin vídeo automático:** coste, latencia y calidad irregular. Se deja prompt de vídeo para generación manual.
 
 ## Variables de entorno
 
