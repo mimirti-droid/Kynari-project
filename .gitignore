@@ -1,0 +1,16 @@
+# Secretos
+.env
+.env.*
+!.env.example
+
+# Node
+node_modules/
+npm-debug.log*
+
+# Sistema
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Ghost theme builds
+theme/*.zip
