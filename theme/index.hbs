@@ -1,0 +1,245 @@
+{{!< default}}
+{{#is "paged"}}
+<div style="padding-top: var(--nav-h);">
+  <div class="archive-hero container">
+    <span class="label">Archive</span>
+    <h1 class="archive-hero__title">All articles</h1>
+  </div>
+  <section style="padding: 40px 0 80px;">
+    <div class="container">
+      <div class="featured__grid">
+        {{#foreach posts}}
+        <a href="{{url}}" class="article-card">
+          <div class="article-card__image">
+            {{#if feature_image}}
+              <img src="{{img_url feature_image size="s" format="webp"}}" srcset="{{img_url feature_image size="xs" format="webp"}} 150w, {{img_url feature_image size="s" format="webp"}} 300w, {{img_url feature_image size="m" format="webp"}} 600w" sizes="(max-width: 600px) 90vw, 300px" alt="{{title}}" loading="lazy">
+            {{else}}
+              <div style="height:100%;background:var(--surface-3);"></div>
+            {{/if}}
+          </div>
+          <div class="article-card__overlay"></div>
+          <div class="article-card__body">
+            {{#primary_tag}}<span class="article-card__cat label">{{name}}</span>{{/primary_tag}}
+            <h2 class="article-card__title">{{title}}</h2>
+            <div class="article-card__meta">{{date format="DD MMM YYYY"}}</div>
+          </div>
+        </a>
+        {{/foreach}}
+      </div>
+      {{pagination}}
+    </div>
+  </section>
+</div>
+{{else}}
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero__logo-mark">
+    {{#if @site.logo}}
+      <img src="{{img_url @site.logo size="xs" format="webp"}}" alt="{{@site.title}}" width="60" height="60" style="width:60px;height:60px;object-fit:contain;">
+    {{else}}
+      K
+    {{/if}}
+  </div>
+  <h1 class="hero__title">KYNARI</h1>
+  <p class="hero__subtitle">Exploring cinema, anime &amp; visual culture</p>
+  <p class="hero__tagline">Stories. &nbsp; Aesthetics. &nbsp; Meaning.</p>
+  <div class="hero__ctas">
+    <a href="#featured" class="btn btn--gold">Explore</a>
+    <a href="{{@site.url}}/tag/legacy" class="btn btn--outline">Kynari Legacy</a>
+  </div>
+</section>
+
+<!-- FEATURED CAROUSEL -->
+<section class="featured" id="featured">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-title">Featured</h2>
+    </div>
+  </div>
+
+  <div class="carousel-wrapper">
+    <button class="carousel-btn carousel-btn--prev" aria-label="Previous">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="20" height="20">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 19l-7-7 7-7"/>
+      </svg>
+    </button>
+
+    <div class="carousel-track" id="carouselTrack">
+      {{#get "posts" limit="7" include="tags,authors"}}
+        {{#foreach posts}}
+        <a href="{{url}}" class="carousel-card">
+          <div class="carousel-card__image">
+            {{#if feature_image}}
+              <img src="{{img_url feature_image size="s" format="webp"}}" srcset="{{img_url feature_image size="xs" format="webp"}} 150w, {{img_url feature_image size="s" format="webp"}} 300w, {{img_url feature_image size="m" format="webp"}} 600w" sizes="300px" alt="{{title}}" loading="lazy">
+            {{else}}
+              <div style="height:100%;background:var(--surface-3);"></div>
+            {{/if}}
+          </div>
+          <div class="carousel-card__overlay"></div>
+          <div class="carousel-card__body">
+            {{#primary_tag}}
+              <span class="carousel-card__cat label">{{name}}</span>
+            {{/primary_tag}}
+            <h3 class="carousel-card__title">{{title}}</h3>
+            <div class="carousel-card__meta">{{date format="DD MMM YYYY"}}</div>
+          </div>
+        </a>
+        {{/foreach}}
+      {{/get}}
+    </div>
+
+    <button class="carousel-btn carousel-btn--next" aria-label="Next">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="20" height="20">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5l7 7-7 7"/>
+      </svg>
+    </button>
+
+    <!-- Fade edges -->
+    <div class="carousel-fade carousel-fade--left"></div>
+    <div class="carousel-fade carousel-fade--right"></div>
+  </div>
+</section>
+
+<!-- ENTER THE REALMS -->
+<section class="realms">
+  <div class="container">
+    <div class="realms__header reveal">
+      <h2 class="realms__title">ENTER THE REALMS</h2>
+      <p class="realms__sub">Choose your path. Every realm, a new perspective.<br>Aesthetics. Meaning.</p>
+    </div>
+    <div class="realms__grid">
+
+      <a href="{{@site.url}}/tag/cinema" class="realm-card reveal">
+        <div class="realm-card__bg">
+          <img src="{{@site.url}}/content/images/size/w600/format/webp/2026/09/realmfinal_cinema.png" srcset="{{@site.url}}/content/images/size/w300/format/webp/2026/09/realmfinal_cinema.png 300w, {{@site.url}}/content/images/size/w600/format/webp/2026/09/realmfinal_cinema.png 600w" sizes="218px" alt="Cinema" loading="lazy">
+        </div>
+        <div class="realm-card__overlay"></div>
+        <div class="realm-card__body">
+          <div class="realm-card__name label">Cinema</div>
+          <div class="realm-card__desc">Films, directors, aesthetics and visual storytelling.</div>
+        </div>
+      </a>
+
+      <a href="{{@site.url}}/tag/anime" class="realm-card reveal">
+        <div class="realm-card__bg">
+          <img src="{{@site.url}}/content/images/size/w600/format/webp/2026/09/realmfinal_anime.png" srcset="{{@site.url}}/content/images/size/w300/format/webp/2026/09/realmfinal_anime.png 300w, {{@site.url}}/content/images/size/w600/format/webp/2026/09/realmfinal_anime.png 600w" sizes="218px" alt="Anime" loading="lazy">
+        </div>
+        <div class="realm-card__overlay"></div>
+        <div class="realm-card__body">
+          <div class="realm-card__name label">Anime</div>
+          <div class="realm-card__desc">Series, movies, art and the world of anime.</div>
+        </div>
+      </a>
+
+      <a href="{{@site.url}}/tag/games" class="realm-card reveal">
+        <div class="realm-card__bg">
+          <img src="{{@site.url}}/content/images/size/w600/format/webp/2026/09/realmfinal_games.png" srcset="{{@site.url}}/content/images/size/w300/format/webp/2026/09/realmfinal_games.png 300w, {{@site.url}}/content/images/size/w600/format/webp/2026/09/realmfinal_games.png 600w" sizes="218px" alt="Games" loading="lazy">
+        </div>
+        <div class="realm-card__overlay"></div>
+        <div class="realm-card__body">
+          <div class="realm-card__name label">Games</div>
+          <div class="realm-card__desc">Game analysis, worlds and interactive storytelling.</div>
+        </div>
+      </a>
+
+      <a href="{{@site.url}}/tag/culture" class="realm-card reveal">
+        <div class="realm-card__bg">
+          <img src="{{@site.url}}/content/images/size/w600/format/webp/2026/09/realmfinal_culture.png" srcset="{{@site.url}}/content/images/size/w300/format/webp/2026/09/realmfinal_culture.png 300w, {{@site.url}}/content/images/size/w600/format/webp/2026/09/realmfinal_culture.png 600w" sizes="218px" alt="Culture" loading="lazy">
+        </div>
+        <div class="realm-card__overlay"></div>
+        <div class="realm-card__body">
+          <div class="realm-card__name label">Culture</div>
+          <div class="realm-card__desc">Ideas, movements and cultural phenomena.</div>
+        </div>
+      </a>
+
+      <a href="{{@site.url}}/tag/comic" class="realm-card reveal">
+        <div class="realm-card__bg">
+          <img src="{{@site.url}}/content/images/size/w600/format/webp/2026/09/realmfinal_comic.png" srcset="{{@site.url}}/content/images/size/w300/format/webp/2026/09/realmfinal_comic.png 300w, {{@site.url}}/content/images/size/w600/format/webp/2026/09/realmfinal_comic.png 600w" sizes="218px" alt="Comic" loading="lazy">
+        </div>
+        <div class="realm-card__overlay"></div>
+        <div class="realm-card__body">
+          <div class="realm-card__name label">Comic</div>
+          <div class="realm-card__desc">Western comics, manga and graphic narrative.</div>
+        </div>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<!-- LATEST ARTICLES -->
+<section class="latest">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-title">Latest Articles</h2>
+    </div>
+    {{#get "posts" limit="7" include="tags,authors"}}
+      <div class="latest__grid">
+        {{#foreach posts limit="1"}}
+        <a href="{{url}}" class="latest__hero-card reveal">
+          <div class="latest__hero-image">
+            {{#if feature_image}}
+              <img src="{{img_url feature_image size="s" format="webp"}}" srcset="{{img_url feature_image size="xs" format="webp"}} 150w, {{img_url feature_image size="s" format="webp"}} 300w, {{img_url feature_image size="m" format="webp"}} 600w" sizes="300px" alt="{{title}}" loading="lazy">
+            {{else}}
+              <div style="height:100%;background:var(--surface-3);"></div>
+            {{/if}}
+          </div>
+          {{#primary_tag}}
+            <span class="label latest__hero-cat">{{name}}</span>
+          {{/primary_tag}}
+          <h3 class="latest__hero-title">{{title}}</h3>
+          {{#if excerpt}}
+            <p class="latest__hero-excerpt">{{excerpt}}</p>
+          {{/if}}
+        </a>
+        {{/foreach}}
+
+        <ul class="latest__list reveal">
+          {{#foreach posts from="2"}}
+          <li>
+            <a href="{{url}}" class="list-item">
+              <div class="list-item__image">
+                {{#if feature_image}}
+                  <img src="{{img_url feature_image size="s" format="webp"}}" srcset="{{img_url feature_image size="xs" format="webp"}} 150w, {{img_url feature_image size="s" format="webp"}} 300w, {{img_url feature_image size="m" format="webp"}} 600w" sizes="300px" alt="{{title}}" loading="lazy">
+                {{else}}
+                  <div style="height:100%;background:var(--surface-3);"></div>
+                {{/if}}
+              </div>
+              <div class="list-item__body">
+                {{#primary_tag}}
+                  <span class="label list-item__cat">{{name}}</span>
+                {{/primary_tag}}
+                <h4 class="list-item__title">{{title}}</h4>
+              </div>
+            </a>
+          </li>
+          {{/foreach}}
+        </ul>
+      </div>
+    {{/get}}
+    <p class="latest__more"><a href="{{@site.url}}/page/2/" class="btn btn--outline">More articles</a></p>
+  </div>
+</section>
+
+<!-- KYNARI LEGACY -->
+<section class="legacy">
+  {{#get "posts" limit="1" filter="tag:legacy" include="tags"}}
+    {{#foreach posts}}
+    <div class="legacy__bg">
+      {{#if feature_image}}
+        <img src="{{img_url feature_image size="l" format="webp"}}" alt="" loading="lazy">
+      {{/if}}
+    </div>
+    {{/foreach}}
+  {{/get}}
+  <div class="container">
+    <div class="legacy__content reveal">
+      <h2 class="legacy__title">KYNARI LEGACY</h2>
+      <p class="legacy__sub">Dive deeper into cinema, anime and visual culture with exclusive insights &amp; in-depth analyses</p>
+      <a href="{{@site.url}}/tag/legacy" class="btn btn--outline">Enter Legacy</a>
+    </div>
+  </div>
+</section>
+{{/is}}
