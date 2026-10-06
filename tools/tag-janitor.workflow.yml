@@ -1,0 +1,92 @@
+# ATENCION: este archivo NO esta activo aqui.
+#
+# Hay que copiarlo a `.github/workflows/tag-janitor.yml` para que GitHub lo
+# ejecute. Se deja en tools/ porque la integracion de GitHub de Claude no
+# tiene el permiso `workflows` y no puede escribir dentro de .github/workflows/
+# (devuelve 403 Resource not accessible by integration).
+#
+# Despues de copiarlo hacen falta dos cosas mas:
+#   1. El secreto GHOST_ADMIN_KEY, en Settings > Secrets and variables >
+#      Actions, con la clave de la Ghost Admin API en formato `id:secret`.
+#      Mientras no exista, el workflow avisa y termina sin fallar.
+#   2. Una ejecucion a mano desde Actions con la casilla de dry run marcada,
+#      para comprobarlo antes de dejarlo suelto.
+#
+# Contexto completo: tools/TAG_JANITOR.md y el documento del proyecto
+# «Kynari - Higiene de Etiquetas e Indexacion».
+
+name: Tag janitor
+
+on:
+  schedule:
+    # 05:00 UTC a diario = 07:00 en Madrid en verano, 06:00 en invierno.
+    - cron: "0 5 * * *"
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Solo informar, sin escribir nada en Ghost"
+        type: boolean
+        default: false
+      no_delete:
+        description: "Omitir los borrados: solo pasar a internas (reversible)"
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+  issues: write   # para abrir la incidencia de candidatas a lista blanca
+
+concurrency:
+  group: tag-janitor
+  cancel-in-progress: false
+
+jobs:
+  janitor:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Instalar dependencias
+        run: pip install -r tools/requirements.txt
+
+      - name: Comprobar que existe el secreto
+        id: guard
+        env:
+          GHOST_ADMIN_KEY: ${{ secrets.GHOST_ADMIN_KEY }}
+        run: |
+          if [ -z "$GHOST_ADMIN_KEY" ]; then
+            echo "::warning::Falta el secreto GHOST_ADMIN_KEY. Anadelo en Settings > Secrets and variables > Actions. El vigilante no se ejecuta."
+            echo "ok=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "ok=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Ejecutar el vigilante
+        if: steps.guard.outputs.ok == 'true'
+        working-directory: tools
+        env:
+          GHOST_ADMIN_KEY: ${{ secrets.GHOST_ADMIN_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          DRY_RUN: ${{ inputs.dry_run }}
+          NO_DELETE: ${{ inputs.no_delete }}
+        run: |
+          ARGS=""
+          if [ "$DRY_RUN" = "true" ]; then ARGS="$ARGS --dry-run"; fi
+          if [ "$NO_DELETE" = "true" ]; then ARGS="$ARGS --no-delete"; fi
+          python tag_janitor.py $ARGS
+
+      - name: Guardar la copia de seguridad
+        if: always() && steps.guard.outputs.ok == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: backup-tags-${{ github.run_id }}
+          path: tools/backup_tags.json
+          if-no-files-found: ignore
+          retention-days: 30
