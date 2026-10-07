@@ -1,0 +1,89 @@
+name: Tag janitor
+
+# Mantiene limpias las etiquetas públicas de kynari.io.
+# Contexto: claude/Kynari - Higiene de Etiquetas e Indexacion.md
+
+on:
+  schedule:
+    # 05:00 UTC a diario — 07:00 en Madrid en verano, 06:00 en invierno.
+    - cron: "0 5 * * *"
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Dry run: informa de lo que haría, sin escribir nada"
+        type: boolean
+        default: false
+      no_delete:
+        description: "Sin borrados: solo pasa a internas (todo reversible)"
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+  issues: write          # el script abre incidencia con las candidatas a lista blanca
+
+concurrency:
+  group: tag-janitor
+  cancel-in-progress: false
+
+jobs:
+  janitor:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: tools/requirements.txt
+
+      - name: Dependencias
+        run: pip install -r tools/requirements.txt
+
+      - name: ¿Existe el secreto?
+        id: check
+        env:
+          GHOST_ADMIN_KEY: ${{ secrets.GHOST_ADMIN_KEY }}
+        run: |
+          if [ -z "$GHOST_ADMIN_KEY" ]; then
+            echo "::warning::Falta el secreto GHOST_ADMIN_KEY. Añádelo en Settings > Secrets and variables > Actions. El vigilante no hace nada hasta entonces."
+            echo "ok=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "ok=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Vigilante
+        if: steps.check.outputs.ok == 'true'
+        working-directory: tools
+        env:
+          GHOST_ADMIN_KEY: ${{ secrets.GHOST_ADMIN_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+        run: |
+          ARGS=""
+          if [ "${{ inputs.dry_run }}" = "true" ]; then ARGS="$ARGS --dry-run"; fi
+          if [ "${{ inputs.no_delete }}" = "true" ]; then ARGS="$ARGS --no-delete"; fi
+          python tag_janitor.py $ARGS
+
+      # Código de salida 2 = freno de seguridad (más de 400 cambios propuestos).
+      # El job falla y GitHub avisa por correo: algo ha cambiado en el pipeline.
+
+      - name: Copia de seguridad del estado anterior
+        if: always() && hashFiles('tools/backup_tags.json') != ''
+        uses: actions/upload-artifact@v4
+        with:
+          name: backup-tags-${{ github.run_id }}
+          path: tools/backup_tags.json
+          retention-days: 30
+
+      - name: Sitemap resultante
+        if: steps.check.outputs.ok == 'true'
+        run: |
+          sleep 10
+          N=$(curl -sS --retry 3 https://www.kynari.io/sitemap-tags.xml | grep -o "<loc>" | wc -l)
+          echo "Etiquetas públicas en el sitemap: $N (objetivo: 32)" >> "$GITHUB_STEP_SUMMARY"
