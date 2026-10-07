@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * KYNARI PUBLISHER v13 — Imagen hero vertical (evita recortes malos en tarjetas)
+ * KYNARI PUBLISHER v14 — Etiquetas fuera de la lista blanca nacen internas
  *
  * Historial de fixes:
  * - v1-v11: ver versiones anteriores.
@@ -18,6 +18,11 @@
  *     recortado a 3:4 solía cortar el sujeto principal fuera de encuadre
  *     (detectado en el caso Tilly Norwood, sept 2026). Los interiores se quedan
  *     en horizontal (backdrops/artworks/screenshots), donde no da problemas.
+ * - v14:
+ *   · Higiene de etiquetas: solo las de PUBLIC_TAG_ALLOWLIST se publican como
+ *     públicas; el resto se envía con '#' delante y Ghost la crea interna (sin
+ *     página de archivo ni entrada en el sitemap). Antes cada nombre propio
+ *     generaba una etiqueta pública nueva y saturaba el presupuesto de rastreo.
  */
 
 import crypto from 'node:crypto';
@@ -42,6 +47,55 @@ const IGDB_CLIENT_ID = process.env.IGDB_CLIENT_ID;
 const IGDB_CLIENT_SECRET = process.env.IGDB_CLIENT_SECRET;
 
 const CATEGORIES = ['Cinema', 'Anime', 'Games', 'Culture', 'Comic'];
+
+// ---------------------------------------------------------------------------
+// Higiene de etiquetas (v14)
+// Solo las etiquetas de esta lista blanca se publican como públicas. El resto
+// se crea como INTERNA (nombre con '#' delante): sigue asociada al artículo y
+// sirve para filtrar en el panel de Ghost, pero no genera página de archivo ni
+// entra en el sitemap. Misma lista que ALLOWLIST en tools/tag_janitor.py —
+// si cambia una, cambiar la otra.
+// Contexto: «Kynari - Higiene de Etiquetas e Indexacion».
+// ---------------------------------------------------------------------------
+const PUBLIC_TAG_ALLOWLIST = new Set([
+  // Categorías
+  'cinema', 'anime', 'games', 'comic', 'culture',
+  // Marcadores
+  'featured', 'legacy', 'latest', 'kynari-legacy-2',
+  // Resto
+  'marvel', 'marvel-comics', 'dc-comics', 'spider-man', 'mcu', 'streaming',
+  'crunchyroll', 'nintendo', 'imax', 'television', 'box-office', 'industry',
+  'gaming-industry', 'hollywood', 'pop-culture', 'animation', 'adaptation',
+  'horror', 'music', 'christopher-nolan', 'the-odyssey', 'summer-2026',
+  '2026'
+]);
+
+// Aproxima el slug que Ghost generaría para un nombre de etiqueta.
+function tagSlug(name) {
+  return name
+    .normalize('NFKD').replace(/[̀-ͯ]/g, '')
+    .toLowerCase()
+    .replace(/&/g, ' and ')
+    .replace(/['’]/g, '')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+}
+
+// Devuelve la lista de etiquetas lista para Ghost: las de la lista blanca tal
+// cual, el resto con '#' (internas). Quita vacías y duplicados.
+function applyTagHygiene(tags) {
+  const out = [];
+  const seen = new Set();
+  for (const raw of tags || []) {
+    const name = String(raw || '').trim().replace(/^#+\s*/, '');
+    if (!name) continue;
+    const slug = tagSlug(name);
+    if (!slug || seen.has(slug)) continue;
+    seen.add(slug);
+    out.push(PUBLIC_TAG_ALLOWLIST.has(slug) ? name : `#${name}`);
+  }
+  return out;
+}
 
 const IMAGE_SOURCE_CREDIT = {
   'TMDB': '© The Movie Database (TMDB)',
@@ -572,7 +626,8 @@ async function publishOne({ topic, category, section, angle, youtube }) {
     if (isLegacy && CATEGORIES.some((c) => c.toLowerCase() === lower)) return false;
     return true;
   });
-  article.tags = [primaryTag, ...restTags];
+  // FIX v14: fuera de la lista blanca, las etiquetas nacen internas ('#')
+  article.tags = applyTagHygiene([primaryTag, ...restTags]);
   console.log(`   Tags: ${JSON.stringify(article.tags)}`);
 
   let heroBuf, interior1Buf, interior2Buf;
