@@ -1,6 +1,10 @@
 #!/usr/bin/env node
 /**
- * KYNARI PUBLISHER v13 — Imagen hero vertical (evita recortes malos en tarjetas)
+ * KYNARI PUBLISHER v14 — Tamaños explícitos para fal.ai (imagen nítida)
+ *
+ * v14: fal.ai usaba presets con 768x1024 / 1024x576; ahora se piden 1536x2048 (hero) y 1920x1080 (interiores).
+ *
+ * v13 — Imagen hero vertical (evita recortes malos en tarjetas)
  *
  * Historial de fixes:
  * - v1-v11: ver versiones anteriores.
@@ -377,7 +381,12 @@ async function generateArticle({ topic, category, section, angle }) {
 // ---------------------------------------------------------------------------
 // fal.ai — generación de imágenes (fallback)
 // ---------------------------------------------------------------------------
-async function generateImage(prompt, size = 'landscape_16_9') {
+// FIX v14: fal.ai devuelve por defecto 768x1024 (portrait_4_3) y 1024x576 (landscape_16_9),
+// demasiado pequeños para tarjetas y cabeceras a pantalla completa. Se piden tamaños explícitos.
+const HERO_SIZE = { width: 1536, height: 2048 };     // vertical 3:4, para tarjetas y cabecera
+const INTERIOR_SIZE = { width: 1920, height: 1080 }; // horizontal 16:9, para imágenes interiores
+
+async function generateImage(prompt, size = INTERIOR_SIZE) {
   const res = await fetch('https://fal.run/fal-ai/flux/schnell', {
     method: 'POST',
     headers: { Authorization: `Key ${FAL_API_KEY}`, 'content-type': 'application/json' },
@@ -601,19 +610,19 @@ async function publishOne({ topic, category, section, angle, youtube }) {
     // se usa como feature_image en tarjetas verticales (Featured/Latest) además de la
     // cabecera del artículo. Los interiores se quedan en horizontal para variedad visual.
     [heroBuf, interior1Buf, interior2Buf] = await Promise.all([
-      generateImage(article.image_prompts[0], 'portrait_4_3'),
-      generateImage(article.image_prompts[1], 'landscape_16_9'),
-      generateImage(article.image_prompts[2], 'landscape_16_9')
+      generateImage(article.image_prompts[0], HERO_SIZE),
+      generateImage(article.image_prompts[1], INTERIOR_SIZE),
+      generateImage(article.image_prompts[2], INTERIOR_SIZE)
     ]);
     imageSource = 'fal.ai';
   } else {
     if (!interior1Buf) {
       console.log('   interior1 missing — generating with fal.ai...');
-      interior1Buf = await generateImage(article.image_prompts[1], 'landscape_16_9');
+      interior1Buf = await generateImage(article.image_prompts[1], INTERIOR_SIZE);
     }
     if (!interior2Buf) {
       console.log('   interior2 missing — generating with fal.ai...');
-      interior2Buf = await generateImage(article.image_prompts[2], 'landscape_16_9');
+      interior2Buf = await generateImage(article.image_prompts[2], INTERIOR_SIZE);
     }
   }
 
