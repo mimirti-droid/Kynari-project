@@ -1,7 +1,7 @@
 {
   "name": "kynari",
   "description": "Kynari — Premium pop culture editorial theme (v2: video, Nara, motion)",
-  "version": "2.0.6",
+  "version": "2.0.7",
   "engines": {
     "ghost": ">=5.0.0"
   },
@@ -31,6 +31,9 @@
       },
       "xl": {
         "width": 2000
+      },
+      "xxl": {
+        "width": 1600
       }
     },
     "card_assets": true
