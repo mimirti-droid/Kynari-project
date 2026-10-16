@@ -151,8 +151,10 @@ async function plan() {
   const posts = [];
   for (const c of cands) {
     try {
-      const p = (await ghost('GET', `/posts/${c.id}/?include=tags&fields=id,title,custom_excerpt,slug`)).posts[0];
+      const p = (await ghost('GET', `/posts/${c.id}/?include=tags&fields=id,title,custom_excerpt,slug,feature_image`)).posts[0];
       if (skip.some((s) => p.title.toLowerCase().includes(s))) continue;
+      if (/\/real-[^/]+$/.test(p.feature_image || '')) continue;   // ya cambiado en una pasada anterior
+      delete p.feature_image;
       posts.push({ ...c, ...p });
     } catch {}
   }
