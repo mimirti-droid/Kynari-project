@@ -162,9 +162,10 @@
             {{else}}<div class="card-ph"></div>{{/if}}
             <div class="vbadges" aria-hidden="true"><span class="vb vb--nara">Nara's take</span><span class="vb vb--trailer">▶ Trailer</span><span class="vb vb--gameplay">▶ Gameplay</span></div>
           </div>
-          <span class="label latest__hero-cat">{{#primary_tag}}{{name}} · {{/primary_tag}}{{date format="DD MMM YYYY"}}</span>
+          <span class="label latest__hero-cat">{{#primary_tag}}{{name}} · {{/primary_tag}}<time datetime="{{date format="YYYY-MM-DDTHH:mm"}}">{{date timeago="true"}}</time></span>
           <h3 class="latest__hero-title">{{title}}</h3>
           {{#if excerpt}}<p class="latest__hero-excerpt">{{excerpt words="40"}}</p>{{/if}}
+          <span class="byline">{{#primary_author}}{{#if profile_image}}<img class="byline__av" src="{{img_url profile_image size="xs"}}" alt="" loading="lazy">{{/if}}By {{name}}{{/primary_author}}</span>
         </a>
         {{/foreach}}
         <ul class="latest__list reveal">
@@ -175,7 +176,7 @@
                 {{#if feature_image}}<img src="{{img_url feature_image size="xs" format="webp"}}" srcset="{{img_url feature_image size="xs" format="webp"}} 150w, {{img_url feature_image size="s" format="webp"}} 300w" sizes="96px" alt="" loading="lazy" decoding="async">{{else}}<div class="card-ph"></div>{{/if}}
               </div>
               <div class="list-item__body">
-                <span class="label list-item__cat">{{#primary_tag}}{{name}} · {{/primary_tag}}{{date format="DD MMM"}}<span class="vb-text vb-text--video"> · ▶</span></span>
+                <span class="label list-item__cat">{{#primary_tag}}{{name}} · {{/primary_tag}}<time datetime="{{date format="YYYY-MM-DDTHH:mm"}}">{{date timeago="true"}}</time><span class="vb-text vb-text--video"> · ▶</span></span>
                 <h3 class="list-item__title">{{title}}</h3>
                 {{#if excerpt}}<p class="card-excerpt">{{excerpt words="18"}}</p>{{/if}}
               </div>
@@ -189,43 +190,16 @@
   </div>
 </section>
 
-<!-- SIGNAL: tráileres y noticias cortas del día -->
-{{#get "posts" filter="tag:signal" limit="6" include="tags"}}
-{{#if posts}}
-<section class="signal-row">
+<!-- WATCH (2.1): On Screen y Signal en una sola fila. Arriba, tráileres y gameplay de los
+     artículos (1 grande + 4); debajo, lo último de Signal. Sin repetidos con lo de más arriba (v2.js). -->
+<section class="watch-row" id="watch" data-screen-dedupe>
   <div class="container">
     <div class="section-header section-header--between">
-      <h2 class="section-title">Signal<span class="live-dot" hidden aria-label="New in the last hours"></span></h2>
-      <a class="section-sub" href="{{@site.url}}/tag/signal/">Trailers &amp; short takes, as they land →</a>
+      <h2 class="section-title">Watch<span class="live-dot" hidden aria-label="New in the last hours"></span></h2>
+      <a class="section-sub" href="{{@site.url}}/watch/">Official trailers, gameplay and Nara's takes →</a>
     </div>
-    <div class="signal-strip">
-      {{#foreach posts}}
-      <a href="{{url}}" class="signal-item">
-        <div class="signal-item__thumb">
-          {{#if feature_image}}<img src="{{img_url feature_image size="s" format="webp"}}" alt="" loading="lazy" decoding="async">{{/if}}
-          <span class="nara-card__play" aria-hidden="true"></span>
-        </div>
-        <div class="signal-item__body">
-          <span class="label">{{#primary_tag}}{{name}} · {{/primary_tag}}<time datetime="{{date format="YYYY-MM-DDTHH:mm"}}">{{date timeago="true"}}</time></span>
-          <h3>{{title}}</h3>
-        </div>
-      </a>
-      {{/foreach}}
-    </div>
-  </div>
-</section>
-{{/if}}
-{{/get}}
-
-<!-- ON SCREEN: tráileres, PV y gameplay de los artículos -->
-{{#get "posts" filter="tag:hash-video+tag:-signal" limit="12" include="tags"}}
-{{#if posts}}
-<section class="screen" data-screen-dedupe>
-  <div class="container">
-    <div class="section-header section-header--between">
-      <h2 class="section-title">On Screen</h2>
-      <a class="section-sub" href="{{@site.url}}/watch/">Official trailers and gameplay behind our stories →</a>
-    </div>
+    {{#get "posts" filter="tag:hash-video+tag:-signal" limit="12" include="tags"}}
+    {{#if posts}}
     <div class="screen__grid">
       {{#foreach posts limit="1"}}
       <a href="{{url}}#watch" class="video-tile video-tile--big" data-tags="{{#foreach tags visibility="all"}}{{slug}} {{/foreach}}">
@@ -234,7 +208,7 @@
         <span class="nara-card__play" aria-hidden="true"></span>
         <div class="video-tile__body">
           <div class="video-tile__title">{{title}}</div>
-          <div class="video-tile__meta">{{#primary_tag}}{{name}} · {{/primary_tag}}{{date format="DD MMM"}}</div>
+          <div class="video-tile__meta">{{#primary_tag}}<span class="realm-tag">{{name}}</span> · {{/primary_tag}}{{date format="DD MMM"}}</div>
         </div>
       </a>
       {{/foreach}}
@@ -250,10 +224,33 @@
         {{/foreach}}
       </div>
     </div>
+    {{/if}}
+    {{/get}}
+
+    {{#get "posts" filter="tag:signal" limit="6" include="tags"}}
+    {{#if posts}}
+    <div class="watch-row__sub">
+      <span class="watch-row__kicker">Signal · just in</span>
+      <a class="section-sub" href="{{@site.url}}/tag/signal/">Trailers &amp; short takes, as they land →</a>
+    </div>
+    <div class="signal-strip">
+      {{#foreach posts}}
+      <a href="{{url}}" class="signal-item" data-tags="{{#foreach tags visibility="all"}}{{slug}} {{/foreach}}">
+        <div class="signal-item__thumb">
+          {{#if feature_image}}<img src="{{img_url feature_image size="s" format="webp"}}" alt="" loading="lazy" decoding="async">{{/if}}
+          <span class="nara-card__play" aria-hidden="true"></span>
+        </div>
+        <div class="signal-item__body">
+          <span class="label">{{#primary_tag}}{{name}} · {{/primary_tag}}<time datetime="{{date format="YYYY-MM-DDTHH:mm"}}">{{date timeago="true"}}</time></span>
+          <h3>{{title}}</h3>
+        </div>
+      </a>
+      {{/foreach}}
+    </div>
+    {{/if}}
+    {{/get}}
   </div>
 </section>
-{{/if}}
-{{/get}}
 
 {{> newsletter}}
 {{/is}}

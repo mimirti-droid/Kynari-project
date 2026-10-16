@@ -89,6 +89,25 @@
   }
 
   /* ---------- Portada: hero + Nara's Takes ---------- */
+  /* 2.1 — Vista previa muda al pasar el ratón por una tarjeta de Nara (solo ratón, sin reduce-motion).
+     El vídeo se crea la primera vez y se reutiliza; solo suena uno a la vez y sin audio. */
+  var finePointer = window.matchMedia && window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  var previewing = null;
+  function previewOnHover(card, n) {
+    if (!finePointer) return;
+    var v = null, timer = null;
+    card.addEventListener('mouseenter', function () {
+      if (reduce()) return;
+      timer = setTimeout(function () {
+        if (!v) { v = doc.createElement('video'); v.className = 'nara-card__preview'; v.muted = true; v.playsInline = true; v.loop = true; v.preload = 'auto'; v.setAttribute('aria-hidden', 'true'); v.src = n.mp4 + '#t=1'; var img = $('img', card); card.insertBefore(v, img ? img.nextSibling : card.firstChild); }
+        if (previewing && previewing !== v) previewing.pause();
+        previewing = v;
+        v.play().then(function () { card.classList.add('is-previewing'); }).catch(function () {});
+      }, 180);
+    });
+    card.addEventListener('mouseleave', function () { clearTimeout(timer); card.classList.remove('is-previewing'); if (v) v.pause(); });
+  }
+
   var hero = $('.hero-v2');
   var naraCards = $$('[data-nara-post]');
   var ids = naraCards.map(function (c) { return c.getAttribute('data-nara-post'); });
@@ -104,6 +123,7 @@
         if (n.duration) { var d = $('.badge-dur', card); if (d) { d.textContent = n.duration; d.hidden = false; } }
         if (n.title) { var t = $('.nara-card__title', card); if (t) t.textContent = n.title; }
         bindPlay(card, n, p.url, p.title);
+        if (n.mp4) previewOnHover(card, n);
       });
       if (heroId && map[heroId] && map[heroId].media) heroMedia(map[heroId]);
     });
