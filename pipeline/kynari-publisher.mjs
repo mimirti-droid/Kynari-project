@@ -38,7 +38,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import {
   GHOST_URL, ghost, uploadToGhost, imageSize, download, detectImageFormat,
-  tmdbFind, tmdbImages, tmdbTrailer, igdbFind, igdbImageUrls, igdbTrailer, steamFind, commonsImage,
+  tmdbFind, tmdbImages, tmdbTrailer, igdbFind, igdbImageUrls, igdbTrailer, steamFind, commonsImage, workCard,
   urlAlive, videoFacadeHTML, withMediaJson, htmlCard, imageCard, lexicalDoc
 } from './kynari-media.mjs';
 
@@ -505,6 +505,9 @@ async function publishOne({ topic, category, section, angle, youtube, sources = 
     const cap = captions[i]?.trim();
     interiors.push({ src: url, width: size.width, height: size.height, alt: cap || article.title, caption: cap ? `${cap} · ${im.credit}` : im.credit });
   }
+
+  // Ficha de la obra para la tarjeta lateral (tema 2.2); si falla, el artículo sale igual
+  if (media.work && !media.work.card) { const card = await workCard(media.work); if (card) media.work = { ...media.work, card }; }
 
   const post = await publishToGhost({
     article, tags, heroUrl, heroCredit: media.hero.credit, interiors, trailer, sources: okSources, work: media.work,
