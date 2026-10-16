@@ -1,0 +1,19 @@
+{{!-- Tarjeta de la rejilla Featured (2.0.4). big=true para la principal. --}}
+<a href="{{url}}" class="fcard{{#if big}} fcard--big{{/if}}" data-tags="{{#foreach tags visibility="all"}}{{slug}} {{/foreach}}">
+  <div class="fcard__img">
+    {{#if feature_image}}
+      <img src="{{#if big}}{{img_url feature_image size="l" format="webp"}}{{else}}{{img_url feature_image size="m" format="webp"}}{{/if}}" alt="{{#if feature_image_alt}}{{feature_image_alt}}{{else}}{{title}}{{/if}}" loading="lazy" decoding="async">
+    {{else}}<div class="card-ph"></div>{{/if}}
+    <div class="vbadges" aria-hidden="true">
+      <span class="vb vb--nara">Nara's take</span>
+      <span class="vb vb--trailer">▶ Trailer</span>
+      <span class="vb vb--gameplay">▶ Gameplay</span>
+    </div>
+  </div>
+  <div class="fcard__body">
+    {{#primary_tag}}<span class="label fcard__cat">{{name}}</span>{{/primary_tag}}
+    <h3 class="fcard__title">{{title}}</h3>
+    {{#if big}}{{#if excerpt}}<p class="fcard__excerpt">{{excerpt words="34"}}</p>{{/if}}{{/if}}
+    <div class="fcard__meta"><time datetime="{{date format="YYYY-MM-DD"}}">{{date format="DD MMM YYYY"}}</time> · {{reading_time minute="1 min" minutes="% min"}}</div>
+  </div>
+</a>

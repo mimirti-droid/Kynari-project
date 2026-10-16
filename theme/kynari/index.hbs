@@ -23,30 +23,24 @@
   {{#get "posts" limit="1" include="tags,authors"}}{{#foreach posts}}{{> hero}}{{/foreach}}{{/get}}
 {{/get}}
 
-<!-- FEATURED CAROUSEL -->
-<section class="featured" id="featured">
+<!-- FEATURED (2.0.4): rejilla de revista, 1 grande + 4 (el primero destacado ya es el hero) -->
+<section class="featured featured--grid" id="featured">
   <div class="container">
     <div class="section-header section-header--between">
       <h2 class="section-title">Featured</h2>
       <span class="section-sub">Editor's picks</span>
     </div>
-  </div>
-  <div class="carousel-wrapper">
-    <button class="carousel-btn carousel-btn--prev" aria-label="Previous">
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="20" height="20"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 19l-7-7 7-7"/></svg>
-    </button>
-    <div class="carousel-track" id="carouselTrack">
-      {{#get "posts" filter="tag:featured" limit="9" include="tags"}}
-        {{#foreach posts from="2"}}{{> card-carousel}}{{/foreach}}
+    <div class="fgrid">
+      {{#get "posts" filter="tag:featured" limit="6" include="tags"}}
+        {{#foreach posts from="2" to="2"}}{{> card-feature big=true}}{{/foreach}}
+        {{#foreach posts from="3" to="6"}}{{> card-feature}}{{/foreach}}
       {{else}}
-        {{#get "posts" limit="8" include="tags"}}{{#foreach posts from="2"}}{{> card-carousel}}{{/foreach}}{{/get}}
+        {{#get "posts" limit="6" include="tags"}}
+          {{#foreach posts from="2" to="2"}}{{> card-feature big=true}}{{/foreach}}
+          {{#foreach posts from="3" to="6"}}{{> card-feature}}{{/foreach}}
+        {{/get}}
       {{/get}}
     </div>
-    <button class="carousel-btn carousel-btn--next" aria-label="Next">
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="20" height="20"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5l7 7-7 7"/></svg>
-    </button>
-    <div class="carousel-fade carousel-fade--left"></div>
-    <div class="carousel-fade carousel-fade--right"></div>
   </div>
 </section>
 
