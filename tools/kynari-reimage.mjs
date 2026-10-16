@@ -77,6 +77,7 @@ function yearOk(want, got) {
 /** Busca imágenes reales. Devuelve { hero:{url,credit}, interiors:[{url,credit}], trailer, work } o null. */
 async function findReal(s) {
   const out = { hero: null, interiors: [], trailer: null, work: null, source: null };
+  if (/^(unknown|untitled|n\/?a)$/i.test(String(s.title || '').trim())) return null;
   if (s.kind === 'game' && s.title) {
     try {
       const g = await igdbFind(s.title, s.year);
@@ -144,9 +145,16 @@ function replaceAiInteriors(lexStr, interiors, title) {
 
 async function plan() {
   const cands = JSON.parse(await fs.readFile(path.join(__dirname, 'reimage-candidates.json'), 'utf-8')).slice(0, Number(arg('--max', 1000)));
+  // Artículos descartados tras revisar el ensayo (fragmentos del título, sin distinguir mayúsculas): se quedan como están
+  let skip = [];
+  try { skip = JSON.parse(await fs.readFile(path.join(__dirname, 'reimage-skip.json'), 'utf-8')).map((s) => s.toLowerCase()); } catch {}
   const posts = [];
   for (const c of cands) {
-    try { posts.push({ ...c, ...(await ghost('GET', `/posts/${c.id}/?include=tags&fields=id,title,custom_excerpt,slug`)).posts[0] }); } catch {}
+    try {
+      const p = (await ghost('GET', `/posts/${c.id}/?include=tags&fields=id,title,custom_excerpt,slug`)).posts[0];
+      if (skip.some((s) => p.title.toLowerCase().includes(s))) continue;
+      posts.push({ ...c, ...p });
+    } catch {}
   }
   const out = [];
   for (let k = 0; k < posts.length; k += 25) {
