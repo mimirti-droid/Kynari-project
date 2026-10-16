@@ -68,7 +68,7 @@ jobs:
           echo "ok=$ok" >> "$GITHUB_OUTPUT"
 
       - name: Pruebas
-        run: node tools/test_v2.mjs
+        run: node tools/test_v2.mjs && node tools/test_publisher.mjs
 
       - name: Publicar
         if: steps.pick.outputs.ok == 'true'
