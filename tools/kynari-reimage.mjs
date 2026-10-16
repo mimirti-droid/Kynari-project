@@ -67,17 +67,25 @@ async function identify(batch) {
   catch { return claudeTool(await claude(body), 'submit_subjects')?.items || []; }
 }
 
+/** Año del artículo frente al de la obra encontrada: si se conocen los dos, deben coincidir (±1). */
+function yearOk(want, got) {
+  const w = Number(want);
+  if (!w) return true;
+  return !!got && Math.abs(Number(got) - w) <= 1;
+}
+
 /** Busca imágenes reales. Devuelve { hero:{url,credit}, interiors:[{url,credit}], trailer, work } o null. */
 async function findReal(s) {
   const out = { hero: null, interiors: [], trailer: null, work: null, source: null };
   if (s.kind === 'game' && s.title) {
     try {
       const g = await igdbFind(s.title, s.year);
-      if (g && norm(g.name) === norm(s.title)) {
+      const gy = g?.first_release_date ? new Date(g.first_release_date * 1000).getFullYear() : null;
+      if (g && norm(g.name) === norm(s.title) && yearOk(s.year, gy)) {
         const u = igdbImageUrls(g, 3);
         if (u.hero) out.hero = { url: u.hero, credit: '© IGDB / Twitch' };
         out.interiors = (u.interiors || []).map((url) => ({ url, credit: '© IGDB / Twitch' }));
-        out.trailer = igdbTrailer(g); out.work = { type: 'game', title: g.name }; out.source = 'IGDB';
+        out.trailer = igdbTrailer(g); out.work = { type: 'game', title: g.name, year: gy }; out.source = 'IGDB';
       }
     } catch {}
     if (!out.hero || out.interiors.length < 2) {
@@ -94,11 +102,13 @@ async function findReal(s) {
   if (!out.hero && (s.kind === 'movie' || s.kind === 'tv') && s.title) {
     try {
       const item = await tmdbFind(s.title, s.year, s.kind);
-      if (item && norm(item.title || item.name) === norm(s.title)) {
+      const ty = Number((item?.release_date || item?.first_air_date || '').slice(0, 4)) || null;
+      // Con año conocido, exige que coincida (±1): evita el póster de la versión de 1995 en un artículo del remake de 2026
+      if (item && norm(item.title || item.name) === norm(s.title) && yearOk(s.year, ty)) {
         const im = await tmdbImages(item, 3); const base = 'https://image.tmdb.org/t/p/original';
         if (im?.hero) out.hero = { url: base + im.hero, credit: '© The Movie Database (TMDB)' };
         out.interiors = (im?.interiors || []).map((i) => ({ url: base + i, credit: '© The Movie Database (TMDB)' }));
-        out.trailer = await tmdbTrailer(item); out.work = { type: s.kind, title: item.title || item.name }; out.source = 'TMDB';
+        out.trailer = await tmdbTrailer(item); out.work = { type: s.kind, title: item.title || item.name, year: ty }; out.source = 'TMDB';
       }
     } catch {}
   }
@@ -154,7 +164,14 @@ async function plan() {
   await fs.writeFile(file, JSON.stringify(out, null, 1));
   const by = out.reduce((a, x) => ((a[x.source] = (a[x.source] || 0) + 1), a), {});
   console.log(`\nPlan: ${out.length} de ${posts.length} artículos con imagen real (${JSON.stringify(by)}); ${out.filter((x) => x.trailer).length} con tráiler. → ${file}`);
-  for (const x of out.slice(0, 30)) console.log(`  ${x.source.padEnd(17)} ${x.title.slice(0, 70)}  ⇐ ${x.work?.title || x.subject.subject}`);
+  const what = (x) => (x.work ? `${x.work.title}${x.work.year ? ` (${x.work.year})` : ''}` : x.subject.subject);
+  for (const x of out) console.log(`  ${x.source.padEnd(17)} ${x.title.slice(0, 70)}  ⇐ ${what(x)}`);
+  // Tabla completa en el resumen de la ejecución de GitHub, para revisarla antes de aplicar
+  if (process.env.GITHUB_STEP_SUMMARY) {
+    const cell = (s) => String(s || '').replace(/\|/g, '\\|').replace(/\*/g, '');
+    const rows = out.map((x) => `| ${cell(x.title.slice(0, 80))} | ${x.source} | ${cell(what(x))} | ${x.trailer ? 'sí' : ''} |`);
+    await fs.appendFile(process.env.GITHUB_STEP_SUMMARY, `## Imágenes reales: ${out.length} de ${posts.length}\n\n${JSON.stringify(by)} · ${out.filter((x) => x.trailer).length} con tráiler\n\n| Artículo | Fuente | Imagen de | Tráiler |\n|---|---|---|---|\n${rows.join('\n')}\n`);
+  }
 }
 
 async function apply() {
