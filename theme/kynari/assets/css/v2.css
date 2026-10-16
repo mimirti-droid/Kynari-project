@@ -488,3 +488,67 @@ html.reduce-motion .live-dot { animation: none; }
   text-shadow: 0 0 18px rgba(167, 139, 250, .18);
 }
 @media (max-width: 768px) { .section-title { font-size: 20px; letter-spacing: .16em; } }
+
+/* ===================== 2.1 (16 oct. 2026) ===================== */
+
+/* Color con significado:
+   · dorado = editorial (Legacy, botones principales, titulares)
+   · lila   = vídeo y Nara (insignias, play, tiempos de Signal)
+   · un matiz tenue por realm en la etiqueta de categoría */
+:root {
+  --realm-cinema: #7FBCCB; --realm-anime: #B9A2F2; --realm-games: #8FCB8B;
+  --realm-culture: #D2B37A; --realm-comic: #E2877A; --video: var(--lila);
+}
+.vb--trailer, .vb--gameplay, .vb--nara { background: rgba(167,139,250,.92); color: #0B0816; }
+.ky-video__badge { background: rgba(167,139,250,.92); color: #0B0816; }
+.vb-text--video, .vb-text--trailer, .vb-text--gameplay { color: var(--video); }
+.nara-card:hover .nara-card__play, .video-tile:hover .nara-card__play, .video-row:hover .nara-card__play, .signal-item:hover .nara-card__play { border-color: var(--video); }
+.signal-item time { color: var(--video); }
+.btn--video:hover { border-color: var(--video); color: var(--video); }
+
+/* Matiz por realm en la etiqueta de categoría (no en Legacy, que es su propia etiqueta) */
+[data-tags~="cinema"]:not(.legacy-card) .label, [data-tags~="cinema"] .realm-tag, .hero-v2[data-tags~="cinema"] .hero-v2__kicker .label { color: var(--realm-cinema); }
+[data-tags~="anime"]:not(.legacy-card) .label, [data-tags~="anime"] .realm-tag, .hero-v2[data-tags~="anime"] .hero-v2__kicker .label { color: var(--realm-anime); }
+[data-tags~="games"]:not(.legacy-card) .label, [data-tags~="games"] .realm-tag, .hero-v2[data-tags~="games"] .hero-v2__kicker .label { color: var(--realm-games); }
+[data-tags~="culture"]:not(.legacy-card) .label, [data-tags~="culture"] .realm-tag, .hero-v2[data-tags~="culture"] .hero-v2__kicker .label { color: var(--realm-culture); }
+[data-tags~="comic"]:not(.legacy-card) .label, [data-tags~="comic"] .realm-tag, .hero-v2[data-tags~="comic"] .hero-v2__kicker .label { color: var(--realm-comic); }
+/* Los posts Legacy en Featured o Latest se marcan como Legacy (dorado), aunque tengan categoría */
+[data-tags~="legacy"] .label { color: var(--gold) !important; }
+
+/* Fila Watch: On Screen arriba y Signal debajo */
+.watch-row { padding: 72px 0 80px; }
+.watch-row__sub { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; flex-wrap: wrap; margin: 44px 0 0; padding-top: 22px; border-top: 1px solid rgba(255,255,255,.06); }
+.watch-row__kicker { font-family: var(--font-ui); font-size: 11px; letter-spacing: .24em; text-transform: uppercase; color: var(--video); }
+.watch-row .signal-strip { margin-top: 18px; }
+
+/* Firma en el artículo grande de Latest */
+.byline { display: inline-flex; align-items: center; gap: 8px; margin-top: 14px; font-family: var(--font-ui); font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--grey-light); }
+.byline__av { width: 24px; height: 24px; border-radius: 50%; object-fit: cover; }
+
+/* Vista previa de Nara al pasar el ratón */
+.nara-card__preview { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity .35s var(--ease); z-index: 1; }
+.nara-card.is-previewing .nara-card__preview { opacity: 1; }
+.nara-card.is-previewing .nara-card__play { opacity: 0; }
+.nara-card::after { z-index: 1; }
+.nara-card__top, .nara-card__body, .nara-card__play { z-index: 2; }
+
+/* Destacado: zoom lento continuo (antes un solo zoom de 24 s al cargar) */
+@keyframes kyDrift { from { transform: scale(1.0); } to { transform: scale(1.07); } }
+.hero-v2__media img { animation: kyKenBurns 2.4s ease-out both, kyDrift 26s ease-in-out 2.4s infinite alternate; }
+html.reduce-motion .hero-v2__media img { animation: none; }
+@media (prefers-reduced-motion: reduce) { .hero-v2__media img { animation: none; } }
+
+/* Subrayado dorado suave al pasar por un título de tarjeta (sin romper el recorte a 3 líneas) */
+.fcard__title, .list-item__title, .legacy-card__title, .latest__hero-title, .video-row__title, .signal-item__body h3 {
+  text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 4px; text-decoration-color: transparent;
+  transition: text-decoration-color .3s var(--ease);
+}
+.fcard:hover .fcard__title, .list-item:hover .list-item__title, .legacy-card:hover .legacy-card__title, .latest__hero-card:hover .latest__hero-title,
+.video-row:hover .video-row__title, .signal-item:hover h3 { text-decoration-color: var(--gold); }
+
+/* Móvil: el play de la tarjeta grande de Watch ya no pisa el título */
+@media (max-width: 768px) {
+  .video-tile--big { aspect-ratio: 4/3; }
+  .video-tile .nara-card__play { top: 34%; }
+  .watch-row { padding: 56px 0 64px; }
+}
