@@ -259,6 +259,25 @@
     });
   }
 
+  /* 2.2 — Enter the Realms: una obra emblemática por realm, distinta cada semana (cambia los lunes).
+     La lista está en partials/realms-rotation.hbs (copia de tools/realms-rotation.json). */
+  var rot = $('#realms-rotation');
+  if (rot) {
+    var R = {}; try { R = JSON.parse(rot.textContent); } catch (e) {}
+    // Semanas desde el lunes 5 ene. 2026 (00:00 Madrid ≈ 23:00 UTC del domingo)
+    var week = Math.floor((Date.now() - Date.UTC(2026, 0, 4, 23)) / (7 * 864e5));
+    $$('.realm-card[data-realm]').forEach(function (card) {
+      var list = R[card.getAttribute('data-realm')] || []; if (!list.length) return;
+      var it = list[((week % list.length) + list.length) % list.length];
+      var img = $('.realm-card__bg img', card), w = $('.realm-card__work', card);
+      if (img && img.getAttribute('src').indexOf(it.img) < 0) {
+        img.src = it.img; img.srcset = it.img.replace('/content/images/', '/content/images/size/w300/') + ' 300w, ' + it.img + ' 600w';
+      }
+      if (img) { img.alt = it.work; img.title = it.work + ' · ' + it.credit; }
+      if (w) w.textContent = it.work;
+    });
+  }
+
   /* 2.0.9 — Sin repetidos en la portada: un artículo que ya ha salido más arriba no se repite
      en Legacy ni en On Screen. Cada bloque pide más posts de los que enseña y aquí se queda
      con los primeros N que no hayan aparecido antes. */
