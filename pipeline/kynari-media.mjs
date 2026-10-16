@@ -237,15 +237,21 @@ export async function steamFind(title) {
 // ---------------------------------------------------------------------------
 // Wikimedia Commons — fotografías libres (personas, eventos, lugares) para Culture
 // ---------------------------------------------------------------------------
+// Antes se buscaba texto libre en Commons y salían cosas como el cuadro «Madonna» de Munch para
+// un artículo sobre la cantante, o un gráfico de ventas para «Nevermind» (16 oct. 2026). Ahora se usa
+// la imagen oficial de la entidad en Wikidata (propiedad P18), que es la foto que lleva su artículo
+// de Wikipedia. Si la entidad no tiene imagen, no hay foto: mejor nada que una equivocada.
 export async function commonsImage(query) {
   if (!query) return null;
+  const file = await wikidataImage(query);
+  if (!file) return null;
   const q = new URLSearchParams({
-    action: 'query', format: 'json', generator: 'search', gsrnamespace: '6', gsrsearch: `${query} filetype:bitmap`, gsrlimit: '8',
+    action: 'query', format: 'json', titles: `File:${file}`,
     prop: 'imageinfo', iiprop: 'url|extmetadata|size|mime', iiurlwidth: '1600', origin: '*'
   });
   const r = await fetch(`https://commons.wikimedia.org/w/api.php?${q}`, { headers: { 'User-Agent': UA } });
   if (!r.ok) return null;
-  const pages = Object.values((await r.json()).query?.pages || {}).sort((a, b) => (a.index || 0) - (b.index || 0));
+  const pages = Object.values((await r.json()).query?.pages || {});
   for (const p of pages) {
     const ii = p.imageinfo?.[0];
     if (!ii || !/jpeg|png|webp/.test(ii.mime || '') || (ii.width || 0) < 900) continue;
@@ -255,6 +261,22 @@ export async function commonsImage(query) {
     const strip = (s) => String(s || '').replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
     const author = strip(md.Artist?.value).slice(0, 80) || 'Wikimedia Commons';
     return { url: ii.thumburl || ii.url, page: ii.descriptionurl, credit: `${author} · ${lic} · Wikimedia Commons`, width: ii.thumbwidth || ii.width, height: ii.thumbheight || ii.height };
+  }
+  return null;
+}
+
+/** Nombre del archivo de la imagen oficial (P18) de la entidad de Wikidata cuyo nombre coincide con la búsqueda. */
+export async function wikidataImage(query) {
+  const norm = (s) => String(s || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9]+/g, ' ').trim();
+  const s = await fetch(`https://www.wikidata.org/w/api.php?${new URLSearchParams({ action: 'wbsearchentities', search: query, language: 'en', type: 'item', limit: '5', format: 'json', origin: '*' })}`, { headers: { 'User-Agent': UA } });
+  if (!s.ok) return null;
+  // Solo entidades cuyo nombre o alias coincide exactamente: «Madonna» no puede acabar en un cuadro
+  const hits = ((await s.json()).search || []).filter((h) => norm(h.label) === norm(query) || norm(h.match?.text) === norm(query));
+  for (const h of hits.slice(0, 3)) {
+    const e = await fetch(`https://www.wikidata.org/w/api.php?${new URLSearchParams({ action: 'wbgetclaims', entity: h.id, property: 'P18', format: 'json', origin: '*' })}`, { headers: { 'User-Agent': UA } });
+    if (!e.ok) continue;
+    const file = (await e.json()).claims?.P18?.[0]?.mainsnak?.datavalue?.value;
+    if (file) return file;
   }
   return null;
 }
