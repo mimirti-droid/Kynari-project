@@ -590,3 +590,10 @@ html.reduce-motion .hero-v2__media img { animation: none; }
 .trend__chip { font-family: var(--font-ui); font-size: 11px; letter-spacing: .06em; padding: 7px 12px; border: 1px solid rgba(240,237,232,.16); border-radius: 999px; color: var(--grey-light); text-decoration: none; transition: border-color var(--t-fast), color var(--t-fast); }
 .trend__chip:hover { border-color: var(--gold); color: var(--gold); }
 @media (max-width: 768px) { .trend { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; padding-top: 20px; } .trend::-webkit-scrollbar { display: none; } .trend__chips { flex-wrap: nowrap; } .trend__chip { white-space: nowrap; } }
+
+/* 2.2.2 — Newsletter al final del artículo: la nota pequeña no hereda el estilo de los párrafos */
+.article-body .newsletter--inline .newsletter__note { font-family: var(--font-ui); font-size: 10px; letter-spacing: .14em; line-height: 1.5; margin: 12px 0 0; color: var(--grey); }
+.article-body .newsletter--inline p.newsletter__sub, .article-body .newsletter--inline .newsletter__sub { margin-bottom: 14px; }
+/* Dentro del artículo, solo la categoría de la cabecera lleva el color del realm; el resto de
+   etiquetas (newsletter, compartir, «Latest on Kynari») vuelven al dorado */
+.article-v2 .label:not(.article-header__cat) { color: var(--gold) !important; }

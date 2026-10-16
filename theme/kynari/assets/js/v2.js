@@ -238,12 +238,9 @@
       }
     }
 
-    // Newsletter a mitad del texto (solo en artículos largos)
+    // Newsletter al final del texto (2.2.2: antes iba a mitad del artículo y cortaba la lectura)
     var tpl = $('#inline-newsletter');
-    if (tpl && tpl.content && tpl.content.firstElementChild && ps.length >= 9) {
-      var spot = ps[Math.floor(ps.length * 0.65)];
-      if (spot && spot.parentNode === body) body.insertBefore(tpl.content.cloneNode(true), spot);
-    }
+    if (tpl && tpl.content && tpl.content.firstElementChild) body.appendChild(tpl.content.cloneNode(true));
 
     // Barra de lectura
     var rb = $('.readbar i');
