@@ -77,8 +77,8 @@
 
   function naraCardHTML(n, title, cat) {
     return '<div class="nara-card" role="button" tabindex="0">' +
-      (n.poster ? '<img src="' + esc(n.poster) + '" alt="" loading="lazy" decoding="async">' : '') +
-      '<div class="nara-card__top"><span class="vb vb--nara">Nara\'s take</span>' + (n.duration ? '<span class="badge-dur">' + esc(n.duration) + '</span>' : '') + '</div>' +
+      ((n.card || n.poster) ? '<img src="' + esc(n.card || n.poster) + '" alt="" loading="lazy" decoding="async">' : '') +
+      '<div class="nara-card__top">' + (n.duration ? '<span class="badge-dur">' + esc(n.duration) + '</span>' : '') + '</div>' +
       '<span class="nara-card__play" aria-hidden="true"></span>' +
       '<div class="nara-card__body">' + (cat ? '<span class="nara-card__name">' + esc(cat) + '</span>' : '') + '<div class="nara-card__title">' + esc(n.title || title) + '</div></div></div>';
   }
@@ -99,7 +99,8 @@
       naraCards.forEach(function (card) {
         var p = map[card.getAttribute('data-nara-post')], n = p && p.media && p.media.nara;
         if (!n || (!n.mp4 && !ytId(n.yt))) return;
-        if (n.poster) { var img = $('img', card); if (!img) { img = doc.createElement('img'); img.alt = ''; card.insertBefore(img, card.firstChild); } img.src = n.poster; img.removeAttribute('srcset'); }
+        // n.card: fotograma sin subtítulos para la tarjeta (2.0.9); n.poster sigue siendo el póster del reproductor
+        if (n.card || n.poster) { var img = $('img', card); if (!img) { img = doc.createElement('img'); img.alt = ''; card.insertBefore(img, card.firstChild); } img.src = n.card || n.poster; img.removeAttribute('srcset'); }
         if (n.duration) { var d = $('.badge-dur', card); if (d) { d.textContent = n.duration; d.hidden = false; } }
         if (n.title) { var t = $('.nara-card__title', card); if (t) t.textContent = n.title; }
         bindPlay(card, n, p.url, p.title);
@@ -236,5 +237,55 @@
         if (empty) empty.hidden = visible > 0;
       });
     });
+  }
+
+  /* 2.0.9 — Sin repetidos en la portada: un artículo que ya ha salido más arriba no se repite
+     en Legacy ni en On Screen. Cada bloque pide más posts de los que enseña y aquí se queda
+     con los primeros N que no hayan aparecido antes. */
+  if (doc.body.classList.contains('home-template')) {
+    var path = function (a) { try { return new URL(a.href, location.href).pathname; } catch (e) { return a.getAttribute('href'); } };
+    var seenBefore = function (el) {
+      var p = path(el), found = false;
+      // Solo cuentan las tarjetas de contenido (no la cinta de titulares ni el menú)
+      $$('.hero-v2__title a, a.fcard, a.legacy-card, a.latest__hero-card, a.list-item, a.video-tile, a.video-row').some(function (a) { if (a === el) return true; if (path(a) === p) { found = true; return true; } return false; });
+      return found;
+    };
+    // On Screen: si el vídeo grande ya ha salido, ocupa su sitio el primer vídeo pequeño que no haya salido
+    var tile = $('[data-screen-dedupe] .video-tile--big');
+    if (tile && seenBefore(tile)) {
+      var alt = $$('[data-screen-dedupe] .video-row').filter(function (r) { return !seenBefore(r); })[0];
+      if (alt) {
+        tile.href = alt.href; tile.setAttribute('data-tags', alt.getAttribute('data-tags') || '');
+        var ai = $('img', alt), ti = $('img', tile);
+        if (ai && ti) ti.src = ai.src.replace(/\/size\/w\d+\//, '/size/w1000/');
+        var at = $('.video-row__title', alt), tt = $('.video-tile__title', tile); if (at && tt) tt.textContent = at.textContent;
+        var al = $('.label', alt), tm = $('.video-tile__meta', tile); if (al && tm) tm.textContent = al.firstChild ? al.firstChild.textContent : '';
+        alt.remove();
+      }
+    }
+    $$('[data-dedupe]').forEach(function (box) {
+      // Primero los que no han salido; si no llegan a N, se completa con repetidos para no dejar huecos
+      var max = +box.getAttribute('data-dedupe') || 3, items = $$(':scope > a', box);
+      var fresh = items.filter(function (a) { return !seenBefore(a); });
+      var keep = fresh.slice(0, max);
+      items.forEach(function (a) { if (keep.length < max && keep.indexOf(a) < 0) keep.push(a); });
+      items.forEach(function (a) { if (keep.indexOf(a) < 0) a.remove(); });
+    });
+
+    // Signal: punto «en directo» si la última entrada tiene menos de 6 horas
+    var t = $('.signal-item time[datetime]'), dot = $('.live-dot');
+    if (t && dot) { var age = Date.now() - new Date(t.getAttribute('datetime')).getTime(); if (age >= 0 && age < 6 * 3600e3) dot.hidden = false; }
+
+    // Nara's Takes: tira horizontal con flechas en escritorio (antes, 8 vídeos en una rejilla de 6)
+    var strip = $('.nara-strip');
+    if (strip && strip.children.length > 6) {
+      strip.classList.add('nara-strip--scroll');
+      var nav = doc.createElement('div'); nav.className = 'strip-nav';
+      nav.innerHTML = '<button type="button" class="strip-nav__btn" data-dir="-1" aria-label="Previous">‹</button><button type="button" class="strip-nav__btn" data-dir="1" aria-label="Next">›</button>';
+      var head = $('#nara .section-header'); if (head) head.appendChild(nav);
+      $$('.strip-nav__btn', nav).forEach(function (b) {
+        b.addEventListener('click', function () { strip.scrollBy({ left: +b.getAttribute('data-dir') * strip.clientWidth * 0.84, behavior: reduce() ? 'auto' : 'smooth' }); });
+      });
+    }
   }
 })();

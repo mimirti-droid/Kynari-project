@@ -5,6 +5,7 @@
 
 Sube el mp4 (/media/upload/) y el póster (/images/upload/), escribe `nara` en el JSON
 kynari-media del post (codeinjection_head) y añade las etiquetas internas #nara y #video.
+Desde la 2.0.9 sube también `card`: el fotograma sin subtítulos que usa la tarjeta de la portada.
 La clave sale de GHOST_ADMIN_KEY.
 """
 import argparse, json, os, re, subprocess, time
@@ -42,6 +43,21 @@ def with_media(head, patch):
     return block + MEDIA_RE.sub("", head or "")
 
 
+def make_card(mp4, out="nara_card.jpg"):
+    """Fotograma para la tarjeta de la portada sin los subtítulos quemados (2.0.9).
+
+    Saca el fotograma del segundo 1 y difumina la franja de subtítulos (60–81 % de la altura),
+    que en la tarjeta queda bajo el degradado del título. El póster del reproductor no cambia."""
+    from PIL import Image, ImageDraw, ImageFilter
+    raw = out + ".png"
+    subprocess.run(["ffmpeg", "-loglevel", "error", "-y", "-ss", "1", "-i", mp4, "-frames:v", "1", raw], check=True, stdin=subprocess.DEVNULL)
+    im = Image.open(raw).convert("RGB"); w, h = im.size
+    blur = im.filter(ImageFilter.GaussianBlur(26)).filter(ImageFilter.GaussianBlur(26))
+    mask = Image.new("L", (w, h), 0); ImageDraw.Draw(mask).rectangle((int(w * .06), int(h * .6), int(w * .94), int(h * .815)), fill=255)
+    Image.composite(blur, im, mask.filter(ImageFilter.GaussianBlur(18))).save(out, quality=85)
+    return out
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--post", required=True); ap.add_argument("--mp4", required=True); ap.add_argument("--poster", required=True)
@@ -56,6 +72,10 @@ def main():
     poster = a.poster if a.poster.startswith("http") else upload(a.poster, "image")
     p = requests.get(f"{API}/posts/{a.post}/?include=tags", headers=H(), timeout=60).json()["posts"][0]
     nara = {"mp4": mp4, "poster": poster, "duration": a.duration, "title": a.title}
+    try:
+        nara["card"] = upload(make_card(mp4), "image")
+    except Exception as e:  # sin tarjeta limpia la portada usa el póster
+        print(f"Aviso: no se pudo crear la tarjeta sin subtítulos: {e}")
     if a.yt: nara["yt"] = a.yt
     have = {t["name"].lower() for t in p["tags"]}
     tags = [{"id": t["id"]} for t in p["tags"]] + [{"name": n} for n in ("#nara", "#video") if n not in have]

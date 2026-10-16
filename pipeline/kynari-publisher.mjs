@@ -89,8 +89,21 @@ function applyTagHygiene(tags) {
 // Títulos: sin markdown, sin comillas tipográficas sueltas, longitud orientativa
 // ---------------------------------------------------------------------------
 function cleanTitle(t) {
-  return String(t || '').replace(/[*_`#]+/g, '').replace(/\s+/g, ' ').trim();
+  // Quita la cursiva/negrita en markdown (*Título*, **Título**) pero respeta un asterisco suelto
+  // que forma parte de un nombre real, como el álbum «A*Pop» de Tyla (16 oct. 2026)
+  return String(t || '').replace(/(\*\*|\*)(?=\S)([^*]+?)(?<=\S)\1/g, '$2').replace(/[_`#]+/g, '').replace(/\s+/g, ' ').trim();
 }
+
+// Alcance de cada categoría para el lote diario (16 oct. 2026). Culture es amplia a propósito:
+// Marc quiere tecnología o coches cuando tienen gancho de cultura pop (el Roadster «volador»
+// estilo Regreso al futuro), pero no noticias puramente empresariales, política ni deporte.
+const CATEGORY_SCOPE = {
+  Cinema: 'films, directors, actors, box office, festivals, trailers, streaming film releases and the film industry',
+  Anime: 'anime series and films, studios, manga-to-anime adaptations, anime events and the anime industry',
+  Games: 'video games, consoles, studios, game releases, trailers, esports culture and the games industry',
+  Culture: 'music, art, fashion, celebrities, museums, internet culture, TV and the entertainment business, and technology, design or vehicles ONLY when they have a clear pop-culture hook (iconic designs, sci-fi becoming real, viral cultural moments). Exclude pure corporate or financial news, politics, crime and sports results',
+  Comic: 'western comics, manga, graphic novels, publishers, creators and comic adaptations'
+};
 
 // ---------------------------------------------------------------------------
 // Historial: log local + últimos títulos publicados en Ghost
@@ -143,7 +156,7 @@ async function getTrendingTopic(category, { recentTitles = [], todayTopics = [] 
   const d = await claude({
     max_tokens: 1500,
     tools: [{ type: 'web_search_20250305', name: 'web_search', max_uses: 4 }],
-    messages: [{ role: 'user', content: `Search the web for what is genuinely trending TODAY (${today}) in the "${category}" category of pop culture. It must be a real, verifiable event from the last 72 hours, reported by at least two reputable outlets.${avoid.length ? `\n\n${avoid.join('\n\n')}` : ''}\n\nRespond ONLY with these lines:\nTOPIC: <specific topic>\nANGLE: <editorial angle in one sentence, Kynari tone: analytical, no clickbait>\nSOURCE: <url of a reputable article reporting it>\nSOURCE: <url of a second, different outlet>` }]
+    messages: [{ role: 'user', content: `Search the web for what is genuinely trending TODAY (${today}) in the "${category}" category of pop culture (${CATEGORY_SCOPE[category] || category}). It must be a real, verifiable event from the last 72 hours, reported by at least two reputable outlets.${avoid.length ? `\n\n${avoid.join('\n\n')}` : ''}\n\nRespond ONLY with these lines:\nTOPIC: <specific topic>\nANGLE: <editorial angle in one sentence, Kynari tone: analytical, no clickbait>\nSOURCE: <url of a reputable article reporting it>\nSOURCE: <url of a second, different outlet>` }]
   });
   const text = textOf(d);
   const topic = text.match(/TOPIC:\s*(.+)/i)?.[1]?.trim();
