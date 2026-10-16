@@ -30,7 +30,7 @@ Primer take publicado: Bleach TYBW (16 oct.), https://www.kynari.io/bleach-thous
 9. **Publicar.**
    - Web: `python3 attach_take.py --post <id> --mp4 take.mp4 --poster poster.jpg --title "<titular corto del take>"`. Escribe `nara` en el JSON `kynari-media` y añade `#nara` y `#video`. Comprobar en vivo que el artículo muestra el take.
    - Redes (Metricool, misma URL de Ghost): TikTok y YouTube Shorts a las **18:00 America/New_York**; si ese día ya hay un vídeo de serie de Nara a las 18:00 (lunes Legacy, miércoles Second Opinion, jueves mensual Mechanism, Presentaciones), a las **12:00**. Instagram Reel solo si ese día hay menos de 2 Reels programados contando todos los flujos. Declaración de IA: `isAigc: true` (TikTok), `isAiGenerated: true` (IG), `isAiGeneratedContent: true` (YouTube). `autoAddMusic: false`. Texto: gancho + pregunta + «Full breakdown: link in bio.».
-10. **Reutilizar (todos los días, 0 créditos).** `getScheduledPosts` de Metricool de hoy y ayer (un día por llamada). Para cada vídeo de Nara ya publicado o programado cuyo `media` esté en `kynari.io/content/media/` (ganchos de packs, Legacy, Presentaciones), identificar su artículo por el tema y, si el artículo no tiene `nara` en su JSON, ejecutar `attach_take.py` con ese mp4 (póster = fotograma a 1,2 s con ffmpeg). No reutilizar THE SECOND OPINION ni THE MECHANISM (son series propias, no comentarios de un artículo).
+10. **Reutilizar (todos los días, 0 créditos).** `getScheduledPosts` de Metricool de hoy y ayer (un día por llamada). **Metricool aloja siempre el vídeo en su CDN (`static.metricool.com/planner/…`), nunca en kynari.io**: para llevarlo a la web hay que descargar ese mp4 y pasárselo a `attach_take.py` como archivo local (lo sube a Ghost). Solo **episodios de Nara x Presentaciones** y **Legacy de los lunes** (decisión de Marc, 16 oct.); no los ganchos de packs, ni THE SECOND OPINION ni THE MECHANISM. Identificar el artículo por el tema (si no hay artículo, un post `signal` de la misma obra) y, si no tiene `nara` en su JSON, ejecutar `attach_take.py` (póster = fotograma a 1,2 s con ffmpeg). `attach_take.py` acepta también una URL `https://www.kynari.io/...` si el vídeo ya está en Ghost.
 
 ## 2. Entorno
 
@@ -38,7 +38,7 @@ Primer take publicado: Bleach TYBW (16 oct.), https://www.kynari.io/bleach-thous
 pip install --break-system-packages faster-whisper pyjwt requests pillow numpy
 apt-get update && apt-get install -y fonts-ebgaramond
 ```
-Clave de Ghost: `GHOST_ADMIN_KEY` (la misma que usa el pipeline social; ver *Pipeline Social Automatizado* §1). El código está en el repositorio (`tools/nara/`, rama `claude/v2-video-platform` hasta que se fusione el PR #5) y copiado abajo.
+Clave de Ghost: `GHOST_ADMIN_KEY` (la misma que usa el pipeline social; ver *Pipeline Social Automatizado* §1). El código está en el repositorio (`tools/nara/` en `main`; PR #5 fusionado el 16 oct.) y copiado abajo.
 
 ## 3. Presupuesto
 
@@ -56,6 +56,7 @@ El plan es de 45.000 al mes y se reinicia el día 21. Con menos de 6.000 disponi
 | Fecha | Artículo | Afirmaciones (✓/✗) | Créditos | Web | Redes |
 | --- | --- | --- | --- | --- | --- |
 | 16 oct. | Bleach TYBW 49–50 | 6 ✓ (C1 reenfocada: noticia del 12 sept.; C3 suavizada) | 1.658 | ✓ | — (primer take, solo web) |
+| 16 oct. | Reutilizados (0 créditos): Presentaciones ep. 1 Ocarina → artículo del Nintendo Direct; Legacy Transformers, The 55-Point Gap, Garfield, Labyrinth, The Kubrick Method y Metroid | — | 0 | ✓ (7) | ya estaban en redes / programados |
 
 ---
 
@@ -334,7 +335,7 @@ if __name__ == "__main__":
 # -*- coding: utf-8 -*-
 """Sube un Nara's take a Ghost y lo engancha a su artículo (v2, 16 oct. 2026).
 
-  python3 attach_take.py --post <id> --mp4 take.mp4 --poster poster.jpg --title "..." [--duration 0:37] [--yt SHORTS_ID]
+  python3 attach_take.py --post <id> --mp4 take.mp4|https://… --poster poster.jpg|https://… --title "..." [--duration 0:37] [--yt SHORTS_ID]
 
 Sube el mp4 (/media/upload/) y el póster (/images/upload/), escribe `nara` en el JSON
 kynari-media del post (codeinjection_head) y añade las etiquetas internas #nara y #video.
@@ -383,7 +384,10 @@ def main():
     if not a.duration:
         s = float(subprocess.run(["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", a.mp4], capture_output=True, text=True).stdout)
         a.duration = f"{int(s // 60)}:{round(s % 60):02d}"
-    mp4, poster = upload(a.mp4, "video"), upload(a.poster, "image")
+    # Si el vídeo ya está en Ghost (p. ej. un gancho o un Legacy programado en Metricool),
+    # se reutiliza su URL en vez de subirlo otra vez.
+    mp4 = a.mp4 if a.mp4.startswith("http") else upload(a.mp4, "video")
+    poster = a.poster if a.poster.startswith("http") else upload(a.poster, "image")
     p = requests.get(f"{API}/posts/{a.post}/?include=tags", headers=H(), timeout=60).json()["posts"][0]
     nara = {"mp4": mp4, "poster": poster, "duration": a.duration, "title": a.title}
     if a.yt: nara["yt"] = a.yt
@@ -397,5 +401,4 @@ def main():
 
 if __name__ == "__main__":
     main()
-
 ```
