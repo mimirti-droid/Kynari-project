@@ -81,6 +81,43 @@
   </div>
 </section>
 
+<!-- ENTER THE REALMS -->
+<section class="realms" id="realms">
+  <div class="container">
+    <div class="realms__header reveal">
+      <h2 class="realms__title">ENTER THE REALMS</h2>
+      <p class="realms__sub">Choose your path. Every realm, a new perspective.</p>
+    </div>
+    <div class="realms__grid">
+      <a href="{{@site.url}}/tag/cinema/" class="realm-card reveal">
+        <div class="realm-card__bg"><img src="{{@site.url}}/content/images/size/w300/format/webp/2026/09/realmfinal_cinema.png" srcset="{{@site.url}}/content/images/size/w300/format/webp/2026/09/realmfinal_cinema.png 300w, {{@site.url}}/content/images/size/w600/format/webp/2026/09/realmfinal_cinema.png 600w" sizes="(max-width: 600px) 45vw, 218px" alt="Cinema" loading="lazy" decoding="async"></div>
+        <div class="realm-card__overlay"></div>
+        <div class="realm-card__body"><div class="realm-card__name label">Cinema</div><div class="realm-card__desc">Films, directors, aesthetics and visual storytelling.</div></div>
+      </a>
+      <a href="{{@site.url}}/tag/anime/" class="realm-card reveal">
+        <div class="realm-card__bg"><img src="{{@site.url}}/content/images/size/w300/format/webp/2026/09/realmfinal_anime.png" srcset="{{@site.url}}/content/images/size/w300/format/webp/2026/09/realmfinal_anime.png 300w, {{@site.url}}/content/images/size/w600/format/webp/2026/09/realmfinal_anime.png 600w" sizes="(max-width: 600px) 45vw, 218px" alt="Anime" loading="lazy" decoding="async"></div>
+        <div class="realm-card__overlay"></div>
+        <div class="realm-card__body"><div class="realm-card__name label">Anime</div><div class="realm-card__desc">Series, movies, art and the world of anime.</div></div>
+      </a>
+      <a href="{{@site.url}}/tag/games/" class="realm-card reveal">
+        <div class="realm-card__bg"><img src="{{@site.url}}/content/images/size/w300/format/webp/2026/09/realmfinal_games.png" srcset="{{@site.url}}/content/images/size/w300/format/webp/2026/09/realmfinal_games.png 300w, {{@site.url}}/content/images/size/w600/format/webp/2026/09/realmfinal_games.png 600w" sizes="(max-width: 600px) 45vw, 218px" alt="Games" loading="lazy" decoding="async"></div>
+        <div class="realm-card__overlay"></div>
+        <div class="realm-card__body"><div class="realm-card__name label">Games</div><div class="realm-card__desc">Game analysis, worlds and interactive storytelling.</div></div>
+      </a>
+      <a href="{{@site.url}}/tag/culture/" class="realm-card reveal">
+        <div class="realm-card__bg"><img src="{{@site.url}}/content/images/size/w300/format/webp/2026/09/realmfinal_culture.png" srcset="{{@site.url}}/content/images/size/w300/format/webp/2026/09/realmfinal_culture.png 300w, {{@site.url}}/content/images/size/w600/format/webp/2026/09/realmfinal_culture.png 600w" sizes="(max-width: 600px) 45vw, 218px" alt="Culture" loading="lazy" decoding="async"></div>
+        <div class="realm-card__overlay"></div>
+        <div class="realm-card__body"><div class="realm-card__name label">Culture</div><div class="realm-card__desc">Ideas, movements and cultural phenomena.</div></div>
+      </a>
+      <a href="{{@site.url}}/tag/comic/" class="realm-card reveal">
+        <div class="realm-card__bg"><img src="{{@site.url}}/content/images/size/w300/format/webp/2026/09/realmfinal_comic.png" srcset="{{@site.url}}/content/images/size/w300/format/webp/2026/09/realmfinal_comic.png 300w, {{@site.url}}/content/images/size/w600/format/webp/2026/09/realmfinal_comic.png 600w" sizes="(max-width: 600px) 45vw, 218px" alt="Comic" loading="lazy" decoding="async"></div>
+        <div class="realm-card__overlay"></div>
+        <div class="realm-card__body"><div class="realm-card__name label">Comic</div><div class="realm-card__desc">Western comics, manga and graphic narrative.</div></div>
+      </a>
+    </div>
+  </div>
+</section>
+
 <!-- NARA'S TAKES: v2.js sustituye la imagen por el póster del vídeo de Nara y abre el reproductor -->
 {{#get "posts" filter="tag:hash-nara" limit="8" include="tags"}}
 {{#if posts}}
@@ -149,43 +186,6 @@
       </div>
     {{/get}}
     <p class="latest__more"><a href="{{@site.url}}/page/2/" class="btn btn--outline">More articles</a></p>
-  </div>
-</section>
-
-<!-- ENTER THE REALMS -->
-<section class="realms" id="realms">
-  <div class="container">
-    <div class="realms__header reveal">
-      <h2 class="realms__title">ENTER THE REALMS</h2>
-      <p class="realms__sub">Choose your path. Every realm, a new perspective.</p>
-    </div>
-    <div class="realms__grid">
-      <a href="{{@site.url}}/tag/cinema/" class="realm-card reveal">
-        <div class="realm-card__bg"><img src="{{@site.url}}/content/images/size/w300/format/webp/2026/09/realmfinal_cinema.png" srcset="{{@site.url}}/content/images/size/w300/format/webp/2026/09/realmfinal_cinema.png 300w, {{@site.url}}/content/images/size/w600/format/webp/2026/09/realmfinal_cinema.png 600w" sizes="(max-width: 600px) 45vw, 218px" alt="Cinema" loading="lazy" decoding="async"></div>
-        <div class="realm-card__overlay"></div>
-        <div class="realm-card__body"><div class="realm-card__name label">Cinema</div><div class="realm-card__desc">Films, directors, aesthetics and visual storytelling.</div></div>
-      </a>
-      <a href="{{@site.url}}/tag/anime/" class="realm-card reveal">
-        <div class="realm-card__bg"><img src="{{@site.url}}/content/images/size/w300/format/webp/2026/09/realmfinal_anime.png" srcset="{{@site.url}}/content/images/size/w300/format/webp/2026/09/realmfinal_anime.png 300w, {{@site.url}}/content/images/size/w600/format/webp/2026/09/realmfinal_anime.png 600w" sizes="(max-width: 600px) 45vw, 218px" alt="Anime" loading="lazy" decoding="async"></div>
-        <div class="realm-card__overlay"></div>
-        <div class="realm-card__body"><div class="realm-card__name label">Anime</div><div class="realm-card__desc">Series, movies, art and the world of anime.</div></div>
-      </a>
-      <a href="{{@site.url}}/tag/games/" class="realm-card reveal">
-        <div class="realm-card__bg"><img src="{{@site.url}}/content/images/size/w300/format/webp/2026/09/realmfinal_games.png" srcset="{{@site.url}}/content/images/size/w300/format/webp/2026/09/realmfinal_games.png 300w, {{@site.url}}/content/images/size/w600/format/webp/2026/09/realmfinal_games.png 600w" sizes="(max-width: 600px) 45vw, 218px" alt="Games" loading="lazy" decoding="async"></div>
-        <div class="realm-card__overlay"></div>
-        <div class="realm-card__body"><div class="realm-card__name label">Games</div><div class="realm-card__desc">Game analysis, worlds and interactive storytelling.</div></div>
-      </a>
-      <a href="{{@site.url}}/tag/culture/" class="realm-card reveal">
-        <div class="realm-card__bg"><img src="{{@site.url}}/content/images/size/w300/format/webp/2026/09/realmfinal_culture.png" srcset="{{@site.url}}/content/images/size/w300/format/webp/2026/09/realmfinal_culture.png 300w, {{@site.url}}/content/images/size/w600/format/webp/2026/09/realmfinal_culture.png 600w" sizes="(max-width: 600px) 45vw, 218px" alt="Culture" loading="lazy" decoding="async"></div>
-        <div class="realm-card__overlay"></div>
-        <div class="realm-card__body"><div class="realm-card__name label">Culture</div><div class="realm-card__desc">Ideas, movements and cultural phenomena.</div></div>
-      </a>
-      <a href="{{@site.url}}/tag/comic/" class="realm-card reveal">
-        <div class="realm-card__bg"><img src="{{@site.url}}/content/images/size/w300/format/webp/2026/09/realmfinal_comic.png" srcset="{{@site.url}}/content/images/size/w300/format/webp/2026/09/realmfinal_comic.png 300w, {{@site.url}}/content/images/size/w600/format/webp/2026/09/realmfinal_comic.png 600w" sizes="(max-width: 600px) 45vw, 218px" alt="Comic" loading="lazy" decoding="async"></div>
-        <div class="realm-card__overlay"></div>
-        <div class="realm-card__body"><div class="realm-card__name label">Comic</div><div class="realm-card__desc">Western comics, manga and graphic narrative.</div></div>
-      </a>
-    </div>
   </div>
 </section>
 
