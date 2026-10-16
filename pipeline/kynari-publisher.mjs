@@ -261,7 +261,7 @@ async function generateImage(prompt, size = 'landscape_16_9') {
 // ---------------------------------------------------------------------------
 async function gatherMedia(article, category) {
   const reasons = [];
-  const out = { hero: null, interiors: [], trailer: null, source: null, reasons };
+  const out = { hero: null, interiors: [], trailer: null, source: null, work: null, reasons };
   const take = async (url, credit) => ({ buf: await download(url), credit });
 
   // 1) Juegos: IGDB (imágenes + vídeo) y Steam (capturas)
@@ -272,6 +272,7 @@ async function gatherMedia(article, category) {
       else if (!g) reasons.push(`IGDB: no match for "${article.igdb_search_title}"`);
       else {
         console.log(`   IGDB: ✓ "${g.name}" — ID ${g.id}`);
+        out.work = { type: 'game', title: g.name, year: g.first_release_date ? new Date(g.first_release_date * 1000).getFullYear() : null, igdb: g.id };
         out.trailer = igdbTrailer(g);
         const u = igdbImageUrls(g, 3);
         if (u.hero) out.hero = await take(u.hero, '© IGDB / Twitch');
@@ -284,6 +285,8 @@ async function gatherMedia(article, category) {
         const s = await steamFind(article.igdb_search_title);
         if (s) {
           console.log(`   Steam: ✓ "${s.name}" (${s.appid})`);
+          out.work = out.work || { type: 'game', title: s.name, year: null };
+          out.work.steam = s.appid;
           for (const shot of s.screenshots.slice(0, 2 - out.interiors.length)) out.interiors.push(await take(shot, `© ${s.name} / Steam`));
           if (!out.hero && s.header) out.hero = await take(s.header, `© ${s.name} / Steam`);
           out.source = out.source || 'Steam';
@@ -300,6 +303,7 @@ async function gatherMedia(article, category) {
       if (!item) reasons.push(`TMDB: no match for "${article.tmdb_search_title}"`);
       else {
         console.log(`   TMDB: ✓ "${item.title || item.name}" [${item.media_type}] — ID ${item.id}`);
+        out.work = out.work || { type: item.media_type, title: item.title || item.name, year: Number((item.release_date || item.first_air_date || '').slice(0, 4)) || null, tmdb: item.id };
         out.trailer = out.trailer || await tmdbTrailer(item);
         const im = await tmdbImages(item, 3);
         const base = 'https://image.tmdb.org/t/p/original';
@@ -360,10 +364,10 @@ function buildBody(bodyHtml, { interiors = [], facade = null }) {
   return lexicalDoc(children);
 }
 
-async function publishToGhost({ article, tags, heroUrl, heroCredit, interiors, trailer, sources, featured }) {
+async function publishToGhost({ article, tags, heroUrl, heroCredit, interiors, trailer, sources, featured, work }) {
   const facade = trailer ? videoFacadeHTML(trailer) : null;
   const lexical = buildBody(article.body_html, { interiors, facade });
-  const media = { trailer: trailer || null, sources: sources.length ? sources : null };
+  const media = { trailer: trailer || null, work: work || null, sources: sources.length ? sources : null };
   const res = await ghost('POST', '/posts/', {
     posts: [{
       title: article.title, custom_excerpt: (article.excerpt || '').slice(0, 300), lexical, status: 'published',
@@ -466,7 +470,7 @@ async function publishOne({ topic, category, section, angle, youtube, sources = 
   }
 
   const post = await publishToGhost({
-    article, tags, heroUrl, heroCredit: media.hero.credit, interiors, trailer, sources: okSources,
+    article, tags, heroUrl, heroCredit: media.hero.credit, interiors, trailer, sources: okSources, work: media.work,
     featured: featured || isLegacy || section === 'Featured'
   });
   console.log(`   OK -> ${post.url}`);

@@ -355,3 +355,34 @@ export function mergeTags(existing, addNames = []) {
   const have = new Set((existing || []).map((t) => (t.name || '').toLowerCase()));
   return [...(existing || []).map((t) => ({ id: t.id })), ...addNames.filter((n) => !have.has(n.toLowerCase())).map((name) => ({ name }))];
 }
+
+// ---------------------------------------------------------------------------
+// Claude (Messages API) para las herramientas de tools/
+// ---------------------------------------------------------------------------
+export async function claude(body, model = process.env.KYNARI_MODEL || 'claude-sonnet-4-6') {
+  const res = await fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: { 'content-type': 'application/json', 'x-api-key': process.env.ANTHROPIC_API_KEY, 'anthropic-version': '2023-06-01' },
+    body: JSON.stringify({ model, ...body })
+  });
+  if (!res.ok) throw new Error(`Claude API error ${res.status}: ${(await res.text()).slice(0, 300)}`);
+  return res.json();
+}
+export const claudeText = (d) => d.content.filter((b) => b.type === 'text').map((b) => b.text).join('\n');
+export const claudeTool = (d, name) => d.content.find((b) => b.type === 'tool_use' && b.name === name)?.input || null;
+
+// ---------------------------------------------------------------------------
+// YouTube RSS (sin cuota): últimos 15 vídeos de un canal
+// ---------------------------------------------------------------------------
+export async function youtubeFeed(channelId) {
+  const r = await fetch(`https://www.youtube.com/feeds/videos.xml?channel_id=${channelId}`, { headers: { 'User-Agent': UA } });
+  if (!r.ok) throw new Error(`feed ${r.status}`);
+  const xml = await r.text();
+  const pick = (s, tag) => (s.match(new RegExp(`<${tag}[^>]*>([\\s\\S]*?)<\\/${tag}>`)) || [])[1] || '';
+  const unesc = (s) => s.replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&#39;/g, "'");
+  return [...xml.matchAll(/<entry>([\s\S]*?)<\/entry>/g)].map(([, e]) => ({
+    yt: pick(e, 'yt:videoId'), title: unesc(pick(e, 'title')), published: pick(e, 'published'),
+    channel: unesc(pick(xml, 'name')), description: unesc(pick(e, 'media:description')).slice(0, 800),
+    views: Number((e.match(/<media:statistics views="(\d+)"/) || [])[1] || 0)
+  })).filter((x) => /^[A-Za-z0-9_-]{11}$/.test(x.yt));
+}
