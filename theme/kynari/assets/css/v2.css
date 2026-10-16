@@ -552,3 +552,10 @@ html.reduce-motion .hero-v2__media img { animation: none; }
   .video-tile .nara-card__play { top: 34%; }
   .watch-row { padding: 56px 0 64px; }
 }
+
+/* ===================== 2.2 — Realms con imágenes reales en rotación ===================== */
+.realm-card__bg img { opacity: 1; filter: grayscale(.15) brightness(.6) contrast(1.05); transition: filter .4s, transform .5s var(--ease); }
+.realm-card:hover .realm-card__bg img { opacity: 1; filter: grayscale(0) brightness(.78) contrast(1.05); }
+.realm-card__work { font-family: var(--font-body); font-style: italic; font-size: 13px; color: rgba(240,237,232,.62); margin-top: 6px; min-height: 1.2em; }
+.realm-card__desc { display: none; }
+@media (max-width: 768px) { .realm-card__work { font-size: 12px; } }

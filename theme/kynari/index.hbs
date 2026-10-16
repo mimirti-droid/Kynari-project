@@ -81,7 +81,8 @@
   </div>
 </section>
 
-<!-- ENTER THE REALMS -->
+<!-- ENTER THE REALMS: imágenes reales en rotación semanal (2.2) -->
+{{> realms-rotation}}
 <section class="realms" id="realms">
   <div class="container">
     <div class="realms__header reveal">
@@ -89,30 +90,30 @@
       <p class="realms__sub">Choose your path. Every realm, a new perspective.</p>
     </div>
     <div class="realms__grid">
-      <a href="{{@site.url}}/tag/cinema/" class="realm-card reveal">
-        <div class="realm-card__bg"><img src="{{@site.url}}/content/images/size/w300/format/webp/2026/09/realmfinal_cinema.png" srcset="{{@site.url}}/content/images/size/w300/format/webp/2026/09/realmfinal_cinema.png 300w, {{@site.url}}/content/images/size/w600/format/webp/2026/09/realmfinal_cinema.png 600w" sizes="(max-width: 600px) 45vw, 218px" alt="Cinema" loading="lazy" decoding="async"></div>
+      <a href="{{@site.url}}/tag/cinema/" class="realm-card reveal" data-realm="cinema">
+        <div class="realm-card__bg"><img src="{{@site.url}}/content/images/2026/10/realm-cinema-2001-a-space-odyssey.jpg" srcset="{{@site.url}}/content/images/size/w300/2026/10/realm-cinema-2001-a-space-odyssey.jpg 300w, {{@site.url}}/content/images/2026/10/realm-cinema-2001-a-space-odyssey.jpg 600w" sizes="(max-width: 600px) 45vw, 218px" alt="2001: A Space Odyssey" title="2001: A Space Odyssey · © The Movie Database (TMDB)" loading="lazy" decoding="async"></div>
         <div class="realm-card__overlay"></div>
-        <div class="realm-card__body"><div class="realm-card__name label">Cinema</div><div class="realm-card__desc">Films, directors, aesthetics and visual storytelling.</div></div>
+        <div class="realm-card__body"><div class="realm-card__name label">Cinema</div><div class="realm-card__work">2001: A Space Odyssey</div><div class="realm-card__desc">Films, directors, aesthetics and visual storytelling.</div></div>
       </a>
-      <a href="{{@site.url}}/tag/anime/" class="realm-card reveal">
-        <div class="realm-card__bg"><img src="{{@site.url}}/content/images/size/w300/format/webp/2026/09/realmfinal_anime.png" srcset="{{@site.url}}/content/images/size/w300/format/webp/2026/09/realmfinal_anime.png 300w, {{@site.url}}/content/images/size/w600/format/webp/2026/09/realmfinal_anime.png 600w" sizes="(max-width: 600px) 45vw, 218px" alt="Anime" loading="lazy" decoding="async"></div>
+      <a href="{{@site.url}}/tag/anime/" class="realm-card reveal" data-realm="anime">
+        <div class="realm-card__bg"><img src="{{@site.url}}/content/images/2026/10/realm-anime-akira.jpg" srcset="{{@site.url}}/content/images/size/w300/2026/10/realm-anime-akira.jpg 300w, {{@site.url}}/content/images/2026/10/realm-anime-akira.jpg 600w" sizes="(max-width: 600px) 45vw, 218px" alt="Akira" title="Akira · © The Movie Database (TMDB)" loading="lazy" decoding="async"></div>
         <div class="realm-card__overlay"></div>
-        <div class="realm-card__body"><div class="realm-card__name label">Anime</div><div class="realm-card__desc">Series, movies, art and the world of anime.</div></div>
+        <div class="realm-card__body"><div class="realm-card__name label">Anime</div><div class="realm-card__work">Akira</div><div class="realm-card__desc">Series, movies, art and the world of anime.</div></div>
       </a>
-      <a href="{{@site.url}}/tag/games/" class="realm-card reveal">
-        <div class="realm-card__bg"><img src="{{@site.url}}/content/images/size/w300/format/webp/2026/09/realmfinal_games.png" srcset="{{@site.url}}/content/images/size/w300/format/webp/2026/09/realmfinal_games.png 300w, {{@site.url}}/content/images/size/w600/format/webp/2026/09/realmfinal_games.png 600w" sizes="(max-width: 600px) 45vw, 218px" alt="Games" loading="lazy" decoding="async"></div>
+      <a href="{{@site.url}}/tag/games/" class="realm-card reveal" data-realm="games">
+        <div class="realm-card__bg"><img src="{{@site.url}}/content/images/2026/10/realm-games-elden-ring.jpg" srcset="{{@site.url}}/content/images/size/w300/2026/10/realm-games-elden-ring.jpg 300w, {{@site.url}}/content/images/2026/10/realm-games-elden-ring.jpg 600w" sizes="(max-width: 600px) 45vw, 218px" alt="Elden Ring" title="Elden Ring · © FromSoftware / Bandai Namco · Steam" loading="lazy" decoding="async"></div>
         <div class="realm-card__overlay"></div>
-        <div class="realm-card__body"><div class="realm-card__name label">Games</div><div class="realm-card__desc">Game analysis, worlds and interactive storytelling.</div></div>
+        <div class="realm-card__body"><div class="realm-card__name label">Games</div><div class="realm-card__work">Elden Ring</div><div class="realm-card__desc">Game analysis, worlds and interactive storytelling.</div></div>
       </a>
-      <a href="{{@site.url}}/tag/culture/" class="realm-card reveal">
-        <div class="realm-card__bg"><img src="{{@site.url}}/content/images/size/w300/format/webp/2026/09/realmfinal_culture.png" srcset="{{@site.url}}/content/images/size/w300/format/webp/2026/09/realmfinal_culture.png 300w, {{@site.url}}/content/images/size/w600/format/webp/2026/09/realmfinal_culture.png 600w" sizes="(max-width: 600px) 45vw, 218px" alt="Culture" loading="lazy" decoding="async"></div>
+      <a href="{{@site.url}}/tag/culture/" class="realm-card reveal" data-realm="culture">
+        <div class="realm-card__bg"><img src="{{@site.url}}/content/images/2026/10/realm-culture-david-bowie.jpg" srcset="{{@site.url}}/content/images/size/w300/2026/10/realm-culture-david-bowie.jpg 300w, {{@site.url}}/content/images/2026/10/realm-culture-david-bowie.jpg 600w" sizes="(max-width: 600px) 45vw, 218px" alt="David Bowie" title="David Bowie · Adam Bielawski · CC BY-SA 3.0 · Wikimedia Commons" loading="lazy" decoding="async"></div>
         <div class="realm-card__overlay"></div>
-        <div class="realm-card__body"><div class="realm-card__name label">Culture</div><div class="realm-card__desc">Ideas, movements and cultural phenomena.</div></div>
+        <div class="realm-card__body"><div class="realm-card__name label">Culture</div><div class="realm-card__work">David Bowie</div><div class="realm-card__desc">Ideas, movements and cultural phenomena.</div></div>
       </a>
-      <a href="{{@site.url}}/tag/comic/" class="realm-card reveal">
-        <div class="realm-card__bg"><img src="{{@site.url}}/content/images/size/w300/format/webp/2026/09/realmfinal_comic.png" srcset="{{@site.url}}/content/images/size/w300/format/webp/2026/09/realmfinal_comic.png 300w, {{@site.url}}/content/images/size/w600/format/webp/2026/09/realmfinal_comic.png 600w" sizes="(max-width: 600px) 45vw, 218px" alt="Comic" loading="lazy" decoding="async"></div>
+      <a href="{{@site.url}}/tag/comic/" class="realm-card reveal" data-realm="comic">
+        <div class="realm-card__bg"><img src="{{@site.url}}/content/images/2026/10/realm-comic-watchmen.jpg" srcset="{{@site.url}}/content/images/size/w300/2026/10/realm-comic-watchmen.jpg 300w, {{@site.url}}/content/images/2026/10/realm-comic-watchmen.jpg 600w" sizes="(max-width: 600px) 45vw, 218px" alt="Watchmen" title="Watchmen · © The Movie Database (TMDB)" loading="lazy" decoding="async"></div>
         <div class="realm-card__overlay"></div>
-        <div class="realm-card__body"><div class="realm-card__name label">Comic</div><div class="realm-card__desc">Western comics, manga and graphic narrative.</div></div>
+        <div class="realm-card__body"><div class="realm-card__name label">Comic</div><div class="realm-card__work">Watchmen</div><div class="realm-card__desc">Western comics, manga and graphic narrative.</div></div>
       </a>
     </div>
   </div>
