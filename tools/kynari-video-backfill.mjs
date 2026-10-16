@@ -78,7 +78,7 @@ async function plan() {
   const needId = [];
   for (const p of todo) {
     const yt = existingYoutube(p.lexical);
-    if (yt) out.push({ id: p.id, slug: p.slug, title: p.title, action: 'reuse', yt, kind: 'trailer', source: 'YouTube (existing embed)' });
+    if (yt) out.push({ id: p.id, slug: p.slug, title: p.title, action: 'reuse', yt, kind: 'clip', source: 'YouTube (existing embed)' });
     else needId.push(p);
   }
   console.log(`${out.length} with an existing YouTube embed (converted to facade)`);
@@ -120,16 +120,18 @@ async function apply() {
       if ((p.tags || []).some((t) => t.slug === 'hash-video')) { console.log(`  skip (already has video) ${p.slug}`); continue; }
       backup.push({ id: p.id, lexical: p.lexical, codeinjection_head: p.codeinjection_head, tags: (p.tags || []).map((t) => ({ id: t.id })) });
       await fs.writeFile(backupFile, JSON.stringify(backup));
-      const facade = videoFacadeHTML({ yt: it.yt, kind: it.kind, title: it.title === p.title && it.action === 'reuse' ? `${p.title} — video` : (it.work ? `${it.work.title} — ${it.kind === 'gameplay' ? 'gameplay' : 'official trailer'}` : p.title), source: it.source });
+      // «reuse»: el artículo ya tiene sus vídeos en el cuerpo (a veces varios). No se toca el
+      // texto: solo se etiqueta #video y se guarda el primero en el JSON para portada y hero.
+      const reuse = it.action === 'reuse';
       const trailer = { yt: it.yt, kind: it.kind, title: it.work?.title || p.title, source: it.source };
-      await ghost('PUT', `/posts/${p.id}/`, {
-        posts: [{
-          updated_at: p.updated_at,
-          lexical: lexicalWithVideo(p.lexical, facade),
-          codeinjection_head: withMediaJson(p.codeinjection_head, { trailer, work: it.work || parseMediaJson(p.codeinjection_head)?.work || null }),
-          tags: mergeTags(p.tags, ['#video', it.kind === 'gameplay' ? '#gameplay' : '#trailer'])
-        }]
-      });
+      const body = { updated_at: p.updated_at, codeinjection_head: withMediaJson(p.codeinjection_head, { trailer, work: it.work || parseMediaJson(p.codeinjection_head)?.work || null }) };
+      if (reuse) body.tags = mergeTags(p.tags, ['#video']);
+      else {
+        const facade = videoFacadeHTML({ yt: it.yt, kind: it.kind, title: it.work ? `${it.work.title} — ${it.kind === 'gameplay' ? 'gameplay' : 'official trailer'}` : p.title, source: it.source });
+        body.lexical = lexicalWithVideo(p.lexical, facade);
+        body.tags = mergeTags(p.tags, ['#video', it.kind === 'gameplay' ? '#gameplay' : '#trailer']);
+      }
+      await ghost('PUT', `/posts/${p.id}/`, { posts: [body] });
       ok++; console.log(`  ✓ ${it.yt} ${p.slug}`);
       await new Promise((r) => setTimeout(r, 400));
     } catch (e) { console.error(`  ✗ ${it.slug}: ${e.message}`); }
