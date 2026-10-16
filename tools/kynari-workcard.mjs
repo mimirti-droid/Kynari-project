@@ -71,7 +71,13 @@ async function allPosts() {
 
 async function plan() {
   const max = Number(arg('--max', 400));
-  const posts = (await allPosts()).filter((p) => !parseMediaJson(p.codeinjection_head || '')?.work?.card).slice(0, max);
+  // Artículos descartados tras revisar el ensayo (fragmentos del título): no llevan ficha
+  let skip = [];
+  try { skip = JSON.parse(await fs.readFile(new URL('./workcard-skip.json', import.meta.url), 'utf-8')).map((s) => s.toLowerCase()); } catch {}
+  const posts = (await allPosts())
+    .filter((p) => !parseMediaJson(p.codeinjection_head || '')?.work?.card)
+    .filter((p) => !skip.some((s) => p.title.toLowerCase().includes(s)))
+    .slice(0, max);
   const known = [], unknown = [];
   for (const p of posts) { const w = parseMediaJson(p.codeinjection_head || '')?.work; (w?.title ? known : unknown).push({ ...p, work: w }); }
   // Los que no tienen obra: Haiku la identifica en lotes de 25
