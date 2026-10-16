@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en" class="{{body_class}}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{meta_title}}</title>
+  <script>document.documentElement.classList.add('js');</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500;600&display=swap">
+  {{ghost_head}}
+  <link rel="stylesheet" href="{{asset "css/kynari.css"}}">
+</head>
+<body class="{{body_class}}">
+
+  <!-- NAVBAR -->
+  <nav class="nav">
+    <div class="nav__inner">
+      <a href="{{@site.url}}" class="nav__logo">
+        {{#if @site.logo}}
+          <img src="{{img_url @site.logo size="xs" format="webp"}}" alt="" class="nav__logo-img" width="32" height="32">
+        {{else}}
+          <div class="nav__logo-mark">K</div>
+        {{/if}}
+        <span class="nav__logo-text">KYNARI</span>
+      </a>
+
+      <ul class="nav__links">
+        <li><a href="{{@site.url}}/tag/cinema" class="nav__link">Cinema</a></li>
+        <li><a href="{{@site.url}}/tag/anime"  class="nav__link">Anime</a></li>
+        <li><a href="{{@site.url}}/tag/games"  class="nav__link">Games</a></li>
+        <li><a href="{{@site.url}}/tag/culture" class="nav__link">Culture</a></li>
+        <li><a href="{{@site.url}}/tag/comic"  class="nav__link">Comic</a></li>
+      </ul>
+
+      <a href="{{@site.url}}/tag/legacy" class="nav__legacy">Legacy</a>
+
+      <button class="nav__search" data-ghost-search aria-label="Search">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607z"/>
+        </svg>
+      </button>
+<button class="nav__hamburger" id="navHamburger" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
+    </div>
+  </nav>
+  <div class="mobile-menu" id="mobileMenu">
+    <ul class="mobile-menu__links">
+      <li><a href="{{@site.url}}/tag/cinema" class="mobile-menu__link">Cinema</a></li>
+      <li><a href="{{@site.url}}/tag/anime" class="mobile-menu__link">Anime</a></li>
+      <li><a href="{{@site.url}}/tag/games" class="mobile-menu__link">Games</a></li>
+      <li><a href="{{@site.url}}/tag/culture" class="mobile-menu__link">Culture</a></li>
+      <li><a href="{{@site.url}}/tag/comic" class="mobile-menu__link">Comic</a></li>
+      <li><a href="{{@site.url}}/tag/legacy" class="mobile-menu__link">Legacy</a></li>
+    </ul>
+  </div>
+
+  {{{body}}}
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer__inner">
+      <div>
+        <div class="footer__brand-name">KYNARI</div>
+        <div class="footer__tagline">Crafted with obsession<br>for those who see deeper.</div>
+      </div>
+      <div>
+        <div class="footer__col-title">Realms</div>
+        <ul class="footer__links">
+          <li><a href="{{@site.url}}/tag/cinema"  class="footer__link">Cinema</a></li>
+          <li><a href="{{@site.url}}/tag/anime"   class="footer__link">Anime</a></li>
+          <li><a href="{{@site.url}}/tag/games"   class="footer__link">Games</a></li>
+          <li><a href="{{@site.url}}/tag/culture" class="footer__link">Culture</a></li>
+          <li><a href="{{@site.url}}/tag/comic"   class="footer__link">Comic</a></li>
+          <li><a href="{{@site.url}}/tag/legacy"  class="footer__link">Legacy</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer__col-title">Connect</div>
+        <ul class="footer__links">
+          <li><a href="mailto:hello@kynari.io" class="footer__link">hello@kynari.io</a></li>
+          <li><a href="https://www.instagram.com/kynariverse/" class="footer__link" target="_blank" rel="noopener">Instagram</a></li>
+          <li><a href="https://x.com/kynariverse" class="footer__link" target="_blank" rel="noopener">X / Twitter</a></li>
+          <li><a href="https://www.tiktok.com/@kynariverse" class="footer__link" target="_blank" rel="noopener">TikTok</a></li>
+          <li><a href="https://www.youtube.com/channel/UCCC_dIs9SFoMafMzoGFW1og" class="footer__link" target="_blank" rel="noopener">YouTube</a></li>
+          <li><a href="https://www.pinterest.com/kynariverse/" class="footer__link" target="_blank" rel="noopener">Pinterest</a></li>
+          <li><a href="https://www.threads.net/@kynariverse" class="footer__link" target="_blank" rel="noopener">Threads</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <span class="footer__copy">© {{date format="YYYY"}} Kynari. All rights reserved.</span>
+      <nav class="footer__legal" aria-label="Legal">
+        <a href="{{@site.url}}/about/" class="footer__copy">About</a>
+        <a href="{{@site.url}}/privacy/" class="footer__copy">Privacy</a>
+        <a href="{{@site.url}}/cookies/" class="footer__copy">Cookies</a>
+        <a href="{{@site.url}}/rss/" class="footer__copy">RSS</a>
+      </nav>
+    </div>
+  </footer>
+
+  {{ghost_foot}}
+  <script src="{{asset "js/kynari.js"}}"></script>
+</body>
+</html>

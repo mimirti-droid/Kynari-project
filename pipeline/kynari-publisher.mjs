@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * KYNARI PUBLISHER v13 — Imagen hero vertical (evita recortes malos en tarjetas)
+ * KYNARI PUBLISHER v15 — Higiene de etiquetas + formato real de imagen
  *
  * Historial de fixes:
  * - v1-v11: ver versiones anteriores.
@@ -18,6 +18,21 @@
  *     recortado a 3:4 solía cortar el sujeto principal fuera de encuadre
  *     (detectado en el caso Tilly Norwood, sept 2026). Los interiores se quedan
  *     en horizontal (backdrops/artworks/screenshots), donde no da problemas.
+ * - v14:
+ *   · Higiene de etiquetas: solo las de PUBLIC_TAG_ALLOWLIST se publican como
+ *     públicas; el resto se envía con '#' delante y Ghost la crea interna (sin
+ *     página de archivo ni entrada en el sitemap). Antes cada nombre propio
+ *     generaba una etiqueta pública nueva y saturaba el presupuesto de rastreo.
+ * - v15:
+ *   · Claves fuera del código: TMDB_API_KEY, IGDB_CLIENT_ID e IGDB_CLIENT_SECRET
+ *     se leen de variables de entorno, como ya hacían las otras tres. Antes
+ *     estaban en texto plano en este archivo, contra lo que dice AGENTS.md.
+ *     Si falta una, la fuente correspondiente se salta y se cae a fal.ai.
+ *   · Formato real de imagen al subir a Ghost: detectImageFormat() identifica
+ *     PNG/JPEG/WebP/GIF por magic bytes y la subida usa la extensión y el
+ *     Content-Type correctos. Antes todo se subía como .png con
+ *     'Content-Type: image/png', incluidos los JPEG de TMDB e IGDB. Ese
+ *     desajuste es el origen de la cadena de rechazos de formato de sept. 2026.
  */
 
 import crypto from 'node:crypto';
@@ -34,6 +49,7 @@ const GHOST_ADMIN_KEY = process.env.GHOST_ADMIN_KEY;
 const FAL_API_KEY = process.env.FAL_API_KEY;
 const ANTHROPIC_API_KEY = process.env.ANTHROPIC_API_KEY;
 
+// FIX v15: fuera del código. Ver .env.example.
 const TMDB_API_KEY = process.env.TMDB_API_KEY;
 const TMDB_BASE = 'https://api.themoviedb.org/3';
 const TMDB_IMG = 'https://image.tmdb.org/t/p/original';
@@ -43,11 +59,84 @@ const IGDB_CLIENT_SECRET = process.env.IGDB_CLIENT_SECRET;
 
 const CATEGORIES = ['Cinema', 'Anime', 'Games', 'Culture', 'Comic'];
 
+// ---------------------------------------------------------------------------
+// Higiene de etiquetas (v14)
+// Solo las etiquetas de esta lista blanca se publican como públicas. El resto
+// se crea como INTERNA (nombre con '#' delante): sigue asociada al artículo y
+// sirve para filtrar en el panel de Ghost, pero no genera página de archivo ni
+// entra en el sitemap. Misma lista que ALLOWLIST en tools/tag_janitor.py —
+// si cambia una, cambiar la otra.
+// Contexto: «Kynari - Higiene de Etiquetas e Indexacion».
+// ---------------------------------------------------------------------------
+const PUBLIC_TAG_ALLOWLIST = new Set([
+  // Categorías
+  'cinema', 'anime', 'games', 'comic', 'culture',
+  // Marcadores
+  'featured', 'legacy', 'latest', 'kynari-legacy-2',
+  // Resto
+  'marvel', 'marvel-comics', 'dc-comics', 'spider-man', 'mcu', 'streaming',
+  'crunchyroll', 'nintendo', 'imax', 'television', 'box-office', 'industry',
+  'gaming-industry', 'hollywood', 'pop-culture', 'animation', 'adaptation',
+  'horror', 'music', 'christopher-nolan', 'the-odyssey', 'summer-2026',
+  '2026'
+]);
+
+// Aproxima el slug que Ghost generaría para un nombre de etiqueta.
+function tagSlug(name) {
+  return name
+    .normalize('NFKD').replace(/[̀-ͯ]/g, '')
+    .toLowerCase()
+    .replace(/&/g, ' and ')
+    .replace(/['’]/g, '')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+}
+
+// Devuelve la lista de etiquetas lista para Ghost: las de la lista blanca tal
+// cual, el resto con '#' (internas). Quita vacías y duplicados.
+function applyTagHygiene(tags) {
+  const out = [];
+  const seen = new Set();
+  for (const raw of tags || []) {
+    const name = String(raw || '').trim().replace(/^#+\s*/, '');
+    if (!name) continue;
+    const slug = tagSlug(name);
+    if (!slug || seen.has(slug)) continue;
+    seen.add(slug);
+    out.push(PUBLIC_TAG_ALLOWLIST.has(slug) ? name : `#${name}`);
+  }
+  return out;
+}
+
 const IMAGE_SOURCE_CREDIT = {
   'TMDB': '© The Movie Database (TMDB)',
   'IGDB': '© IGDB / Twitch',
   'fal.ai': 'AI-generated image · Kynari'
 };
+
+// ---------------------------------------------------------------------------
+// FIX v15 — formato real de la imagen por magic bytes
+// TMDB e IGDB devuelven JPEG. Subirlos como .png con Content-Type image/png
+// deja en Ghost archivos cuya extensión miente, y de ahí vienen los rechazos
+// de formato aguas abajo. Ver «Kynari - Fix Metricool Extensiones de Archivo».
+// ---------------------------------------------------------------------------
+function detectImageFormat(buffer) {
+  const fallback = { ext: 'png', mime: 'image/png' };
+  if (!buffer || buffer.length < 12) return fallback;
+  if (buffer[0] === 0x89 && buffer[1] === 0x50 && buffer[2] === 0x4e && buffer[3] === 0x47) {
+    return { ext: 'png', mime: 'image/png' };
+  }
+  if (buffer[0] === 0xff && buffer[1] === 0xd8 && buffer[2] === 0xff) {
+    return { ext: 'jpg', mime: 'image/jpeg' };
+  }
+  if (buffer.toString('ascii', 0, 4) === 'RIFF' && buffer.toString('ascii', 8, 12) === 'WEBP') {
+    return { ext: 'webp', mime: 'image/webp' };
+  }
+  if (buffer[0] === 0x47 && buffer[1] === 0x49 && buffer[2] === 0x46) {
+    return { ext: 'gif', mime: 'image/gif' };
+  }
+  return fallback;
+}
 
 // ---------------------------------------------------------------------------
 // Ghost Admin JWT
@@ -97,6 +186,11 @@ function pickUnique(pool, n) {
 // FIX v12: filtra por año exacto si se proporciona para evitar homónimos
 // ---------------------------------------------------------------------------
 async function fetchIGDBImages(title, year) {
+  // FIX v15: sin credenciales, se cae a fal.ai en vez de romper.
+  if (!IGDB_CLIENT_ID || !IGDB_CLIENT_SECRET) {
+    console.log('   IGDB: missing IGDB_CLIENT_ID/IGDB_CLIENT_SECRET, using fal.ai');
+    return null;
+  }
   try {
     const token = await getIGDBToken();
 
@@ -169,6 +263,11 @@ async function fetchIGDBImages(title, year) {
 // FIX v12: filtra por media_type y año para evitar obras homónimas
 // ---------------------------------------------------------------------------
 async function fetchTMDBImages(title, year, mediaType) {
+  // FIX v15: sin credenciales, se cae a fal.ai en vez de romper.
+  if (!TMDB_API_KEY) {
+    console.log('   TMDB: missing TMDB_API_KEY, using fal.ai');
+    return null;
+  }
   try {
     // Construir URL con año si está disponible
     let searchUrl = `${TMDB_BASE}/search/multi?api_key=${TMDB_API_KEY}&query=${encodeURIComponent(title)}&language=en-US&page=1`;
@@ -393,11 +492,15 @@ async function generateImage(prompt, size = 'landscape_16_9') {
 
 // ---------------------------------------------------------------------------
 // Ghost — subida de imágenes
+// FIX v15: la extensión y el Content-Type salen del contenido real del buffer.
+// `baseName` va sin extensión ('hero', 'interior1'...).
 // ---------------------------------------------------------------------------
-async function uploadImageToGhost(buffer, filename) {
+async function uploadImageToGhost(buffer, baseName) {
+  const { ext, mime } = detectImageFormat(buffer);
+  const filename = `${baseName}.${ext}`;
   const boundary = '----kynariB' + crypto.randomBytes(8).toString('hex');
   const body = Buffer.concat([
-    Buffer.from(`--${boundary}\r\nContent-Disposition: form-data; name="file"; filename="${filename}"\r\nContent-Type: image/png\r\n\r\n`),
+    Buffer.from(`--${boundary}\r\nContent-Disposition: form-data; name="file"; filename="${filename}"\r\nContent-Type: ${mime}\r\n\r\n`),
     buffer,
     Buffer.from(`\r\n--${boundary}\r\nContent-Disposition: form-data; name="purpose"\r\n\r\nimage\r\n--${boundary}--\r\n`)
   ]);
@@ -572,7 +675,8 @@ async function publishOne({ topic, category, section, angle, youtube }) {
     if (isLegacy && CATEGORIES.some((c) => c.toLowerCase() === lower)) return false;
     return true;
   });
-  article.tags = [primaryTag, ...restTags];
+  // FIX v14: fuera de la lista blanca, las etiquetas nacen internas ('#')
+  article.tags = applyTagHygiene([primaryTag, ...restTags]);
   console.log(`   Tags: ${JSON.stringify(article.tags)}`);
 
   let heroBuf, interior1Buf, interior2Buf;
@@ -618,9 +722,10 @@ async function publishOne({ topic, category, section, angle, youtube }) {
   }
 
   console.log('   Uploading images to Ghost...');
-  const heroUrl = await uploadImageToGhost(heroBuf, 'hero.png');
-  const interior1Url = await uploadImageToGhost(interior1Buf, 'interior1.png');
-  const interior2Url = await uploadImageToGhost(interior2Buf, 'interior2.png');
+  // FIX v15: sin extensión — la pone detectImageFormat() según el contenido real.
+  const heroUrl = await uploadImageToGhost(heroBuf, 'hero');
+  const interior1Url = await uploadImageToGhost(interior1Buf, 'interior1');
+  const interior2Url = await uploadImageToGhost(interior2Buf, 'interior2');
 
   console.log('   Publishing to Ghost...');
   const post = await publishToGhost(article, [heroUrl, interior1Url, interior2Url], youtubeId, imageSource);
@@ -641,6 +746,13 @@ async function main() {
   if (!GHOST_ADMIN_KEY || !FAL_API_KEY || !ANTHROPIC_API_KEY) {
     console.error('Missing env vars: GHOST_ADMIN_KEY, FAL_API_KEY, ANTHROPIC_API_KEY');
     process.exit(1);
+  }
+  // FIX v15: TMDB/IGDB son opcionales — sin ellas se usa fal.ai, pero conviene avisar.
+  const optional = [];
+  if (!TMDB_API_KEY) optional.push('TMDB_API_KEY');
+  if (!IGDB_CLIENT_ID || !IGDB_CLIENT_SECRET) optional.push('IGDB_CLIENT_ID/IGDB_CLIENT_SECRET');
+  if (optional.length > 0) {
+    console.warn(`Warning: missing ${optional.join(', ')} — real images disabled for those sources, falling back to fal.ai.`);
   }
 
   if (mode === 'daily') {
@@ -721,7 +833,13 @@ async function main() {
   console.log('\nDone.');
 }
 
-main().catch((err) => {
-  console.error('Fatal error:', err);
-  process.exit(1);
-});
+// Exportado solo para las pruebas (tools/test_publisher_tags.mjs).
+export { applyTagHygiene, tagSlug, detectImageFormat, PUBLIC_TAG_ALLOWLIST };
+
+const isMain = process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url);
+if (isMain) {
+  main().catch((err) => {
+    console.error('Fatal error:', err);
+    process.exit(1);
+  });
+}
