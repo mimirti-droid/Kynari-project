@@ -314,3 +314,14 @@ html.reduce-motion .ticker__track { animation: none !important; }
 }
 .signal-item h3 { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
 .video-row h4, .aside__item h5 { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+
+/* 2.0.2: iconos oficiales en la barra de compartir (antes texto, que el traductor del navegador cambiaba) */
+.rail__btn { position: relative; }
+.rail__btn svg { display: block; }
+.rail__btn.is-copied { border-color: var(--gold); color: var(--gold); }
+.rail__btn.is-copied::after { content: "Copied"; position: absolute; left: calc(100% + 8px); top: 50%; transform: translateY(-50%); font-family: var(--font-ui); font-size: 10px; letter-spacing: .08em; text-transform: uppercase; color: var(--gold); white-space: nowrap; }
+/* 2.0.2: barra de compartir en lila de marca */
+.rail__btn { color: var(--lila); border-color: rgba(167,139,250,.28); transition: border-color var(--t-fast), color var(--t-fast), background-color var(--t-fast); }
+.rail__btn:hover, .rail__btn:focus-visible { color: #F0EDE8; border-color: var(--lila); background: rgba(167,139,250,.12); }
+.rail__btn.is-copied { color: #F0EDE8; border-color: var(--lila); background: rgba(167,139,250,.18); }
+.rail__btn.is-copied::after { color: var(--lila); }

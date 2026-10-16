@@ -146,7 +146,7 @@ if (hamburger && mobileMenu) {
 // ============ SHARE (v1.1) ============
 document.querySelectorAll('[data-share-copy]').forEach(btn => {
   btn.addEventListener('click', async () => {
-    try { await navigator.clipboard.writeText(btn.dataset.shareCopy); const o = btn.textContent; btn.textContent = 'Copied'; setTimeout(() => btn.textContent = o, 1800); } catch (e) {}
+    try { await navigator.clipboard.writeText(btn.dataset.shareCopy); btn.classList.add('is-copied'); setTimeout(() => btn.classList.remove('is-copied'), 1800); } catch (e) {}
   });
 });
 document.querySelectorAll('[data-share-native]').forEach(btn => {
