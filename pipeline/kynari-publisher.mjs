@@ -67,15 +67,16 @@ function tagSlug(name) {
 }
 
 function applyTagHygiene(tags) {
+  // Igual que v14/v15: se quita el '#' y decide la lista blanca. Las etiquetas de vídeo
+  // (#video, #trailer…) no están en la lista, así que siempre salen internas.
   const out = []; const seen = new Set();
   for (const raw of tags || []) {
-    const internal = /^#/.test(String(raw || '').trim());
     const name = String(raw || '').trim().replace(/^#+\s*/, '');
     if (!name) continue;
-    const slug = (internal ? 'hash-' : '') + tagSlug(name);
+    const slug = tagSlug(name);
     if (!slug || seen.has(slug)) continue;
     seen.add(slug);
-    out.push(!internal && PUBLIC_TAG_ALLOWLIST.has(slug) ? name : `#${name}`);
+    out.push(PUBLIC_TAG_ALLOWLIST.has(slug) ? name : `#${name}`);
   }
   return out;
 }
