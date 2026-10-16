@@ -67,41 +67,46 @@ jobs:
           if [ "${{ inputs.dry_run }}" = "true" ]; then echo "dry=--dry-run" >> "$GITHUB_OUTPUT"; fi
 
       - name: Comprobar secretos
+        id: sec
         run: |
+          # Mientras falten los secretos básicos, el flujo termina en verde sin hacer nada
+          # (así no llega un correo de fallo cada 2 horas antes de configurarlos).
+          ok=true
           for v in GHOST_ADMIN_KEY ANTHROPIC_API_KEY; do
-            if [ -z "${!v}" ]; then echo "::error::Falta el secreto $v"; exit 1; fi
+            if [ -z "${!v}" ]; then echo "::notice::Falta el secreto $v: no se ejecuta nada"; ok=false; fi
           done
           [ -z "$TMDB_API_KEY" ] && echo "::warning::Sin TMDB_API_KEY: no habrá tráileres de cine y series"
           [ -z "$IGDB_CLIENT_ID" ] && echo "::warning::Sin IGDB: no habrá tráileres de juegos"
-          true
+          echo "ok=$ok" >> "$GITHUB_OUTPUT"
+          if [ "$ok" = false ]; then echo "job=none" >> "$GITHUB_OUTPUT"; else echo "job=${{ steps.pick.outputs.job }}" >> "$GITHUB_OUTPUT"; fi
 
       - name: ffmpeg
-        if: steps.pick.outputs.job == 'hero-loop'
+        if: steps.sec.outputs.job == 'hero-loop'
         run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
 
       - name: Pruebas
         run: node tools/test_v2.mjs
 
       - name: Signal
-        if: steps.pick.outputs.job == 'signal'
+        if: steps.sec.outputs.job == 'signal'
         run: node tools/kynari-signal.mjs --hours 2.5 --max 2 ${{ steps.pick.outputs.dry }}
 
       - name: Bucle del hero
-        if: steps.pick.outputs.job == 'hero-loop'
+        if: steps.sec.outputs.job == 'hero-loop'
         run: node tools/kynari-hero-loop.mjs ${{ steps.pick.outputs.dry }}
 
       - name: Backfill de tráileres
-        if: steps.pick.outputs.job == 'backfill'
+        if: steps.sec.outputs.job == 'backfill'
         run: |
           node tools/kynari-video-backfill.mjs plan --out backfill-plan.json
           if [ -z "${{ steps.pick.outputs.dry }}" ]; then node tools/kynari-video-backfill.mjs apply --in backfill-plan.json --max 60; fi
 
       - name: Limpieza
-        if: steps.pick.outputs.job == 'sweeper'
+        if: steps.sec.outputs.job == 'sweeper'
         run: node tools/kynari-video-sweeper.mjs ${{ steps.pick.outputs.dry }}
 
       - name: Guardar plan y copia de seguridad
-        if: always() && steps.pick.outputs.job == 'backfill'
+        if: always() && steps.sec.outputs.job == 'backfill'
         uses: actions/upload-artifact@v4
         with:
           name: backfill-${{ github.run_id }}
