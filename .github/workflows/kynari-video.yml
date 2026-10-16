@@ -91,6 +91,12 @@ jobs:
         if: steps.sec.outputs.job == 'signal'
         run: node tools/kynari-signal.mjs --hours 2.5 --max 2 ${{ steps.pick.outputs.dry }}
 
+      - name: Precalentar imágenes de Signal
+        if: steps.sec.outputs.job == 'signal' && steps.pick.outputs.dry == ''
+        continue-on-error: true
+        timeout-minutes: 10
+        run: node tools/warm_images.mjs --hours 3 --max 4
+
       - name: Bucle del hero
         if: steps.sec.outputs.job == 'hero-loop'
         run: node tools/kynari-hero-loop.mjs ${{ steps.pick.outputs.dry }}
