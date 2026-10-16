@@ -464,3 +464,18 @@ html.reduce-motion .live-dot { animation: none; }
 
 /* Fechas y metadatos un poco más grandes en móvil */
 @media (max-width: 768px) { .fcard__meta, .label { font-size: 10px; } }
+
+/* 2.0.10 — Kynari Legacy con el mismo aspecto que Enter the Realms (decisión de Marc, 16 oct.):
+   título en degradado dorado → lila con brillo suave, mismo tamaño y espaciado, subtítulo igual,
+   y sin la imagen de fondo difuminada (Realms no la tiene). */
+.legacy--band .legacy__bg { display: none; }
+.legacy--band .legacy__content { margin-bottom: 64px; }
+.legacy--band .legacy__title {
+  font-size: clamp(28px, 5vw, 52px); letter-spacing: .2em; margin-bottom: 16px;
+  background: linear-gradient(135deg, var(--gold) 0%, var(--lila) 100%);
+  -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent;
+  text-shadow: 0 0 22px rgba(167, 139, 250, .22);
+}
+.legacy--band .legacy__sub { font-size: 16px; max-width: none; margin: 0 auto; }
+.legacy--band { padding: 100px 0; }
+@media (max-width: 900px) { .legacy--band { padding: 64px 0 56px; } .legacy--band .legacy__content { margin-bottom: 40px; } }
