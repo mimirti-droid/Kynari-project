@@ -1,8 +1,12 @@
 #!/usr/bin/env node
 /**
- * KYNARI PUBLISHER v17 — Lote diario y Legacy también desde GitHub Actions
+ * KYNARI PUBLISHER v18 — Títulos de 12 palabras como máximo, comprobados
  *
  * Historial de fixes:
+ * - v18 (16 oct. 2026): el límite de 12 palabras del título ya no es solo una petición
+ *   en el prompt (181 de ~365 títulos lo superaban; el de Captain Britain tenía 17).
+ *   Si el título generado se pasa, una segunda llamada corta lo reescribe (hasta 2
+ *   intentos). Si aun así no baja, se publica con el original y queda avisado en el log.
  * - v1-v13: ver versiones anteriores (longitudes, TMDB/IGDB por año, hero vertical).
  * - v14: higiene de etiquetas (lista blanca; el resto nacen internas con '#').
  * - v15: claves fuera del código; formato real de imagen al subir a Ghost.
@@ -92,6 +96,12 @@ function cleanTitle(t) {
   // Quita la cursiva/negrita en markdown (*Título*, **Título**) pero respeta un asterisco suelto
   // que forma parte de un nombre real, como el álbum «A*Pop» de Tyla (16 oct. 2026)
   return String(t || '').replace(/(\*\*|\*)(?=\S)([^*]+?)(?<=\S)\1/g, '$2').replace(/[_`#]+/g, '').replace(/\s+/g, ' ').trim();
+}
+
+// v18: límite real de palabras del título. Los guiones y signos sueltos («—», «:», «|») no cuentan.
+const MAX_TITLE_WORDS = 12;
+function titleWords(t) {
+  return String(t || '').split(/\s+/).filter((w) => /[\p{L}\p{N}]/u.test(w)).length;
 }
 
 // Alcance de cada categoría para el lote diario (16 oct. 2026). Culture es amplia a propósito:
@@ -190,7 +200,7 @@ const ARTICLE_TOOL = {
   input_schema: {
     type: 'object',
     properties: {
-      title: { type: 'string', description: 'Plain text, no markdown, ideally 12 words or fewer.' },
+      title: { type: 'string', description: 'Plain text, no markdown, 12 words or fewer (hard limit, it is checked).' },
       subtitle: { type: 'string' },
       body_html: { type: 'string', description: 'Full article body in clean HTML: only <p>, <h2>, <h3>, <blockquote>, <em>, <strong> and <a href="https://...">. Link 2-4 external sources inline where the facts are stated, and 2 Kynari articles from the list provided where relevant. Must reach the target word count.' },
       sources: { type: 'array', items: { type: 'object', properties: { title: { type: 'string' }, url: { type: 'string' } }, required: ['url'] }, description: '2-4 real URLs you actually found with web search that support the facts in the article.' },
@@ -234,6 +244,22 @@ When the research is done, call submit_article once with the complete article.`;
     console.warn(`   No submit_article on attempt ${attempt} (stop_reason: ${d.stop_reason})`);
   }
   throw new Error('Claude did not submit the article');
+}
+
+/** v18: reescribe un título demasiado largo. Devuelve el corto o, si no lo consigue, el original. */
+async function shortenTitle(title, { topic, category, excerpt } = {}) {
+  for (let attempt = 1; attempt <= 2; attempt++) {
+    try {
+      const d = await claude({
+        max_tokens: 200,
+        messages: [{ role: 'user', content: `This headline for Kynari (premium pop culture outlet, ${category || 'pop culture'}) has ${titleWords(title)} words. Rewrite it in ${MAX_TITLE_WORDS} words or fewer.\n\nHEADLINE: ${title}${topic ? `\nTOPIC: ${topic}` : ''}${excerpt ? `\nARTICLE SUMMARY: ${excerpt}` : ''}\n\nRules: keep the exact name of the work, person or event; keep the article's angle; analytical tone, no clickbait, no question marks, no markdown, no quotes around it. ${attempt > 1 ? 'Your previous answer was still too long: count the words. ' : ''}Reply with the headline only.` }]
+      });
+      const short = cleanTitle(textOf(d).split('\n').map((l) => l.trim()).filter(Boolean)[0] || '').replace(/^["“'‘]+|["”'’]+$/g, '');
+      if (short && titleWords(short) <= MAX_TITLE_WORDS) return short;
+      console.warn(`   Short title attempt ${attempt} still has ${titleWords(short)} words: "${short}"`);
+    } catch (e) { console.warn(`   Short title attempt ${attempt} failed: ${e.message}`); }
+  }
+  return title;
 }
 
 // ---------------------------------------------------------------------------
@@ -469,7 +495,13 @@ async function publishOne({ topic, category, section, angle, youtube, sources = 
   console.log(`\n-> Generating article: "${topic}" [${category} / ${section}]`);
   const article = await generateArticle({ topic, category, section, angle, sources });
   article.title = cleanTitle(article.title);
-  if (article.title.split(/\s+/).length > 14) console.warn(`   ⚠ Long title (${article.title.split(/\s+/).length} words)`);
+  let titleNote = null;
+  if (titleWords(article.title) > MAX_TITLE_WORDS) {
+    const long = article.title;
+    article.title = await shortenTitle(long, { topic, category, excerpt: article.excerpt });
+    if (article.title !== long) console.log(`   Title shortened (${titleWords(long)} → ${titleWords(article.title)} words): "${article.title}"`);
+    else { titleNote = `long title kept (${titleWords(long)} words)`; console.warn(`   ⚠ ${titleNote}`); }
+  }
 
   // Enlaces comprobados
   const links = await verifyLinks(article.body_html);
@@ -514,7 +546,7 @@ async function publishOne({ topic, category, section, angle, youtube, sources = 
     featured: featured || isLegacy || section === 'Featured'
   });
   console.log(`   OK -> ${post.url}`);
-  await appendLog({ title: article.title, topic, category, section, imageSource: media.source, video: trailer?.yt || null, links: links.kept.length, url: post.url, id: post.id, status: 'success' });
+  await appendLog({ title: article.title, topic, category, section, imageSource: media.source, video: trailer?.yt || null, links: links.kept.length, url: post.url, id: post.id, status: 'success', ...(titleNote ? { note: titleNote } : {}) });
   return { post, hasTrailer: !!trailer, realImage: media.source !== 'fal.ai' };
 }
 
@@ -609,7 +641,7 @@ async function main() {
 }
 
 // Exportado para las pruebas (tools/test_publisher.mjs).
-export { applyTagHygiene, tagSlug, detectImageFormat, cleanTitle, buildBody, verifyLinks, extractYoutubeId, PUBLIC_TAG_ALLOWLIST, GHOST_URL };
+export { applyTagHygiene, tagSlug, detectImageFormat, cleanTitle, titleWords, MAX_TITLE_WORDS, buildBody, verifyLinks, extractYoutubeId, PUBLIC_TAG_ALLOWLIST, GHOST_URL };
 
 const isMain = process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url);
 if (isMain) main().catch((err) => { console.error('Fatal error:', err); process.exit(1); });

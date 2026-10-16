@@ -1,4 +1,4 @@
-import { applyTagHygiene, tagSlug, detectImageFormat, PUBLIC_TAG_ALLOWLIST } from '../pipeline/kynari-publisher.mjs';
+import { applyTagHygiene, tagSlug, detectImageFormat, PUBLIC_TAG_ALLOWLIST, titleWords, MAX_TITLE_WORDS } from '../pipeline/kynari-publisher.mjs';
 
 let ok = 0, bad = 0;
 const check = (name, cond, extra = '') => {
@@ -56,6 +56,16 @@ check('WebP', detectImageFormat(webp).mime === 'image/webp');
 check('GIF',  detectImageFormat(gif).mime  === 'image/gif');
 check('buffer corto -> png por defecto', detectImageFormat(Buffer.alloc(3)).mime === 'image/png');
 check('null no revienta', detectImageFormat(null).mime === 'image/png');
+
+console.log('\n8) titleWords: límite de 12 palabras (v18)');
+check('límite = 12', MAX_TITLE_WORDS === 12, MAX_TITLE_WORDS);
+check('frase normal', titleWords('Space Quest Is Back as a Trademark. Roger Wilco Is Not') === 11, titleWords('Space Quest Is Back as a Trademark. Roger Wilco Is Not'));
+check('guion largo no cuenta', titleWords('Whalefall Opens Today — Grief and Gut Biology') === 7, titleWords('Whalefall Opens Today — Grief and Gut Biology'));
+check('la barra no cuenta, la Δ sí (es letra)', titleWords('Evangelion: Δ Cross Reflections | Kynari') === 5, titleWords('Evangelion: Δ Cross Reflections | Kynari'));
+check('cifras y acentos cuentan', titleWords('Kenichirō Katsura Dies at 59') === 5, titleWords('Kenichirō Katsura Dies at 59'));
+const capBritain = 'Captain Britain 50th Anniversary Special #1 — Marvel Marks Half a Century of Its Most Personal Hero';
+check('Captain Britain (16 oct.) se pasa', titleWords(capBritain) > MAX_TITLE_WORDS, titleWords(capBritain));
+check('vacío / undefined', titleWords('') === 0 && titleWords(undefined) === 0);
 
 console.log(`\n${ok} pasan, ${bad} fallan`);
 process.exit(bad ? 1 : 0);
