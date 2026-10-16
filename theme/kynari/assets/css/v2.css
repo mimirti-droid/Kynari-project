@@ -408,3 +408,6 @@ html.reduce-motion .ticker__track { animation: none !important; }
 h3.list-item__title { margin: 0; font-weight: 400; }
 /* Los pies de foto antiguos llevan opacity:.6 en línea: sobre negro no llegaban al contraste mínimo */
 .article-body figcaption, .article-feature-image__caption { opacity: 1 !important; color: #A9A9B8 !important; }
+
+/* 2.0.8: la imagen del destacado y la portada del artículo van dentro de <picture> (AVIF + JPEG) */
+.hero-v2__media picture, .article-feature-image picture { display: block; width: 100%; height: 100%; }
