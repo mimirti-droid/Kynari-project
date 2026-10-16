@@ -346,7 +346,12 @@ async function tmdbCard(work, upload) {
   // Dónde verla: España primero (la audiencia de Marc), si no EE. UU.
   const prov = d['watch/providers']?.results || {};
   const region = prov.ES?.flatrate?.length ? 'ES' : prov.US?.flatrate?.length ? 'US' : null;
-  const watch = region ? prov[region].flatrate.slice(0, 4).map((p) => p.provider_name) : [];
+  // Sin duplicados del mismo servicio («Netflix Standard with Ads», «Crunchyroll Amazon Channel»…)
+  const watch = [];
+  for (const p of region ? prov[region].flatrate : []) {
+    const name = String(p.provider_name || '').replace(/\s+(Amazon Channel|Apple TV Channel|Roku Premium Channel|Standard with Ads|with Ads|Basic with Ads|Premium Plus|Premium)$/i, '').trim();
+    if (name && !watch.some((w) => w.toLowerCase() === name.toLowerCase()) && watch.length < 4) watch.push(name);
+  }
   let poster = d.poster_path ? `https://image.tmdb.org/t/p/w342${d.poster_path}` : null;
   if (poster && upload) { try { poster = await uploadToGhost(await download(poster), `work-${type}-${id}`); } catch { /* se queda la URL de TMDB */ } }
   return {
