@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """Sube un Nara's take a Ghost y lo engancha a su artículo (v2, 16 oct. 2026).
 
-  python3 attach_take.py --post <id> --mp4 take.mp4 --poster poster.jpg --title "..." [--duration 0:37] [--yt SHORTS_ID]
+  python3 attach_take.py --post <id> --mp4 take.mp4|https://… --poster poster.jpg|https://… --title "..." [--duration 0:37] [--yt SHORTS_ID]
 
 Sube el mp4 (/media/upload/) y el póster (/images/upload/), escribe `nara` en el JSON
 kynari-media del post (codeinjection_head) y añade las etiquetas internas #nara y #video.
@@ -50,7 +50,10 @@ def main():
     if not a.duration:
         s = float(subprocess.run(["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", a.mp4], capture_output=True, text=True).stdout)
         a.duration = f"{int(s // 60)}:{round(s % 60):02d}"
-    mp4, poster = upload(a.mp4, "video"), upload(a.poster, "image")
+    # Si el vídeo ya está en Ghost (p. ej. un gancho o un Legacy programado en Metricool),
+    # se reutiliza su URL en vez de subirlo otra vez.
+    mp4 = a.mp4 if a.mp4.startswith("http") else upload(a.mp4, "video")
+    poster = a.poster if a.poster.startswith("http") else upload(a.poster, "image")
     p = requests.get(f"{API}/posts/{a.post}/?include=tags", headers=H(), timeout=60).json()["posts"][0]
     nara = {"mp4": mp4, "poster": poster, "duration": a.duration, "title": a.title}
     if a.yt: nara["yt"] = a.yt
