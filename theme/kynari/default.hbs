@@ -9,9 +9,9 @@
     try { if (localStorage.getItem('ky-reduce-motion') === '1') document.documentElement.classList.add('reduce-motion'); } catch (e) {}
   </script>
   {{!-- v2: fuentes autoalojadas (antes Google Fonts, ~850 ms de bloqueo de render) --}}
-  <link rel="preload" href="{{asset "fonts/Cinzel-latin.woff2"}}" as="font" type="font/woff2" crossorigin>
-  <link rel="preload" href="{{asset "fonts/CormorantGaramond-latin.woff2"}}" as="font" type="font/woff2" crossorigin>
-  <link rel="preload" href="{{asset "fonts/DMSans-latin.woff2"}}" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/assets/fonts/Cinzel-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/assets/fonts/CormorantGaramond-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/assets/fonts/DMSans-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="{{asset "css/fonts.css"}}">
   {{ghost_head}}
   <link rel="stylesheet" href="{{asset "css/kynari.css"}}">

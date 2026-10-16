@@ -312,3 +312,5 @@ html.reduce-motion .ticker__track { animation: none !important; }
   .ticker__track { animation: none; }
   .hero-v2__media img, .realm-hero__frame.on { animation: none; }
 }
+.signal-item h3 { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+.video-row h4, .aside__item h5 { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
