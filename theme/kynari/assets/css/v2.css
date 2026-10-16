@@ -381,3 +381,24 @@ html.reduce-motion .ticker__track { animation: none !important; }
   .fcard:not(.fcard--big) .fcard__title { font-size: 15px; margin-top: 4px; }
   .fcard:not(.fcard--big) .fcard__meta, .fcard:not(.fcard--big) .vbadges { display: none; }
 }
+
+/* 2.0.6: un solo fondo en toda la portada (antes se alternaban #050505, #080808 y #0d0d0f
+   y se veían cortes entre secciones). Las secciones se separan con una línea dorada fina. */
+.home-template .hero-v2 { background: var(--bg); }
+.home-template .realms,
+.home-template .screen { background: transparent; border-top: 0; border-bottom: 0; }
+.home-template .featured--grid,
+.home-template .realms,
+.home-template .nara-row,
+.home-template .latest,
+.home-template .signal-row,
+.home-template .screen { position: relative; }
+.home-template .realms::before,
+.home-template .nara-row::before,
+.home-template .latest::before,
+.home-template .signal-row::before {
+  content: ""; position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+  width: min(1136px, calc(100% - 64px)); height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(184,152,106,.28) 20%, rgba(184,152,106,.28) 80%, transparent);
+}
+/* La banda de Legacy ya funde su imagen con el negro arriba y abajo: sin línea. */
