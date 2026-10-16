@@ -597,3 +597,12 @@ html.reduce-motion .hero-v2__media img { animation: none; }
 /* Dentro del artículo, solo la categoría de la cabecera lleva el color del realm; el resto de
    etiquetas (newsletter, compartir, «Latest on Kynari») vuelven al dorado */
 .article-v2 .label:not(.article-header__cat) { color: var(--gold) !important; }
+
+/* 2.2.3 — Caja normal también en las tarjetas de categoría, archivo, relacionados y lateral del artículo */
+.article-card__title, .aside__item h5 {
+  font-family: var(--font-body); font-weight: 600; text-transform: none; font-variant: normal; letter-spacing: 0; line-height: 1.18;
+}
+.article-card__title { font-size: 21px; }
+.aside__item h5 { font-size: 16px; line-height: 1.2; }
+/* Estos títulos ya tenían su subrayado animado de la v1: sin el segundo subrayado de la 2.1 */
+.list-item__title, .latest__hero-title { text-decoration: none !important; }
