@@ -58,9 +58,9 @@
       <h2 class="legacy__title">KYNARI LEGACY</h2>
       <p class="legacy__sub">Dive deeper into cinema, anime and visual culture with exclusive insights &amp; in-depth analyses</p>
     </div>
-    {{#get "posts" limit="3" filter="tag:legacy" include="tags"}}
+    {{#get "posts" limit="5" filter="tag:legacy" include="tags"}}
     {{#if posts}}
-    <div class="legacy__grid">
+    <div class="legacy__grid" data-dedupe="3">
       {{#foreach posts}}
       <a href="{{url}}" class="legacy-card reveal" data-tags="{{#foreach tags visibility="all"}}{{slug}} {{/foreach}}">
         <div class="legacy-card__img">
@@ -131,7 +131,7 @@
       {{#foreach posts}}
       <a href="{{url}}#nara" class="nara-card" data-nara-post="{{id}}">
         {{#if feature_image}}<img src="{{img_url feature_image size="s" format="webp"}}" alt="" loading="lazy" decoding="async">{{/if}}
-        <div class="nara-card__top"><span class="vb vb--nara">Nara's take</span><span class="badge-dur" hidden></span></div>
+        <div class="nara-card__top"><span class="badge-dur" hidden></span></div>
         <span class="nara-card__play" aria-hidden="true"></span>
         <div class="nara-card__body">
           {{#primary_tag}}<span class="nara-card__name">{{name}}</span>{{/primary_tag}}
@@ -195,7 +195,7 @@
 <section class="signal-row">
   <div class="container">
     <div class="section-header section-header--between">
-      <h2 class="section-title">Signal</h2>
+      <h2 class="section-title">Signal<span class="live-dot" hidden aria-label="New in the last hours"></span></h2>
       <a class="section-sub" href="{{@site.url}}/tag/signal/">Trailers &amp; short takes, as they land →</a>
     </div>
     <div class="signal-strip">
@@ -218,9 +218,9 @@
 {{/get}}
 
 <!-- ON SCREEN: tráileres, PV y gameplay de los artículos -->
-{{#get "posts" filter="tag:hash-video+tag:-signal" limit="5" include="tags"}}
+{{#get "posts" filter="tag:hash-video+tag:-signal" limit="12" include="tags"}}
 {{#if posts}}
-<section class="screen">
+<section class="screen" data-screen-dedupe>
   <div class="container">
     <div class="section-header section-header--between">
       <h2 class="section-title">On Screen</h2>
@@ -238,7 +238,7 @@
         </div>
       </a>
       {{/foreach}}
-      <div class="video-list">
+      <div class="video-list" data-dedupe="4">
         {{#foreach posts from="2"}}
         <a href="{{url}}#watch" class="video-row" data-tags="{{#foreach tags visibility="all"}}{{slug}} {{/foreach}}">
           <div class="thumb">{{#if feature_image}}<img src="{{img_url feature_image size="s" format="webp"}}" alt="" loading="lazy" decoding="async">{{/if}}<span class="nara-card__play nara-card__play--sm" aria-hidden="true"></span></div>

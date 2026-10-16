@@ -411,3 +411,56 @@ h3.list-item__title { margin: 0; font-weight: 400; }
 
 /* 2.0.8: la imagen del destacado y la portada del artículo van dentro de <picture> (AVIF + JPEG) */
 .hero-v2__media picture, .article-feature-image picture { display: block; width: 100%; height: 100%; }
+
+/* ===================== 2.0.9 (16 oct. 2026) ===================== */
+
+/* El atributo hidden siempre gana (antes .pill{display:inline-flex} dejaba un recuadro vacío en el destacado) */
+[hidden] { display: none !important; }
+
+/* Títulos de tarjeta en caja normal con Cormorant (opción B elegida por Marc).
+   Cinzel se queda para la marca: logo, titulares de sección y título grande del destacado. */
+.fcard__title, .legacy-card__title, .nara-card__title, .latest__hero-title, .list-item__title,
+.signal-item__body h3, .video-tile__title, .video-row__title {
+  font-family: var(--font-body); font-weight: 600; text-transform: none; font-variant: normal; letter-spacing: 0; line-height: 1.16;
+}
+.fcard__title { font-size: 21px; }
+.fcard--big .fcard__title { font-size: 34px; line-height: 1.1; }
+.legacy-card__title { font-size: 23px; }
+.latest__hero-title { font-size: 34px; line-height: 1.1; }
+.list-item__title, .video-row__title { font-size: 20px; }
+.signal-item__body h3 { font-size: 17px; line-height: 1.2; }
+.video-tile__title { font-size: 32px; line-height: 1.1; }
+.nara-card__title { font-size: 17px; line-height: 1.18; -webkit-line-clamp: 3; }
+@media (max-width: 768px) {
+  .fcard--big .fcard__title, .latest__hero-title, .video-tile__title { font-size: 27px; }
+  .fcard__title, .legacy-card__title { font-size: 20px; }
+  .list-item__title, .video-row__title { font-size: 18px; }
+}
+
+/* Nara's Takes sin la etiqueta repetida: solo la duración, discreta */
+.nara-card__top { justify-content: flex-end; }
+.nara-card .badge-dur { background: rgba(8,8,8,.55); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); font-size: 10px; padding: 3px 6px; }
+/* Degradado más alto para que los subtítulos quemados del fotograma no se monten sobre el título */
+.nara-card::after { background: linear-gradient(to top, rgba(8,8,8,.97) 0%, rgba(8,8,8,.85) 30%, rgba(8,8,8,.2) 55%, transparent 72%); }
+
+/* Tira horizontal con flechas cuando hay más de 6 vídeos */
+.nara-strip--scroll { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; gap: 18px; }
+.nara-strip--scroll::-webkit-scrollbar { display: none; }
+.nara-strip--scroll .nara-card { flex: 0 0 calc((100% - 5 * 18px) / 6); scroll-snap-align: start; }
+.strip-nav { display: flex; gap: 8px; margin-left: 18px; }
+.strip-nav__btn { width: 32px; height: 32px; border-radius: 50%; border: 1px solid rgba(240,237,232,.22); background: transparent; color: var(--white); font-size: 18px; line-height: 1; cursor: pointer; transition: border-color var(--t-fast), color var(--t-fast); }
+.strip-nav__btn:hover { border-color: var(--gold); color: var(--gold); }
+#nara .section-header { align-items: center; }
+@media (max-width: 768px) { .strip-nav { display: none; } .nara-strip--scroll .nara-card { flex: 0 0 148px; } }
+
+/* Signal: punto en directo cuando hay entradas de las últimas 6 horas */
+.live-dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: #B39DDB; margin-left: 10px; vertical-align: middle; box-shadow: 0 0 0 0 rgba(179,157,219,.6); animation: livePulse 2s infinite; }
+@keyframes livePulse { 0% { box-shadow: 0 0 0 0 rgba(179,157,219,.55); } 70% { box-shadow: 0 0 0 9px rgba(179,157,219,0); } 100% { box-shadow: 0 0 0 0 rgba(179,157,219,0); } }
+html.reduce-motion .live-dot { animation: none; }
+@media (prefers-reduced-motion: reduce) { .live-dot { animation: none; } }
+
+/* Móvil: sin animación de aparición al hacer scroll (retrasaba la lectura) */
+@media (max-width: 768px) { .reveal { opacity: 1 !important; transform: none !important; transition: none !important; } }
+
+/* Fechas y metadatos un poco más grandes en móvil */
+@media (max-width: 768px) { .fcard__meta, .label { font-size: 10px; } }
