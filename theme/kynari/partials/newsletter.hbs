@@ -1,0 +1,16 @@
+{{!-- Captación de email con el formulario nativo de miembros de Ghost (Portal). --}}
+{{#unless @member}}
+<section class="newsletter{{#if inline}} newsletter--inline{{/if}}" id="newsletter">
+  <div class="container">
+    <span class="label">The Kynari Letter</span>
+    <h2 class="newsletter__title">SEE DEEPER, WEEKLY</h2>
+    <p class="newsletter__sub">One essay, five realms and Nara's picks — every Sunday. No noise.</p>
+    <form class="newsletter__form" data-members-form="signup">
+      <label class="sr-only" for="nl-email{{#if inline}}-in{{/if}}">Email</label>
+      <input id="nl-email{{#if inline}}-in{{/if}}" data-members-email type="email" required placeholder="your@email.com" autocomplete="email">
+      <button class="btn btn--gold" type="submit">Subscribe</button>
+    </form>
+    <p class="newsletter__note"><span class="nl-default">Free · Unsubscribe anytime</span><span class="nl-success">Check your inbox to confirm your subscription.</span><span class="nl-error">Something went wrong. Please try again.</span></p>
+  </div>
+</section>
+{{/unless}}

@@ -1,0 +1,64 @@
+{{!< default}}
+{{!-- Página /watch/: todo el vídeo de Kynari. Se activa sola con una página de slug «watch». --}}
+
+{{#post}}
+<section class="watch-hero">
+  <div class="container">
+    <span class="label">Watch</span>
+    <h1 class="watch-hero__title">{{title}}</h1>
+    {{#if custom_excerpt}}<p class="watch-hero__sub">{{custom_excerpt}}</p>{{/if}}
+  </div>
+</section>
+{{/post}}
+
+{{#get "posts" filter="tag:hash-nara" limit="12" include="tags"}}
+<section class="nara-row">
+  <div class="container">
+    <div class="section-header section-header--between">
+      <h2 class="section-title">Nara's Takes</h2>
+      <span class="section-sub">Sixty-second reads, tap to watch</span>
+    </div>
+    <div class="nara-strip nara-strip--wrap">
+      {{#foreach posts}}
+      <a href="{{url}}#nara" class="nara-card" data-nara-post="{{id}}">
+        {{#if feature_image}}<img src="{{img_url feature_image size="s" format="webp"}}" alt="" loading="lazy" decoding="async">{{/if}}
+        <div class="nara-card__top"><span class="vb vb--nara">Nara's take</span><span class="badge-dur" hidden></span></div>
+        <span class="nara-card__play" aria-hidden="true"></span>
+        <div class="nara-card__body">
+          {{#primary_tag}}<span class="nara-card__name">{{name}}</span>{{/primary_tag}}
+          <div class="nara-card__title">{{title}}</div>
+        </div>
+      </a>
+      {{/foreach}}
+    </div>
+  </div>
+</section>
+{{/get}}
+
+{{#get "posts" filter="tag:hash-video" limit="24" include="tags"}}
+<section class="screen screen--page">
+  <div class="container">
+    <div class="section-header section-header--between">
+      <h2 class="section-title">Trailers &amp; Gameplay</h2>
+      <span class="section-sub">Official videos behind our stories</span>
+    </div>
+    <div class="watch-grid">
+      {{#foreach posts}}
+      <a href="{{url}}#watch" class="video-tile" data-tags="{{#foreach tags visibility="all"}}{{slug}} {{/foreach}}">
+        {{#if feature_image}}<img src="{{img_url feature_image size="m" format="webp"}}" alt="" loading="lazy" decoding="async">{{/if}}
+        <div class="vbadges vbadges--tile" aria-hidden="true"><span class="vb vb--trailer">Trailer</span><span class="vb vb--gameplay">Gameplay</span><span class="vb vb--nara">Nara's take</span></div>
+        <span class="nara-card__play" aria-hidden="true"></span>
+        <div class="video-tile__body">
+          <div class="video-tile__title">{{title}}</div>
+          <div class="video-tile__meta">{{#primary_tag}}{{name}} · {{/primary_tag}}{{date format="DD MMM YYYY"}}</div>
+        </div>
+      </a>
+      {{/foreach}}
+    </div>
+  </div>
+</section>
+{{else}}
+<section class="screen screen--page"><div class="container"><p class="section-sub">Videos are on their way.</p></div></section>
+{{/get}}
+
+{{> newsletter}}

@@ -8,23 +8,7 @@
   <section style="padding: 40px 0 80px;">
     <div class="container">
       <div class="featured__grid">
-        {{#foreach posts}}
-        <a href="{{url}}" class="article-card">
-          <div class="article-card__image">
-            {{#if feature_image}}
-              <img src="{{img_url feature_image size="s" format="webp"}}" srcset="{{img_url feature_image size="xs" format="webp"}} 150w, {{img_url feature_image size="s" format="webp"}} 300w, {{img_url feature_image size="m" format="webp"}} 600w" sizes="(max-width: 600px) 90vw, 300px" alt="{{title}}" loading="lazy">
-            {{else}}
-              <div style="height:100%;background:var(--surface-3);"></div>
-            {{/if}}
-          </div>
-          <div class="article-card__overlay"></div>
-          <div class="article-card__body">
-            {{#primary_tag}}<span class="article-card__cat label">{{name}}</span>{{/primary_tag}}
-            <h2 class="article-card__title">{{title}}</h2>
-            <div class="article-card__meta">{{date format="DD MMM YYYY"}}</div>
-          </div>
-        </a>
-        {{/foreach}}
+        {{#foreach posts}}{{> card-article}}{{/foreach}}
       </div>
       {{pagination}}
     </div>
@@ -32,186 +16,197 @@
 </div>
 {{else}}
 
-<!-- HERO -->
-<section class="hero">
-  <div class="hero__logo-mark">
-    {{#if @site.logo}}
-      <img src="{{img_url @site.logo size="xs" format="webp"}}" alt="{{@site.title}}" width="60" height="60" style="width:60px;height:60px;object-fit:contain;">
-    {{else}}
-      K
-    {{/if}}
-  </div>
-  <h1 class="hero__title">KYNARI</h1>
-  <p class="hero__subtitle">Exploring cinema, anime &amp; visual culture</p>
-  <p class="hero__tagline">Stories. &nbsp; Aesthetics. &nbsp; Meaning.</p>
-  <div class="hero__ctas">
-    <a href="#featured" class="btn btn--gold">Explore</a>
-    <a href="{{@site.url}}/tag/legacy" class="btn btn--outline">Kynari Legacy</a>
+<!-- HERO EDITORIAL: el destacado más reciente (o el último artículo si no hay destacados) -->
+{{#get "posts" filter="tag:featured" limit="1" include="tags,authors"}}
+  {{#foreach posts}}{{> hero}}{{/foreach}}
+{{else}}
+  {{#get "posts" limit="1" include="tags,authors"}}{{#foreach posts}}{{> hero}}{{/foreach}}{{/get}}
+{{/get}}
+
+<!-- NARA'S TAKES: v2.js sustituye la imagen por el póster del vídeo de Nara y abre el reproductor -->
+{{#get "posts" filter="tag:hash-nara" limit="8" include="tags"}}
+<section class="nara-row" id="nara">
+  <div class="container">
+    <div class="section-header section-header--between">
+      <h2 class="section-title">Nara's Takes</h2>
+      <span class="section-sub">The week's stories in sixty seconds — tap to watch</span>
+    </div>
+    <div class="nara-strip">
+      {{#foreach posts}}
+      <a href="{{url}}#nara" class="nara-card" data-nara-post="{{id}}">
+        {{#if feature_image}}<img src="{{img_url feature_image size="s" format="webp"}}" alt="" loading="lazy" decoding="async">{{/if}}
+        <div class="nara-card__top"><span class="vb vb--nara">Nara's take</span><span class="badge-dur" hidden></span></div>
+        <span class="nara-card__play" aria-hidden="true"></span>
+        <div class="nara-card__body">
+          {{#primary_tag}}<span class="nara-card__name">{{name}}</span>{{/primary_tag}}
+          <div class="nara-card__title">{{title}}</div>
+        </div>
+      </a>
+      {{/foreach}}
+    </div>
   </div>
 </section>
+{{/get}}
+
+<!-- SIGNAL: tráileres y noticias cortas del día -->
+{{#get "posts" filter="tag:signal" limit="6" include="tags"}}
+<section class="signal-row">
+  <div class="container">
+    <div class="section-header section-header--between">
+      <h2 class="section-title">Signal</h2>
+      <a class="section-sub" href="{{@site.url}}/tag/signal/">Trailers &amp; short takes, as they land →</a>
+    </div>
+    <div class="signal-strip">
+      {{#foreach posts}}
+      <a href="{{url}}" class="signal-item">
+        <div class="signal-item__thumb">
+          {{#if feature_image}}<img src="{{img_url feature_image size="s" format="webp"}}" alt="" loading="lazy" decoding="async">{{/if}}
+          <span class="nara-card__play" aria-hidden="true"></span>
+        </div>
+        <div class="signal-item__body">
+          <span class="label">{{#primary_tag}}{{name}} · {{/primary_tag}}<time datetime="{{date format="YYYY-MM-DDTHH:mm"}}">{{date timeago="true"}}</time></span>
+          <h3>{{title}}</h3>
+        </div>
+      </a>
+      {{/foreach}}
+    </div>
+  </div>
+</section>
+{{/get}}
 
 <!-- FEATURED CAROUSEL -->
 <section class="featured" id="featured">
   <div class="container">
-    <div class="section-header">
+    <div class="section-header section-header--between">
       <h2 class="section-title">Featured</h2>
+      <span class="section-sub">Editor's picks</span>
     </div>
   </div>
-
   <div class="carousel-wrapper">
     <button class="carousel-btn carousel-btn--prev" aria-label="Previous">
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="20" height="20">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 19l-7-7 7-7"/>
-      </svg>
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="20" height="20"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 19l-7-7 7-7"/></svg>
     </button>
-
     <div class="carousel-track" id="carouselTrack">
-      {{#get "posts" limit="7" include="tags,authors"}}
-        {{#foreach posts}}
-        <a href="{{url}}" class="carousel-card">
-          <div class="carousel-card__image">
-            {{#if feature_image}}
-              <img src="{{img_url feature_image size="s" format="webp"}}" srcset="{{img_url feature_image size="xs" format="webp"}} 150w, {{img_url feature_image size="s" format="webp"}} 300w, {{img_url feature_image size="m" format="webp"}} 600w" sizes="300px" alt="{{title}}" loading="lazy">
-            {{else}}
-              <div style="height:100%;background:var(--surface-3);"></div>
-            {{/if}}
-          </div>
-          <div class="carousel-card__overlay"></div>
-          <div class="carousel-card__body">
-            {{#primary_tag}}
-              <span class="carousel-card__cat label">{{name}}</span>
-            {{/primary_tag}}
-            <h3 class="carousel-card__title">{{title}}</h3>
-            <div class="carousel-card__meta">{{date format="DD MMM YYYY"}}</div>
-          </div>
-        </a>
-        {{/foreach}}
+      {{#get "posts" filter="tag:featured" limit="9" include="tags"}}
+        {{#foreach posts from="2"}}{{> card-carousel}}{{/foreach}}
+      {{else}}
+        {{#get "posts" limit="8" include="tags"}}{{#foreach posts from="2"}}{{> card-carousel}}{{/foreach}}{{/get}}
       {{/get}}
     </div>
-
     <button class="carousel-btn carousel-btn--next" aria-label="Next">
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="20" height="20">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5l7 7-7 7"/>
-      </svg>
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="20" height="20"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5l7 7-7 7"/></svg>
     </button>
-
-    <!-- Fade edges -->
     <div class="carousel-fade carousel-fade--left"></div>
     <div class="carousel-fade carousel-fade--right"></div>
   </div>
 </section>
 
 <!-- ENTER THE REALMS -->
-<section class="realms">
+<section class="realms" id="realms">
   <div class="container">
     <div class="realms__header reveal">
       <h2 class="realms__title">ENTER THE REALMS</h2>
-      <p class="realms__sub">Choose your path. Every realm, a new perspective.<br>Aesthetics. Meaning.</p>
+      <p class="realms__sub">Choose your path. Every realm, a new perspective.</p>
     </div>
     <div class="realms__grid">
-
-      <a href="{{@site.url}}/tag/cinema" class="realm-card reveal">
-        <div class="realm-card__bg">
-          <img src="{{@site.url}}/content/images/size/w600/format/webp/2026/09/realmfinal_cinema.png" srcset="{{@site.url}}/content/images/size/w300/format/webp/2026/09/realmfinal_cinema.png 300w, {{@site.url}}/content/images/size/w600/format/webp/2026/09/realmfinal_cinema.png 600w" sizes="218px" alt="Cinema" loading="lazy">
-        </div>
+      <a href="{{@site.url}}/tag/cinema/" class="realm-card reveal">
+        <div class="realm-card__bg"><img src="{{@site.url}}/content/images/size/w300/format/webp/2026/09/realmfinal_cinema.png" srcset="{{@site.url}}/content/images/size/w300/format/webp/2026/09/realmfinal_cinema.png 300w, {{@site.url}}/content/images/size/w600/format/webp/2026/09/realmfinal_cinema.png 600w" sizes="(max-width: 600px) 45vw, 218px" alt="Cinema" loading="lazy" decoding="async"></div>
         <div class="realm-card__overlay"></div>
-        <div class="realm-card__body">
-          <div class="realm-card__name label">Cinema</div>
-          <div class="realm-card__desc">Films, directors, aesthetics and visual storytelling.</div>
-        </div>
+        <div class="realm-card__body"><div class="realm-card__name label">Cinema</div><div class="realm-card__desc">Films, directors, aesthetics and visual storytelling.</div></div>
       </a>
-
-      <a href="{{@site.url}}/tag/anime" class="realm-card reveal">
-        <div class="realm-card__bg">
-          <img src="{{@site.url}}/content/images/size/w600/format/webp/2026/09/realmfinal_anime.png" srcset="{{@site.url}}/content/images/size/w300/format/webp/2026/09/realmfinal_anime.png 300w, {{@site.url}}/content/images/size/w600/format/webp/2026/09/realmfinal_anime.png 600w" sizes="218px" alt="Anime" loading="lazy">
-        </div>
+      <a href="{{@site.url}}/tag/anime/" class="realm-card reveal">
+        <div class="realm-card__bg"><img src="{{@site.url}}/content/images/size/w300/format/webp/2026/09/realmfinal_anime.png" srcset="{{@site.url}}/content/images/size/w300/format/webp/2026/09/realmfinal_anime.png 300w, {{@site.url}}/content/images/size/w600/format/webp/2026/09/realmfinal_anime.png 600w" sizes="(max-width: 600px) 45vw, 218px" alt="Anime" loading="lazy" decoding="async"></div>
         <div class="realm-card__overlay"></div>
-        <div class="realm-card__body">
-          <div class="realm-card__name label">Anime</div>
-          <div class="realm-card__desc">Series, movies, art and the world of anime.</div>
-        </div>
+        <div class="realm-card__body"><div class="realm-card__name label">Anime</div><div class="realm-card__desc">Series, movies, art and the world of anime.</div></div>
       </a>
-
-      <a href="{{@site.url}}/tag/games" class="realm-card reveal">
-        <div class="realm-card__bg">
-          <img src="{{@site.url}}/content/images/size/w600/format/webp/2026/09/realmfinal_games.png" srcset="{{@site.url}}/content/images/size/w300/format/webp/2026/09/realmfinal_games.png 300w, {{@site.url}}/content/images/size/w600/format/webp/2026/09/realmfinal_games.png 600w" sizes="218px" alt="Games" loading="lazy">
-        </div>
+      <a href="{{@site.url}}/tag/games/" class="realm-card reveal">
+        <div class="realm-card__bg"><img src="{{@site.url}}/content/images/size/w300/format/webp/2026/09/realmfinal_games.png" srcset="{{@site.url}}/content/images/size/w300/format/webp/2026/09/realmfinal_games.png 300w, {{@site.url}}/content/images/size/w600/format/webp/2026/09/realmfinal_games.png 600w" sizes="(max-width: 600px) 45vw, 218px" alt="Games" loading="lazy" decoding="async"></div>
         <div class="realm-card__overlay"></div>
-        <div class="realm-card__body">
-          <div class="realm-card__name label">Games</div>
-          <div class="realm-card__desc">Game analysis, worlds and interactive storytelling.</div>
-        </div>
+        <div class="realm-card__body"><div class="realm-card__name label">Games</div><div class="realm-card__desc">Game analysis, worlds and interactive storytelling.</div></div>
       </a>
-
-      <a href="{{@site.url}}/tag/culture" class="realm-card reveal">
-        <div class="realm-card__bg">
-          <img src="{{@site.url}}/content/images/size/w600/format/webp/2026/09/realmfinal_culture.png" srcset="{{@site.url}}/content/images/size/w300/format/webp/2026/09/realmfinal_culture.png 300w, {{@site.url}}/content/images/size/w600/format/webp/2026/09/realmfinal_culture.png 600w" sizes="218px" alt="Culture" loading="lazy">
-        </div>
+      <a href="{{@site.url}}/tag/culture/" class="realm-card reveal">
+        <div class="realm-card__bg"><img src="{{@site.url}}/content/images/size/w300/format/webp/2026/09/realmfinal_culture.png" srcset="{{@site.url}}/content/images/size/w300/format/webp/2026/09/realmfinal_culture.png 300w, {{@site.url}}/content/images/size/w600/format/webp/2026/09/realmfinal_culture.png 600w" sizes="(max-width: 600px) 45vw, 218px" alt="Culture" loading="lazy" decoding="async"></div>
         <div class="realm-card__overlay"></div>
-        <div class="realm-card__body">
-          <div class="realm-card__name label">Culture</div>
-          <div class="realm-card__desc">Ideas, movements and cultural phenomena.</div>
-        </div>
+        <div class="realm-card__body"><div class="realm-card__name label">Culture</div><div class="realm-card__desc">Ideas, movements and cultural phenomena.</div></div>
       </a>
-
-      <a href="{{@site.url}}/tag/comic" class="realm-card reveal">
-        <div class="realm-card__bg">
-          <img src="{{@site.url}}/content/images/size/w600/format/webp/2026/09/realmfinal_comic.png" srcset="{{@site.url}}/content/images/size/w300/format/webp/2026/09/realmfinal_comic.png 300w, {{@site.url}}/content/images/size/w600/format/webp/2026/09/realmfinal_comic.png 600w" sizes="218px" alt="Comic" loading="lazy">
-        </div>
+      <a href="{{@site.url}}/tag/comic/" class="realm-card reveal">
+        <div class="realm-card__bg"><img src="{{@site.url}}/content/images/size/w300/format/webp/2026/09/realmfinal_comic.png" srcset="{{@site.url}}/content/images/size/w300/format/webp/2026/09/realmfinal_comic.png 300w, {{@site.url}}/content/images/size/w600/format/webp/2026/09/realmfinal_comic.png 600w" sizes="(max-width: 600px) 45vw, 218px" alt="Comic" loading="lazy" decoding="async"></div>
         <div class="realm-card__overlay"></div>
-        <div class="realm-card__body">
-          <div class="realm-card__name label">Comic</div>
-          <div class="realm-card__desc">Western comics, manga and graphic narrative.</div>
-        </div>
+        <div class="realm-card__body"><div class="realm-card__name label">Comic</div><div class="realm-card__desc">Western comics, manga and graphic narrative.</div></div>
       </a>
-
     </div>
   </div>
 </section>
 
+<!-- ON SCREEN: tráileres, PV y gameplay de los artículos -->
+{{#get "posts" filter="tag:hash-video+tag:-signal" limit="5" include="tags"}}
+<section class="screen">
+  <div class="container">
+    <div class="section-header section-header--between">
+      <h2 class="section-title">On Screen</h2>
+      <a class="section-sub" href="{{@site.url}}/watch/">Official trailers and gameplay behind our stories →</a>
+    </div>
+    <div class="screen__grid">
+      {{#foreach posts limit="1"}}
+      <a href="{{url}}#watch" class="video-tile video-tile--big" data-tags="{{#foreach tags visibility="all"}}{{slug}} {{/foreach}}">
+        {{#if feature_image}}<img src="{{img_url feature_image size="l" format="webp"}}" alt="" loading="lazy" decoding="async">{{/if}}
+        <div class="vbadges vbadges--tile" aria-hidden="true"><span class="vb vb--trailer">Official trailer</span><span class="vb vb--gameplay">Gameplay</span><span class="vb vb--nara">Nara's take</span></div>
+        <span class="nara-card__play" aria-hidden="true"></span>
+        <div class="video-tile__body">
+          <div class="video-tile__title">{{title}}</div>
+          <div class="video-tile__meta">{{#primary_tag}}{{name}} · {{/primary_tag}}{{date format="DD MMM"}}</div>
+        </div>
+      </a>
+      {{/foreach}}
+      <div class="video-list">
+        {{#foreach posts from="2"}}
+        <a href="{{url}}#watch" class="video-row" data-tags="{{#foreach tags visibility="all"}}{{slug}} {{/foreach}}">
+          <div class="thumb">{{#if feature_image}}<img src="{{img_url feature_image size="s" format="webp"}}" alt="" loading="lazy" decoding="async">{{/if}}<span class="nara-card__play nara-card__play--sm" aria-hidden="true"></span></div>
+          <div>
+            <span class="label">{{#primary_tag}}{{name}}{{/primary_tag}}<span class="vb-text vb-text--trailer"> · Trailer</span><span class="vb-text vb-text--gameplay"> · Gameplay</span></span>
+            <h4>{{title}}</h4>
+          </div>
+        </a>
+        {{/foreach}}
+      </div>
+    </div>
+  </div>
+</section>
+{{/get}}
+
 <!-- LATEST ARTICLES -->
 <section class="latest">
   <div class="container">
-    <div class="section-header">
+    <div class="section-header section-header--between">
       <h2 class="section-title">Latest Articles</h2>
+      <span class="section-sub">Five realms, every day</span>
     </div>
-    {{#get "posts" limit="7" include="tags,authors"}}
+    {{#get "posts" filter="tag:-featured+tag:-signal" limit="7" include="tags,authors"}}
       <div class="latest__grid">
         {{#foreach posts limit="1"}}
-        <a href="{{url}}" class="latest__hero-card reveal">
+        <a href="{{url}}" class="latest__hero-card reveal" data-tags="{{#foreach tags visibility="all"}}{{slug}} {{/foreach}}">
           <div class="latest__hero-image">
             {{#if feature_image}}
-              <img src="{{img_url feature_image size="s" format="webp"}}" srcset="{{img_url feature_image size="xs" format="webp"}} 150w, {{img_url feature_image size="s" format="webp"}} 300w, {{img_url feature_image size="m" format="webp"}} 600w" sizes="300px" alt="{{title}}" loading="lazy">
-            {{else}}
-              <div style="height:100%;background:var(--surface-3);"></div>
-            {{/if}}
+              <img src="{{img_url feature_image size="m" format="webp"}}" srcset="{{img_url feature_image size="s" format="webp"}} 300w, {{img_url feature_image size="m" format="webp"}} 600w" sizes="(max-width: 900px) 90vw, 560px" alt="{{title}}" loading="lazy" decoding="async">
+            {{else}}<div class="card-ph"></div>{{/if}}
+            <div class="vbadges" aria-hidden="true"><span class="vb vb--nara">Nara's take</span><span class="vb vb--trailer">▶ Trailer</span><span class="vb vb--gameplay">▶ Gameplay</span></div>
           </div>
-          {{#primary_tag}}
-            <span class="label latest__hero-cat">{{name}}</span>
-          {{/primary_tag}}
+          <span class="label latest__hero-cat">{{#primary_tag}}{{name}} · {{/primary_tag}}{{date format="DD MMM YYYY"}}</span>
           <h3 class="latest__hero-title">{{title}}</h3>
-          {{#if excerpt}}
-            <p class="latest__hero-excerpt">{{excerpt}}</p>
-          {{/if}}
+          {{#if excerpt}}<p class="latest__hero-excerpt">{{excerpt words="40"}}</p>{{/if}}
         </a>
         {{/foreach}}
-
         <ul class="latest__list reveal">
           {{#foreach posts from="2"}}
           <li>
-            <a href="{{url}}" class="list-item">
+            <a href="{{url}}" class="list-item" data-tags="{{#foreach tags visibility="all"}}{{slug}} {{/foreach}}">
               <div class="list-item__image">
-                {{#if feature_image}}
-                  <img src="{{img_url feature_image size="s" format="webp"}}" srcset="{{img_url feature_image size="xs" format="webp"}} 150w, {{img_url feature_image size="s" format="webp"}} 300w, {{img_url feature_image size="m" format="webp"}} 600w" sizes="300px" alt="{{title}}" loading="lazy">
-                {{else}}
-                  <div style="height:100%;background:var(--surface-3);"></div>
-                {{/if}}
+                {{#if feature_image}}<img src="{{img_url feature_image size="xs" format="webp"}}" srcset="{{img_url feature_image size="xs" format="webp"}} 150w, {{img_url feature_image size="s" format="webp"}} 300w" sizes="96px" alt="" loading="lazy" decoding="async">{{else}}<div class="card-ph"></div>{{/if}}
               </div>
               <div class="list-item__body">
-                {{#primary_tag}}
-                  <span class="label list-item__cat">{{name}}</span>
-                {{/primary_tag}}
+                <span class="label list-item__cat">{{#primary_tag}}{{name}} · {{/primary_tag}}{{date format="DD MMM"}}<span class="vb-text vb-text--video"> · ▶</span></span>
                 <h4 class="list-item__title">{{title}}</h4>
+                {{#if excerpt}}<p class="card-excerpt">{{excerpt words="18"}}</p>{{/if}}
               </div>
             </a>
           </li>
@@ -223,14 +218,14 @@
   </div>
 </section>
 
+{{> newsletter}}
+
 <!-- KYNARI LEGACY -->
 <section class="legacy">
   {{#get "posts" limit="1" filter="tag:legacy" include="tags"}}
     {{#foreach posts}}
     <div class="legacy__bg">
-      {{#if feature_image}}
-        <img src="{{img_url feature_image size="l" format="webp"}}" alt="" loading="lazy">
-      {{/if}}
+      {{#if feature_image}}<img src="{{img_url feature_image size="l" format="webp"}}" alt="" loading="lazy" decoding="async">{{/if}}
     </div>
     {{/foreach}}
   {{/get}}
@@ -238,7 +233,7 @@
     <div class="legacy__content reveal">
       <h2 class="legacy__title">KYNARI LEGACY</h2>
       <p class="legacy__sub">Dive deeper into cinema, anime and visual culture with exclusive insights &amp; in-depth analyses</p>
-      <a href="{{@site.url}}/tag/legacy" class="btn btn--outline">Enter Legacy</a>
+      <a href="{{@site.url}}/tag/legacy/" class="btn btn--outline">Enter Legacy</a>
     </div>
   </div>
 </section>

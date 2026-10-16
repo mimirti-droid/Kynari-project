@@ -1,0 +1,22 @@
+{{!-- Tarjeta vertical del carrusel. Los badges de vídeo salen de las etiquetas internas
+     (#trailer, #gameplay, #nara) vía data-tags + CSS, sin helpers condicionales. --}}
+<a href="{{url}}" class="carousel-card" data-tags="{{#foreach tags visibility="all"}}{{slug}} {{/foreach}}">
+  <div class="carousel-card__image">
+    {{#if feature_image}}
+      <img src="{{img_url feature_image size="s" format="webp"}}" srcset="{{img_url feature_image size="s" format="webp"}} 300w, {{img_url feature_image size="m" format="webp"}} 600w" sizes="300px" alt="{{#if feature_image_alt}}{{feature_image_alt}}{{else}}{{title}}{{/if}}" loading="lazy" decoding="async">
+    {{else}}
+      <div class="card-ph"></div>
+    {{/if}}
+  </div>
+  <div class="carousel-card__overlay"></div>
+  <div class="vbadges" aria-hidden="true">
+    <span class="vb vb--nara">Nara's take</span>
+    <span class="vb vb--trailer">▶ Trailer</span>
+    <span class="vb vb--gameplay">▶ Gameplay</span>
+  </div>
+  <div class="carousel-card__body">
+    {{#primary_tag}}<span class="carousel-card__cat label">{{name}}</span>{{/primary_tag}}
+    <h3 class="carousel-card__title">{{title}}</h3>
+    <div class="carousel-card__meta"><time datetime="{{date format="YYYY-MM-DD"}}">{{date format="DD MMM YYYY"}}</time> · {{reading_time minute="1 min" minutes="% min"}}</div>
+  </div>
+</a>
