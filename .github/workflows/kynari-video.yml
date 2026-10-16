@@ -22,7 +22,7 @@ on:
       job:
         description: "Qué ejecutar"
         type: choice
-        options: [signal, hero-loop, backfill, sweeper]
+        options: [signal, hero-loop, backfill, sweeper, reimage]
         default: signal
       dry_run:
         description: "Dry run (no escribe nada)"
@@ -39,7 +39,7 @@ concurrency:
 jobs:
   run:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 60
     env:
       GHOST_ADMIN_KEY: ${{ secrets.GHOST_ADMIN_KEY }}
       ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
@@ -110,6 +110,23 @@ jobs:
       - name: Limpieza
         if: steps.sec.outputs.job == 'sweeper'
         run: node tools/kynari-video-sweeper.mjs ${{ steps.pick.outputs.dry }}
+
+      - name: Imágenes reales en lugar de IA
+        if: steps.sec.outputs.job == 'reimage'
+        timeout-minutes: 55
+        run: |
+          node tools/kynari-reimage.mjs plan --out reimage-plan.json
+          if [ -z "${{ steps.pick.outputs.dry }}" ]; then node tools/kynari-reimage.mjs apply --in reimage-plan.json; fi
+
+      - name: Guardar plan de imágenes
+        if: always() && steps.sec.outputs.job == 'reimage'
+        uses: actions/upload-artifact@v4
+        with:
+          name: reimage-${{ github.run_id }}
+          path: |
+            reimage-plan.json
+            reimage-backup-*.json
+          retention-days: 90
 
       - name: Guardar plan y copia de seguridad
         if: always() && steps.sec.outputs.job == 'backfill'
