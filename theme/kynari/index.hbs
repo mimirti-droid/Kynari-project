@@ -176,7 +176,7 @@
               </div>
               <div class="list-item__body">
                 <span class="label list-item__cat">{{#primary_tag}}{{name}} · {{/primary_tag}}{{date format="DD MMM"}}<span class="vb-text vb-text--video"> · ▶</span></span>
-                <h4 class="list-item__title">{{title}}</h4>
+                <h3 class="list-item__title">{{title}}</h3>
                 {{#if excerpt}}<p class="card-excerpt">{{excerpt words="18"}}</p>{{/if}}
               </div>
             </a>
@@ -244,7 +244,7 @@
           <div class="thumb">{{#if feature_image}}<img src="{{img_url feature_image size="s" format="webp"}}" alt="" loading="lazy" decoding="async">{{/if}}<span class="nara-card__play nara-card__play--sm" aria-hidden="true"></span></div>
           <div>
             <span class="label">{{#primary_tag}}{{name}}{{/primary_tag}}<span class="vb-text vb-text--trailer"> · Trailer</span><span class="vb-text vb-text--gameplay"> · Gameplay</span></span>
-            <h4>{{title}}</h4>
+            <h3 class="video-row__title">{{title}}</h3>
           </div>
         </a>
         {{/foreach}}

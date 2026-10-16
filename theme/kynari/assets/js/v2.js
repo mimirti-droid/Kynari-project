@@ -76,7 +76,7 @@
   doc.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeModal(); });
 
   function naraCardHTML(n, title, cat) {
-    return '<div class="nara-card" role="button" tabindex="0" aria-label="Watch Nara\'s take: ' + esc(n.title || title) + '">' +
+    return '<div class="nara-card" role="button" tabindex="0">' +
       (n.poster ? '<img src="' + esc(n.poster) + '" alt="" loading="lazy" decoding="async">' : '') +
       '<div class="nara-card__top"><span class="vb vb--nara">Nara\'s take</span>' + (n.duration ? '<span class="badge-dur">' + esc(n.duration) + '</span>' : '') + '</div>' +
       '<span class="nara-card__play" aria-hidden="true"></span>' +
