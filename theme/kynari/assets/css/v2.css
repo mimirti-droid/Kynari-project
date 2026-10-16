@@ -559,3 +559,34 @@ html.reduce-motion .hero-v2__media img { animation: none; }
 .realm-card__work { font-family: var(--font-body); font-style: italic; font-size: 13px; color: rgba(240,237,232,.62); margin-top: 6px; min-height: 1.2em; }
 .realm-card__desc { display: none; }
 @media (max-width: 768px) { .realm-card__work { font-size: 12px; } }
+
+/* 2.2 — Ficha de la obra (lateral del artículo; en pantallas estrechas va dentro del texto) */
+.workcard { border: 1px solid rgba(184,152,106,.22); background: rgba(255,255,255,.02); border-radius: 3px; overflow: hidden; }
+.workcard:not([hidden]) { display: grid; grid-template-columns: 96px 1fr; }
+.workcard__poster { height: 100%; }
+.workcard__body { min-width: 0; }
+.workcard__poster { display: block; width: 100%; object-fit: cover; object-position: top; background: var(--surface-2); }
+.workcard__body { padding: 16px 16px 14px; }
+.workcard__kind { font-family: var(--font-ui); font-size: 10px; letter-spacing: .22em; text-transform: uppercase; color: var(--gold); }
+.workcard__title { font-family: var(--font-body); font-weight: 600; font-size: 20px; line-height: 1.15; color: var(--white); margin: 6px 0 12px; text-transform: none; letter-spacing: 0; }
+.workcard__title span { color: var(--grey-light); font-weight: 400; }
+.workcard dl { margin: 0; display: grid; gap: 8px; }
+.workcard__row { display: grid; grid-template-columns: 1fr; gap: 1px; }
+.workcard dt { font-family: var(--font-ui); font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: var(--grey); padding-top: 2px; }
+.workcard dd { margin: 0; font-family: var(--font-body); font-size: 15px; line-height: 1.35; color: var(--grey-light); }
+.workcard__src, .article-body .workcard__src { margin: 14px 0 0; font-family: var(--font-ui); font-size: 9px; line-height: 1.5; letter-spacing: .04em; color: var(--grey); }
+.workcard__src a { color: var(--grey-light); }
+.article-body .workcard dd, .article-body .workcard dt { margin-bottom: 0; }
+.article-body .workcard__title { margin: 6px 0 12px; }
+.workcard--inline:not([hidden]) { grid-template-columns: 120px 1fr; margin: 28px 0; }
+.workcard--inline .workcard__row { grid-template-columns: 82px 1fr; gap: 10px; }
+.workcard--inline .workcard__poster { height: 100%; aspect-ratio: auto; }
+@media (max-width: 480px) { .workcard--inline:not([hidden]) { grid-template-columns: 96px 1fr; } .workcard--inline .workcard__row { grid-template-columns: 70px 1fr; } }
+
+/* 2.2 — En foco: chips con los temas que más se repiten */
+.trend { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; padding-top: 28px; padding-bottom: 4px; }
+.trend__label { font-family: var(--font-ui); font-size: 10px; letter-spacing: .24em; text-transform: uppercase; color: var(--gold); }
+.trend__chips { display: flex; gap: 8px; flex-wrap: wrap; }
+.trend__chip { font-family: var(--font-ui); font-size: 11px; letter-spacing: .06em; padding: 7px 12px; border: 1px solid rgba(240,237,232,.16); border-radius: 999px; color: var(--grey-light); text-decoration: none; transition: border-color var(--t-fast), color var(--t-fast); }
+.trend__chip:hover { border-color: var(--gold); color: var(--gold); }
+@media (max-width: 768px) { .trend { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; padding-top: 20px; } .trend::-webkit-scrollbar { display: none; } .trend__chips { flex-wrap: nowrap; } .trend__chip { white-space: nowrap; } }

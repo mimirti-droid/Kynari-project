@@ -22,7 +22,7 @@ on:
       job:
         description: "Qué ejecutar"
         type: choice
-        options: [signal, hero-loop, backfill, sweeper, reimage]
+        options: [signal, hero-loop, backfill, sweeper, reimage, workcard]
         default: signal
       dry_run:
         description: "Dry run (no escribe nada)"
@@ -117,6 +117,23 @@ jobs:
         run: |
           node tools/kynari-reimage.mjs plan --out reimage-plan.json
           if [ -z "${{ steps.pick.outputs.dry }}" ]; then node tools/kynari-reimage.mjs apply --in reimage-plan.json; fi
+
+      - name: Fichas de obra
+        if: steps.sec.outputs.job == 'workcard'
+        timeout-minutes: 55
+        run: |
+          node tools/kynari-workcard.mjs plan --out workcard-plan.json
+          if [ -z "${{ steps.pick.outputs.dry }}" ]; then node tools/kynari-workcard.mjs apply --in workcard-plan.json; fi
+
+      - name: Guardar plan de fichas
+        if: always() && steps.sec.outputs.job == 'workcard'
+        uses: actions/upload-artifact@v4
+        with:
+          name: workcard-${{ github.run_id }}
+          path: |
+            workcard-plan.json
+            workcard-backup-*.json
+          retention-days: 90
 
       - name: Guardar plan de imágenes
         if: always() && steps.sec.outputs.job == 'reimage'

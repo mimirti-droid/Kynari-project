@@ -255,6 +255,7 @@ export async function commonsImage(query) {
   for (const p of pages) {
     const ii = p.imageinfo?.[0];
     if (!ii || !/jpeg|png|webp/.test(ii.mime || '') || (ii.width || 0) < 900) continue;
+    if (looksFlat(ii)) continue;
     const md = ii.extmetadata || {};
     const lic = (md.LicenseShortName?.value || '').trim();
     if (!/^(CC BY|CC0|Public domain|PD)/i.test(lic)) continue;   // solo licencias reutilizables
@@ -263,6 +264,18 @@ export async function commonsImage(query) {
     return { url: ii.thumburl || ii.url, page: ii.descriptionurl, credit: `${author} · ${lic} · Wikimedia Commons`, width: ii.thumbwidth || ii.width, height: ii.thumbheight || ii.height };
   }
   return null;
+}
+
+/**
+ * Descarta logotipos y gráficos como imagen de un artículo (tema 2.2): el logo de Batman sobre
+ * negro o el de Tyla con fondo transparente hacían un agujero en la portada. Sin decodificar la
+ * imagen: un PNG casi nunca es una foto, y una foto JPEG pesa bastante más por píxel que un
+ * dibujo plano (fondo negro, pocos colores). Umbral: 0,06 bytes por píxel en el original.
+ */
+export function looksFlat(ii) {
+  if (/png|gif|svg/.test(ii.mime || '')) return true;
+  const px = (ii.width || 0) * (ii.height || 0);
+  return px > 0 && ii.size > 0 && ii.size / px < 0.06;
 }
 
 /** Nombre del archivo de la imagen oficial (P18) de la entidad de Wikidata cuyo nombre coincide con la búsqueda. */
@@ -284,6 +297,97 @@ export async function wikidataImage(query) {
 // ---------------------------------------------------------------------------
 // YouTube — comprobar que un vídeo sigue disponible (oEmbed, sin cuota)
 // ---------------------------------------------------------------------------
+// ---------------------------------------------------------------------------
+// Ficha de la obra (tema 2.2): datos para la tarjeta lateral del artículo
+// ---------------------------------------------------------------------------
+/**
+ * Devuelve { kind, title, year, poster, people[], facts[], watch[], rating, link, source } o null.
+ * `work` es el del JSON kynari-media: { type: movie|tv|game, title, year, tmdb?, igdb? }.
+ * El póster se sube a Ghost para no depender de TMDB/IGDB al servir la página.
+ */
+export async function workCard(work, { upload = true } = {}) {
+  if (!work || !work.title) return null;
+  try {
+    if (work.type === 'game') return await igdbCard(work, upload);
+    if (work.type === 'movie' || work.type === 'tv') return await tmdbCard(work, upload);
+  } catch (e) { console.error(`   workCard: ${e.message}`); }
+  return null;
+}
+
+async function tmdbCard(work, upload) {
+  if (!tmdbKey()) return null;
+  let id = work.tmdb, type = work.type;
+  if (!id) { const it = await tmdbFind(work.title, work.year, type); if (!it) return null; id = it.id; type = it.media_type || type; }
+  const r = await fetch(`${TMDB}/${type}/${id}?api_key=${tmdbKey()}&language=en-US&append_to_response=credits,watch/providers`);
+  if (!r.ok) return null;
+  const d = await r.json();
+  const year = Number((d.release_date || d.first_air_date || '').slice(0, 4)) || work.year || null;
+  if (work.year && year && Math.abs(year - Number(work.year)) > 1) return null;   // otra obra con el mismo título
+  const crew = d.credits?.crew || [];
+  const names = (arr, n = 2) => (arr || []).slice(0, n).map((x) => x.name).filter(Boolean).join(', ');
+  const people = [];
+  if (type === 'movie') {
+    const dir = names(crew.filter((c) => c.job === 'Director'));
+    if (dir) people.push({ label: 'Director', value: dir });
+  } else {
+    const by = names(d.created_by); if (by) people.push({ label: 'Created by', value: by });
+  }
+  const isAnim = (d.genres || []).some((g) => g.id === 16);
+  const studio = names(d.production_companies, isAnim ? 2 : 1);
+  if (studio) people.push({ label: isAnim ? 'Studio' : 'Production', value: studio });
+  const cast = names(d.credits?.cast, 3); if (cast && !isAnim) people.push({ label: 'Starring', value: cast });
+  const facts = [];
+  if (type === 'movie' && d.release_date) facts.push({ label: 'Release', value: d.release_date });
+  if (type === 'tv' && d.first_air_date) facts.push({ label: 'First aired', value: d.first_air_date });
+  if (type === 'movie' && d.runtime) facts.push({ label: 'Runtime', value: `${Math.floor(d.runtime / 60)}h ${d.runtime % 60}m` });
+  if (type === 'tv' && d.number_of_seasons) facts.push({ label: 'Seasons', value: String(d.number_of_seasons) });
+  if (type === 'tv' && d.networks?.length) facts.push({ label: 'Network', value: names(d.networks, 2) });
+  if (d.genres?.length) facts.push({ label: 'Genre', value: d.genres.slice(0, 3).map((g) => g.name).join(', ') });
+  // Dónde verla: España primero (la audiencia de Marc), si no EE. UU.
+  const prov = d['watch/providers']?.results || {};
+  const region = prov.ES?.flatrate?.length ? 'ES' : prov.US?.flatrate?.length ? 'US' : null;
+  const watch = region ? prov[region].flatrate.slice(0, 4).map((p) => p.provider_name) : [];
+  let poster = d.poster_path ? `https://image.tmdb.org/t/p/w342${d.poster_path}` : null;
+  if (poster && upload) { try { poster = await uploadToGhost(await download(poster), `work-${type}-${id}`); } catch { /* se queda la URL de TMDB */ } }
+  return {
+    kind: type, title: d.title || d.name, year, poster, people, facts, watch, region,
+    rating: d.vote_count >= 50 && d.vote_average ? Math.round(d.vote_average * 10) / 10 : null,
+    link: `https://www.themoviedb.org/${type}/${id}`, source: 'TMDB'
+  };
+}
+
+async function igdbCard(work, upload) {
+  const token = await igdbToken(); if (!token) return null;
+  const where = work.igdb ? `where id = ${Number(work.igdb)};` : `search "${String(work.title).replace(/"/g, '')}";`;
+  const r = await fetch('https://api.igdb.com/v4/games', {
+    method: 'POST',
+    headers: { 'Client-ID': process.env.IGDB_CLIENT_ID, Authorization: `Bearer ${token}`, 'Content-Type': 'text/plain' },
+    body: `${where} fields name,first_release_date,platforms.abbreviation,platforms.name,genres.name,cover.image_id,total_rating,total_rating_count,url,involved_companies.developer,involved_companies.publisher,involved_companies.company.name; limit 5;`
+  });
+  if (!r.ok) return null;
+  const games = await r.json();
+  const norm = (s) => String(s || '').toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
+  const g = work.igdb ? games[0] : games.find((x) => norm(x.name) === norm(work.title));
+  if (!g) return null;
+  const year = g.first_release_date ? new Date(g.first_release_date * 1000).getFullYear() : work.year || null;
+  if (work.year && year && Math.abs(year - Number(work.year)) > 1) return null;
+  const comp = (flag) => (g.involved_companies || []).filter((c) => c[flag]).map((c) => c.company?.name).filter(Boolean).slice(0, 2).join(', ');
+  const people = [];
+  if (comp('developer')) people.push({ label: 'Developer', value: comp('developer') });
+  if (comp('publisher') && comp('publisher') !== comp('developer')) people.push({ label: 'Publisher', value: comp('publisher') });
+  const facts = [];
+  if (g.first_release_date) facts.push({ label: 'Release', value: new Date(g.first_release_date * 1000).toISOString().slice(0, 10) });
+  if (g.platforms?.length) facts.push({ label: 'Platforms', value: g.platforms.slice(0, 6).map((p) => p.abbreviation || p.name).join(', ') });
+  if (g.genres?.length) facts.push({ label: 'Genre', value: g.genres.slice(0, 3).map((x) => x.name).join(', ') });
+  let poster = g.cover?.image_id ? `https://images.igdb.com/igdb/image/upload/t_cover_big/${g.cover.image_id}.jpg` : null;
+  if (poster && upload) { try { poster = await uploadToGhost(await download(poster), `work-game-${g.id}`); } catch { /* URL de IGDB */ } }
+  return {
+    kind: 'game', title: g.name, year, poster, people, facts, watch: [], region: null,
+    rating: g.total_rating_count >= 5 && g.total_rating ? Math.round(g.total_rating) / 10 : null,
+    link: g.url || null, source: 'IGDB'
+  };
+}
+
 export async function youtubeAlive(id) {
   if (!/^[A-Za-z0-9_-]{11}$/.test(id || '')) return false;
   const r = await fetch(`https://www.youtube.com/oembed?format=json&url=${encodeURIComponent(`https://www.youtube.com/watch?v=${id}`)}`, { headers: { 'User-Agent': UA } });

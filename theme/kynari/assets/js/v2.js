@@ -160,6 +160,27 @@
     var media = parseMedia(($('#kynari-media') || {}).outerHTML || '');
     var ps = $$(':scope > p, :scope > .kg-card, :scope > h2', body);
 
+    // 2.2 — Ficha de la obra: en el lateral; si el lateral no se ve (pantallas estrechas), tras el 2.º párrafo
+    var wc = media && media.work && media.work.card, slot = $('[data-workcard]');
+    if (wc && slot) {
+      var row = function (r) { return '<div class="workcard__row"><dt>' + esc(r.label) + '</dt><dd>' + esc(r.value) + '</dd></div>'; };
+      var html = (wc.poster ? '<img class="workcard__poster" src="' + esc(wc.poster) + '" alt="' + esc(wc.title) + '" loading="lazy" decoding="async">' : '') +
+        '<div class="workcard__body"><span class="workcard__kind">' + esc({ movie: 'Film', tv: 'Series', game: 'Game' }[wc.kind] || '') + '</span>' +
+        '<h4 class="workcard__title">' + esc(wc.title) + (wc.year ? ' <span>(' + esc(wc.year) + ')</span>' : '') + '</h4>' +
+        '<dl>' + (wc.people || []).concat(wc.facts || []).map(row).join('') +
+        (wc.watch && wc.watch.length ? '<div class="workcard__row"><dt>Watch' + (wc.region ? ' (' + esc(wc.region) + ')' : '') + '</dt><dd>' + esc(wc.watch.join(', ')) + '</dd></div>' : '') +
+        (wc.rating ? '<div class="workcard__row"><dt>Rating</dt><dd>' + esc(wc.rating) + ' / 10</dd></div>' : '') + '</dl>' +
+        '<div class="workcard__src">' + (wc.link ? '<a href="' + esc(wc.link) + '" target="_blank" rel="noopener">Data: ' + esc(wc.source) + '</a>' : 'Data: ' + esc(wc.source)) +
+        (wc.source === 'TMDB' ? ' · not endorsed by TMDB' : '') + '</div></div>';
+      slot.innerHTML = html; slot.hidden = false;
+      var asideEl = slot.parentElement;
+      if (asideEl && getComputedStyle(asideEl).display === 'none') {
+        var paras = $$(':scope > p', body);
+        var at = paras[1] || paras[0];
+        if (at) { slot.classList.add('workcard--inline'); at.parentNode.insertBefore(slot, at.nextSibling); }
+      }
+    }
+
     // Fachadas de vídeo: el iframe solo se crea al pulsar
     $$('.ky-video[data-yt]', body).forEach(function (f) {
       var start = function () {
@@ -257,6 +278,25 @@
         if (empty) empty.hidden = visible > 0;
       });
     });
+  }
+
+  /* 2.2 — En foco: las obras (película, serie, anime, juego) de los últimos artículos, en orden de
+     publicación y sin repetir. Cada chip lleva al artículo más reciente sobre esa obra. */
+  var trend = $('[data-trend]');
+  if (trend && API && KEY) {
+    var turl = API + 'posts/?key=' + encodeURIComponent(KEY) + '&limit=30&order=published_at%20desc&fields=url,codeinjection_head&filter=' + encodeURIComponent('tag:-signal');
+    fetch(turl).then(function (r) { return r.ok ? r.json() : { posts: [] }; }).then(function (d) {
+      var seen = {}, chips = [];
+      (d.posts || []).forEach(function (p) {
+        var m = parseMedia(p.codeinjection_head), w = m && m.work && (m.work.card ? m.work.card.title : m.work.title);
+        if (!w || seen[w.toLowerCase()] || chips.length >= 7) return;
+        seen[w.toLowerCase()] = 1; chips.push({ t: w, u: p.url });
+      });
+      if (chips.length < 3) return;
+      var box = $('.trend__chips', trend);
+      chips.forEach(function (c) { var a = doc.createElement('a'); a.className = 'trend__chip'; a.href = c.u; a.textContent = c.t; box.appendChild(a); });
+      trend.hidden = false;
+    }).catch(function () {});
   }
 
   /* 2.2 — Enter the Realms: una obra emblemática por realm, distinta cada semana (cambia los lunes).

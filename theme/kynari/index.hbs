@@ -23,6 +23,13 @@
   {{#get "posts" limit="1" include="tags,authors"}}{{#foreach posts}}{{> hero}}{{/foreach}}{{/get}}
 {{/get}}
 
+<!-- EN FOCO (2.2): las obras de las que habla Kynari esta semana (película, serie, anime o juego),
+     sacadas del JSON kynari-media de los últimos artículos. Lo rellena v2.js. -->
+<div class="trend container" data-trend hidden>
+  <span class="trend__label">This week on Kynari</span>
+  <div class="trend__chips"></div>
+</div>
+
 <!-- FEATURED (2.0.4): rejilla de revista, 1 grande + 4 (el primero destacado ya es el hero) -->
 <section class="featured featured--grid" id="featured">
   <div class="container">
