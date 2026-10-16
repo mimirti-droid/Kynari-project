@@ -1,0 +1,87 @@
+name: Kynari articles
+
+# Lote diario (5 artículos, uno por categoría) y Kynari Legacy semanal, sin depender del PC
+# (16 oct. 2026). Antes se lanzaban a mano con kynari-daily.bat / kynari-legacy.bat porque
+# las tareas programadas de Claude tropezaban con el clasificador al usar la clave de Ghost;
+# es lo mismo que pasó con el vigilante de etiquetas, que funciona aquí desde el 7 oct.
+#
+# El publisher (v17) comprueba en Ghost si el lote del día / el Legacy de la semana ya salió
+# (etiquetas internas #auto-daily / #auto-legacy), así que lanzar también el .bat no duplica.
+#
+# Secretos: GHOST_ADMIN_KEY, ANTHROPIC_API_KEY (obligatorios); FAL_API_KEY, TMDB_API_KEY,
+# IGDB_CLIENT_ID, IGDB_CLIENT_SECRET (recomendados: sin ellos no hay imágenes reales).
+# Mientras falten los obligatorios, el flujo termina en verde sin hacer nada.
+
+on:
+  schedule:
+    - cron: "20 6 * * *"   # Lote diario: 08:20 Madrid (verano) / 07:20 (invierno), antes del pipeline social de las 09:52
+    - cron: "50 6 * * 1"   # Legacy: lunes, después del lote diario
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "Qué publicar"
+        type: choice
+        options: [daily, legacy]
+        default: daily
+
+permissions:
+  contents: read
+
+concurrency:
+  group: kynari-articles
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    env:
+      GHOST_ADMIN_KEY: ${{ secrets.GHOST_ADMIN_KEY }}
+      ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+      FAL_API_KEY: ${{ secrets.FAL_API_KEY }}
+      TMDB_API_KEY: ${{ secrets.TMDB_API_KEY }}
+      IGDB_CLIENT_ID: ${{ secrets.IGDB_CLIENT_ID }}
+      IGDB_CLIENT_SECRET: ${{ secrets.IGDB_CLIENT_SECRET }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Elegir modo y comprobar secretos
+        id: pick
+        run: |
+          case "${{ github.event.schedule }}" in
+            "50 6 * * 1") mode=legacy ;;
+            "20 6 * * *") mode=daily ;;
+            *)            mode="${{ inputs.mode }}" ;;
+          esac
+          ok=true
+          for v in GHOST_ADMIN_KEY ANTHROPIC_API_KEY; do
+            if [ -z "${!v}" ]; then echo "::notice::Falta el secreto $v: no se publica nada"; ok=false; fi
+          done
+          [ -z "$TMDB_API_KEY" ] && echo "::warning::Sin TMDB_API_KEY: cine y series irán con imágenes de IA"
+          [ -z "$IGDB_CLIENT_ID" ] && echo "::warning::Sin IGDB: juegos irán con Steam o imágenes de IA"
+          [ -z "$FAL_API_KEY" ] && echo "::warning::Sin FAL_API_KEY: si no hay imagen real, el artículo falla"
+          echo "mode=$mode" >> "$GITHUB_OUTPUT"
+          echo "ok=$ok" >> "$GITHUB_OUTPUT"
+
+      - name: Pruebas
+        run: node tools/test_v2.mjs
+
+      - name: Publicar
+        if: steps.pick.outputs.ok == 'true'
+        working-directory: pipeline
+        run: node kynari-publisher.mjs ${{ steps.pick.outputs.mode }}
+
+      - name: Guardar registro
+        if: always() && steps.pick.outputs.ok == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: kynari-${{ steps.pick.outputs.mode }}-${{ github.run_id }}
+          path: |
+            pipeline/kynari-log.json
+            pipeline/kynari-queue.json
+          if-no-files-found: ignore
+          retention-days: 30

@@ -1,0 +1,29 @@
+{
+  "_comment": "Canales oficiales que alimentan Signal. Misma lista que YT_CANALES del YouTube Radar (comprobada el 12 oct. 2026), con la categoría de Kynari de cada uno.",
+  "channels": {
+    "UC6pGDc4bFGD1_36IKv3FnYg": { "name": "Crunchyroll", "category": "Anime" },
+    "UC14Yc2Qv92DMuyNRlHvpo2Q": { "name": "TOHO animation", "category": "Anime" },
+    "UCDb0peSmF5rLX7BvuTcJfCw": { "name": "Aniplex USA", "category": "Anime" },
+    "UCV1da9peoqEwqr45bpTJsbQ": { "name": "VIZ Media", "category": "Anime" },
+    "UCWOA1ZGywLbqmigxE4Qlvuw": { "name": "Netflix", "category": "Cinema" },
+    "UCQJWtTnAHhEG5w4uN0udnUQ": { "name": "Prime Video", "category": "Cinema" },
+    "UCVTQuK2CaWaTgSsoNkn5AiQ": { "name": "HBO", "category": "Cinema" },
+    "UCuPivVjnfNo4mb3Oog_frZg": { "name": "A24", "category": "Cinema" },
+    "UCpy5dRhZd-JbZP4NsrnLt1w": { "name": "NEON", "category": "Cinema" },
+    "UCU4SM3j_9TNWaSu8KdGV50g": { "name": "Focus Features", "category": "Cinema" },
+    "UCz97F7dMxBNOfGYu3rx8aCw": { "name": "Sony Pictures", "category": "Cinema" },
+    "UCq0OueAsdxH6b8nyAspwViw": { "name": "Universal Pictures", "category": "Cinema" },
+    "UCF9imwPMSGz4Vq1NiTWCC7g": { "name": "Paramount Pictures", "category": "Cinema" },
+    "UC2-BeLxzUBSs0uSrmzWhJuQ": { "name": "20th Century Studios", "category": "Cinema" },
+    "UCJ6nMHaJPZvsJ-HmUmj1SeA": { "name": "Lionsgate Movies", "category": "Cinema" },
+    "UCZGYJFUizSax-yElQaFDp5Q": { "name": "Star Wars", "category": "Cinema" },
+    "UCvC4D8onUfXzvjTOM-dBfEA": { "name": "Marvel Entertainment", "category": "Cinema" },
+    "UC-2Y8dQb0S6DtpxNgAKoJKA": { "name": "PlayStation", "category": "Games" },
+    "UCjBp_7RuDBUYbd1LegWEJ8g": { "name": "Xbox", "category": "Games" },
+    "UCGIY_O-8vW4rfX98KlMkvRg": { "name": "Nintendo of America", "category": "Games" },
+    "UCqDS7KWjAPKv-7ZSlro9OiQ": { "name": "The Game Awards", "category": "Games" },
+    "UCW7h-1mymnJ96akzjrmiIgA": { "name": "Capcom USA", "category": "Games" },
+    "UCVkqs_Q88BDmyaWwjYJ8_Ig": { "name": "SEGA", "category": "Games" },
+    "UCA5SLTAVA6unn1M-6lbo1NA": { "name": "Square Enix", "category": "Games" }
+  }
+}

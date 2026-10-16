@@ -51,6 +51,8 @@ ALLOWLIST = {
     "cinema", "anime", "games", "comic", "culture",
     # Marcadores
     "featured", "legacy", "latest", "kynari-legacy-2",
+    # Formatos de la v2 (16 oct. 2026): Signal tiene página propia /tag/signal/
+    "signal",
     # Resto (tenían 8 artículos o más en la limpieza del 19 sept. 2026)
     "marvel", "marvel-comics", "dc-comics", "spider-man", "mcu", "streaming",
     "crunchyroll", "nintendo", "imax", "television", "box-office", "industry",

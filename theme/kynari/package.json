@@ -1,0 +1,41 @@
+{
+  "name": "kynari",
+  "description": "Kynari — Premium pop culture editorial theme (v2: video, Nara, motion)",
+  "version": "2.0.2",
+  "engines": {
+    "ghost": ">=5.0.0"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "Kynari",
+    "email": "hello@kynari.io",
+    "url": "https://kynari.io"
+  },
+  "screenshots": {
+    "desktop": "assets/images/screenshot-desktop.jpg"
+  },
+  "config": {
+    "posts_per_page": 12,
+    "image_sizes": {
+      "xs": {
+        "width": 150
+      },
+      "s": {
+        "width": 300
+      },
+      "m": {
+        "width": 600
+      },
+      "l": {
+        "width": 1000
+      },
+      "xl": {
+        "width": 2000
+      }
+    },
+    "card_assets": true
+  },
+  "keywords": [
+    "ghost-theme"
+  ]
+}

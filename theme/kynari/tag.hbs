@@ -1,0 +1,37 @@
+{{!< default}}
+
+{{#tag}}
+<section class="realm-hero" data-tag="{{slug}}">
+  {{#get "posts" filter="tag:{{slug}}" limit="4"}}
+  <div class="realm-hero__media" aria-hidden="true">
+    {{#foreach posts}}
+      {{#if feature_image}}<img class="realm-hero__frame" src="{{img_url feature_image size="l" format="webp"}}" alt="" {{#if @first}}fetchpriority="high"{{else}}loading="lazy"{{/if}} decoding="async">{{/if}}
+    {{/foreach}}
+  </div>
+  {{/get}}
+  <div class="realm-hero__shade" aria-hidden="true"></div>
+  <div class="container realm-hero__inner">
+    {{#if @site.logo}}
+      <img src="{{img_url @site.logo size="xs" format="webp"}}" alt="" class="tag-hero-logo" width="56" height="56">
+    {{/if}}
+    <span class="label">Realm · {{plural ../pagination.total empty="No articles" singular="% article" plural="% articles"}}</span>
+    <h1 class="realm-hero__title">{{name}}</h1>
+    {{#if description}}<p class="realm-hero__desc">{{description}}</p>{{/if}}
+  </div>
+</section>
+{{/tag}}
+
+<section class="realm-list">
+  <div class="container">
+    <div class="filter-tabs" role="tablist" aria-label="Filter by format">
+      <button type="button" role="tab" class="filter-tab on" data-filter="all" aria-selected="true">All</button>
+      <button type="button" role="tab" class="filter-tab" data-filter="articles" aria-selected="false">Articles</button>
+      <button type="button" role="tab" class="filter-tab" data-filter="videos" aria-selected="false">With video</button>
+    </div>
+    <div class="featured__grid" data-filter-grid>
+      {{#foreach posts}}{{> card-article}}{{/foreach}}
+    </div>
+    <p class="filter-empty" hidden>No videos on this page yet.</p>
+    {{pagination}}
+  </div>
+</section>
