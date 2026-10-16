@@ -479,3 +479,12 @@ html.reduce-motion .live-dot { animation: none; }
 .legacy--band .legacy__sub { font-size: 16px; max-width: none; margin: 0 auto; }
 .legacy--band { padding: 100px 0; }
 @media (max-width: 900px) { .legacy--band { padding: 64px 0 56px; } .legacy--band .legacy__content { margin-bottom: 40px; } }
+
+/* 2.0.10 — Títulos de sección de la portada más grandes y con el degradado de Realms (opción B, 26 px) */
+.section-title {
+  font-size: 26px; letter-spacing: .18em; line-height: 1.2;
+  background: linear-gradient(135deg, var(--gold) 0%, var(--lila) 100%);
+  -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent;
+  text-shadow: 0 0 18px rgba(167, 139, 250, .18);
+}
+@media (max-width: 768px) { .section-title { font-size: 20px; letter-spacing: .16em; } }
