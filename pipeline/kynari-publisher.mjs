@@ -1,11 +1,15 @@
 #!/usr/bin/env node
 /**
- * KYNARI PUBLISHER v16 — Enlaces, tráiler oficial, imágenes reales y vídeo para el tema v2
+ * KYNARI PUBLISHER v17 — Lote diario y Legacy también desde GitHub Actions
  *
  * Historial de fixes:
  * - v1-v13: ver versiones anteriores (longitudes, TMDB/IGDB por año, hero vertical).
  * - v14: higiene de etiquetas (lista blanca; el resto nacen internas con '#').
  * - v15: claves fuera del código; formato real de imagen al subir a Ghost.
+ * - v17 (16 oct. 2026): el lote diario y el Legacy pueden correr en GitHub Actions
+ *   (.github/workflows/kynari-articles.yml). Guarda doble: archivo local y Ghost
+ *   (etiquetas internas #auto-daily / #auto-legacy), para no publicar dos veces
+ *   si también se lanza el .bat.
  * - v16 (16 oct. 2026, estudio de mejoras web y vídeo):
  *   · Enlaces: el cuerpo admite <a href>. Cada artículo trae `sources` (2–4 URLs
  *     reales encontradas con la búsqueda web) y 2 enlaces internos elegidos de una
@@ -415,7 +419,18 @@ async function appendLog(entry) {
 const DAILY_MARK_PATH = path.join(__dirname, 'kynari-last-daily.json');
 const LEGACY_MARK_PATH = path.join(__dirname, 'kynari-last-legacy.json');
 const todayStr = () => new Date().toISOString().slice(0, 10);
-async function alreadyRanToday() { try { return JSON.parse(await fs.readFile(DAILY_MARK_PATH, 'utf-8')).date === todayStr(); } catch { return false; } }
+// v17: además del archivo local, se pregunta a Ghost. Así el .bat del PC y GitHub Actions
+// no publican dos lotes el mismo día aunque no compartan el archivo de marca.
+async function ghostBatchSince(tagSlug, sinceIso) {
+  try {
+    const d = await ghost('GET', `/posts/?limit=1&fields=id&filter=${encodeURIComponent(`tag:${tagSlug}+published_at:>='${sinceIso}'`)}`);
+    return (d.posts || []).length > 0;
+  } catch (e) { console.warn(`   Ghost guard failed (${e.message}); using local mark only.`); return false; }
+}
+async function alreadyRanToday() {
+  try { if (JSON.parse(await fs.readFile(DAILY_MARK_PATH, 'utf-8')).date === todayStr()) return true; } catch {}
+  return ghostBatchSince('hash-auto-daily', `${todayStr()}T00:00:00.000Z`);
+}
 async function markRanToday() { await fs.writeFile(DAILY_MARK_PATH, JSON.stringify({ date: todayStr() })); }
 function isoWeekStr(d = new Date()) {
   const date = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
@@ -423,13 +438,21 @@ function isoWeekStr(d = new Date()) {
   const yearStart = new Date(Date.UTC(date.getUTCFullYear(), 0, 1));
   return `${date.getUTCFullYear()}-W${String(Math.ceil((((date - yearStart) / 86400000) + 1) / 7)).padStart(2, '0')}`;
 }
-async function alreadyRanThisWeek() { try { return isoWeekStr(new Date(JSON.parse(await fs.readFile(LEGACY_MARK_PATH, 'utf-8')).date)) === isoWeekStr(); } catch { return false; } }
+function isoWeekStartIso(d = new Date()) {
+  const x = new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate()));
+  x.setUTCDate(x.getUTCDate() - ((x.getUTCDay() || 7) - 1));
+  return x.toISOString();
+}
+async function alreadyRanThisWeek() {
+  try { if (isoWeekStr(new Date(JSON.parse(await fs.readFile(LEGACY_MARK_PATH, 'utf-8')).date)) === isoWeekStr()) return true; } catch {}
+  return ghostBatchSince('hash-auto-legacy', isoWeekStartIso());
+}
 async function markRanThisWeek() { await fs.writeFile(LEGACY_MARK_PATH, JSON.stringify({ date: new Date().toISOString() })); }
 
 // ---------------------------------------------------------------------------
 // Pipeline completo
 // ---------------------------------------------------------------------------
-async function publishOne({ topic, category, section, angle, youtube, sources = [], featured = false }) {
+async function publishOne({ topic, category, section, angle, youtube, sources = [], featured = false, batch = null }) {
   console.log(`\n-> Generating article: "${topic}" [${category} / ${section}]`);
   const article = await generateArticle({ topic, category, section, angle, sources });
   article.title = cleanTitle(article.title);
@@ -457,7 +480,7 @@ async function publishOne({ topic, category, section, angle, youtube, sources = 
     return l !== primaryTag.toLowerCase() && l !== 'featured' && !(isLegacy && CATEGORIES.some((c) => c.toLowerCase() === l));
   });
   const videoTags = trailer ? ['#video', trailer.kind === 'gameplay' ? '#gameplay' : '#trailer'] : [];
-  const tags = applyTagHygiene([primaryTag, ...rest, ...videoTags]);
+  const tags = applyTagHygiene([primaryTag, ...rest, ...videoTags, ...(batch ? [`#auto-${batch}`] : [])]);
 
   console.log('   Uploading images to Ghost...');
   const heroUrl = await uploadToGhost(media.hero.buf, 'hero');
@@ -525,7 +548,7 @@ async function main() {
           t = { topic: item.topic, section: item.section, sources: [] };
         }
         todayTopics.push(`[${category}] ${t.topic}`);
-        results.push(await publishOne({ ...t, category }));
+        results.push(await publishOne({ ...t, category, batch: 'daily' }));
       } catch (err) {
         console.error(`   ERROR (${category}): ${err.message}`);
         await appendLog({ category, status: 'error', error: err.message });
@@ -545,7 +568,7 @@ async function main() {
       let t;
       try { t = await getTrendingLegacyTopic({ recentTitles }); console.log(`   Found: "${t.topic}" [${t.category}]`); }
       catch (e) { console.error(`   Fallback queue Legacy: ${e.message}`); const item = await nextTopic(queue, 'Legacy'); t = { topic: item.topic, category: item.originalCategory || 'Culture', sources: [] }; }
-      await publishOne({ ...t, section: 'Kynari Legacy' });
+      await publishOne({ ...t, section: 'Kynari Legacy', batch: 'legacy' });
       await markRanThisWeek();
     } catch (err) {
       console.error(`   ERROR Legacy: ${err.message}`);
