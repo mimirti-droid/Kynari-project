@@ -12,6 +12,7 @@
 {{/post}}
 
 {{#get "posts" filter="tag:hash-nara" limit="12" include="tags"}}
+{{#if posts}}
 <section class="nara-row">
   <div class="container">
     <div class="section-header section-header--between">
@@ -33,9 +34,11 @@
     </div>
   </div>
 </section>
+{{/if}}
 {{/get}}
 
 {{#get "posts" filter="tag:hash-video" limit="24" include="tags"}}
+{{#if posts}}
 <section class="screen screen--page">
   <div class="container">
     <div class="section-header section-header--between">
@@ -57,6 +60,9 @@
     </div>
   </div>
 </section>
+{{else}}
+<section class="screen screen--page"><div class="container"><p class="section-sub">Videos are on their way.</p></div></section>
+{{/if}}
 {{else}}
 <section class="screen screen--page"><div class="container"><p class="section-sub">Videos are on their way.</p></div></section>
 {{/get}}

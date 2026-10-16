@@ -25,6 +25,7 @@
 
 <!-- NARA'S TAKES: v2.js sustituye la imagen por el póster del vídeo de Nara y abre el reproductor -->
 {{#get "posts" filter="tag:hash-nara" limit="8" include="tags"}}
+{{#if posts}}
 <section class="nara-row" id="nara">
   <div class="container">
     <div class="section-header section-header--between">
@@ -46,10 +47,12 @@
     </div>
   </div>
 </section>
+{{/if}}
 {{/get}}
 
 <!-- SIGNAL: tráileres y noticias cortas del día -->
 {{#get "posts" filter="tag:signal" limit="6" include="tags"}}
+{{#if posts}}
 <section class="signal-row">
   <div class="container">
     <div class="section-header section-header--between">
@@ -72,6 +75,7 @@
     </div>
   </div>
 </section>
+{{/if}}
 {{/get}}
 
 <!-- FEATURED CAROUSEL -->
@@ -140,6 +144,7 @@
 
 <!-- ON SCREEN: tráileres, PV y gameplay de los artículos -->
 {{#get "posts" filter="tag:hash-video+tag:-signal" limit="5" include="tags"}}
+{{#if posts}}
 <section class="screen">
   <div class="container">
     <div class="section-header section-header--between">
@@ -172,6 +177,7 @@
     </div>
   </div>
 </section>
+{{/if}}
 {{/get}}
 
 <!-- LATEST ARTICLES -->
