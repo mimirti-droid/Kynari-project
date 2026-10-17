@@ -15,7 +15,10 @@ name: Kynari articles
 on:
   schedule:
     - cron: "20 6 * * *"   # Lote diario: 08:20 Madrid (verano) / 07:20 (invierno), antes del pipeline social de las 09:52
+    - cron: "47 7 * * *"   # Reserva 1 del lote diario (GitHub a veces se salta una ejecución programada)
+    - cron: "13 9 * * *"   # Reserva 2 del lote diario
     - cron: "50 6 * * 1"   # Legacy: lunes, después del lote diario
+    - cron: "37 10 * * 1"  # Reserva del Legacy
   workflow_dispatch:
     inputs:
       mode:
@@ -53,8 +56,8 @@ jobs:
         id: pick
         run: |
           case "${{ github.event.schedule }}" in
-            "50 6 * * 1") mode=legacy ;;
-            "20 6 * * *") mode=daily ;;
+            "50 6 * * 1"|"37 10 * * 1") mode=legacy ;;
+            "20 6 * * *"|"47 7 * * *"|"13 9 * * *") mode=daily ;;
             *)            mode="${{ inputs.mode }}" ;;
           esac
           ok=true
