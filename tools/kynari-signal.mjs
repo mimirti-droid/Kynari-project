@@ -71,7 +71,7 @@ async function relatedKynari(workTitle) {
   if (!workTitle) return [];
   const words = (workTitle.toLowerCase().match(/[a-z0-9]{4,}/g) || []).slice(0, 4);
   if (!words.length) return [];
-  const d = await ghost('GET', `/posts/?limit=200&fields=title,url&filter=status:published+tag:-signal&order=published_at%20desc`);
+  const d = await ghost('GET', `/posts/?limit=200&fields=title,url&filter=${encodeURIComponent('status:published+tag:-signal')}&order=published_at%20desc`);
   return d.posts.filter((p) => words.every((w) => p.title.toLowerCase().includes(w))).slice(0, 2);
 }
 
