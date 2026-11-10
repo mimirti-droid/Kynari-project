@@ -1,1309 +1,1092 @@
 [
  {
-  "id": "6ad1f7a36f5daa00014d4904",
-  "slug": "magneto-end-of-days-bendis-sorrentino-prestige-series-2027",
+  "id": "6af333a46f5daa00014d648c",
+  "slug": "wanted-broadway-opening-night-sisters-clarke-angelica-cheri-2026",
+  "hero": true,
+  "body": true,
+  "logged": "none"
+ },
+ {
+  "id": "6af332506f5daa00014d6434",
+  "slug": "afm-2026-47th-edition-new-global-screen-economy-summit-ai-independent-film",
+  "hero": true,
+  "body": true,
+  "logged": "none"
+ },
+ {
+  "id": "6af3341a6f5daa00014d64ae",
+  "slug": "amazing-spider-man-1003-joe-kelly-simone-di-meo-post-milestone-review",
+  "hero": true,
+  "body": true,
+  "logged": "none"
+ },
+ {
+  "id": "6af333366f5daa00014d646b",
+  "slug": "skydance-games-layoffs-warner-bros-merger-rocksteady-netherealm-avalanche",
   "hero": false,
   "body": true,
   "logged": "none"
  },
  {
-  "id": "6ad1f7376f5daa00014d48e4",
-  "slug": "fontaines-dc-dopamine-chamber-review-stadium-rock-electronic",
+  "id": "6af1f7586f5daa00014d6324",
+  "slug": "new-york-times-letterboxd-330-million-acquisition-film-taste-infrastructure",
+  "hero": true,
+  "body": true,
+  "logged": "none"
+ },
+ {
+  "id": "6af1f87d6f5daa00014d6378",
+  "slug": "martine-rose-balenciaga-creative-director-first-black-woman",
+  "hero": true,
+  "body": true,
+  "logged": "none"
+ },
+ {
+  "id": "6af1f8e86f5daa00014d638b",
+  "slug": "marvel-hulk-1-comics-giveaway-day-2027-condon-cappuccio-retail-strategy",
+  "hero": true,
+  "body": true,
+  "logged": "none"
+ },
+ {
+  "id": "6af07cd26f5daa00014d6296",
+  "slug": "lacma-15th-art-film-gala-vija-celmins-denis-villeneuve-rose-2026",
   "hero": false,
   "body": true,
   "logged": "none"
  },
  {
-  "id": "6ad1c5dd6f5daa00014d4726",
-  "slug": "captain-britain-50th-anniversary-special-1-marvel-half-century-marginal-major-character",
-  "hero": true,
+  "id": "6af07d3a6f5daa00014d62b5",
+  "slug": "predator-vs-punisher-1-frank-tieri-jesus-saiz-marvel-2026",
+  "hero": false,
   "body": true,
-  "logged": "fal.ai"
+  "logged": "none"
  },
  {
-  "id": "6ad1c5966f5daa00014d4709",
-  "slug": "georgia-oakley-sense-and-sensibility-daisy-edgar-jones-esme-creed-miles",
-  "hero": true,
+  "id": "6aef26d96f5daa00014d622b",
+  "slug": "naruto-live-action-film-sony-lionsgate-destin-daniel-cretton-greenlit-2027",
+  "hero": false,
   "body": true,
-  "logged": "fal.ai"
+  "logged": "none"
  },
  {
-  "id": "6ad1c54b6f5daa00014d46f3",
-  "slug": "tales-of-eternia-remastered-launch-analysis",
-  "hero": true,
+  "id": "6aef26616f5daa00014d6216",
+  "slug": "druski-snl-host-first-digital-creator-the-strokes-november-2026",
+  "hero": false,
   "body": true,
-  "logged": "fal.ai"
+  "logged": "none"
  },
  {
-  "id": "6ad1c4fe6f5daa00014d46d2",
-  "slug": "bang-dream-ave-mujica-theatrical-release-idol-anime-franchise",
+  "id": "6aede5066f5daa00014d6159",
+  "slug": "kering-piccioli-balenciaga-vaccarello-mcgirr-creative-directors-2026",
   "hero": true,
   "body": true,
-  "logged": "fal.ai"
+  "logged": "none"
  },
  {
-  "id": "6ad1c4ba6f5daa00014d46be",
-  "slug": "street-fighter-2026-kitao-sakurai-review-video-game-adaptation",
+  "id": "6aede57d6f5daa00014d6179",
+  "slug": "blush-club-manga-censorship-china-printer-crossed-hearts-india",
   "hero": true,
   "body": true,
-  "logged": "fal.ai"
+  "logged": "none"
  },
  {
-  "id": "6ad0b6346f5daa00014d46a4",
-  "slug": "clayface-1-dc-comic-pre-release-hype-machine",
+  "id": "6aede4316f5daa00014d611c",
+  "slug": "spirit-circle-anime-december-2026-tatsuo-sato-posthumous-final-work",
+  "hero": false,
+  "body": true,
+  "logged": "none"
+ },
+ {
+  "id": "6aec98d56f5daa00014d60a8",
+  "slug": "iron-maiden-z2-somewhere-in-time-graphic-album-march-2027",
+  "hero": false,
+  "body": true,
+  "logged": "none"
+ },
+ {
+  "id": "6aeb46176f5daa00014d5f99",
+  "slug": "juan-atkins-obituary-1962-2026-detroit-techno-belleville-three",
+  "hero": false,
+  "body": true,
+  "logged": "none"
+ },
+ {
+  "id": "6ae9f17a6f5daa00014d5ecc",
+  "slug": "witch-hat-atelier-grimoire-edition-volume-3-kodansha-release",
+  "hero": false,
+  "body": true,
+  "logged": "none"
+ },
+ {
+  "id": "6ae8b8096f5daa00014d5dd0",
+  "slug": "black-night-parade-manga-ends-december-18-announcement",
   "hero": true,
   "body": true,
-  "logged": "fal.ai"
+  "logged": "none"
  },
  {
-  "id": "6ad0b5eb6f5daa00014d4689",
-  "slug": "frieze-london-2026-lichtenstein-centenary-art-world-legacy",
+  "id": "6ae5e5406f5daa00014d5c13",
+  "slug": "void-rivals-36-rom-space-knight-energon-universe-arc-finale",
+  "hero": false,
+  "body": true,
+  "logged": "none"
+ },
+ {
+  "id": "6ae5e3f46f5daa00014d5bbf",
+  "slug": "anime-market-4-45-trillion-2025-overseas-revenue-57-percent-aja-tiffcom",
   "hero": true,
   "body": true,
-  "logged": "fal.ai"
+  "logged": "none"
  },
  {
-  "id": "6ad0b59f6f5daa00014d4673",
-  "slug": "enshrouded-1-0-launch-early-access-finished-survival-genre",
+  "id": "6ae5e3856f5daa00014d5b9e",
+  "slug": "la-city-council-free-micro-shoot-permits-keep-hollywood-home-production-crisis",
+  "hero": false,
+  "body": true,
+  "logged": "none"
+ },
+ {
+  "id": "6ae4996b6f5daa00014d5b31",
+  "slug": "batman-bad-seeds-sunrise-1-review-fraction-wilson-vandal-savage-finale",
+  "hero": false,
+  "body": true,
+  "logged": "none"
+ },
+ {
+  "id": "6ae498f26f5daa00014d5b16",
+  "slug": "dominic-fike-how-to-quit-smoking-living-album-comedy-tragedy-parody-tour",
+  "hero": false,
+  "body": true,
+  "logged": "none"
+ },
+ {
+  "id": "6ae3496f6f5daa00014d5a3f",
+  "slug": "yohji-yamamoto-outstanding-achievement-award-fashion-awards-2026",
+  "hero": false,
+  "body": true,
+  "logged": "none"
+ },
+ {
+  "id": "6ae1f6e86f5daa00014d5977",
+  "slug": "seven-seas-wonderful-wednesday-returns-manga-licenses-audiobook-october-2026",
+  "hero": false,
+  "body": true,
+  "logged": "none"
+ },
+ {
+  "id": "6ae1f6066f5daa00014d5947",
+  "slug": "nintendo-indie-world-showcase-october-2026-japan-longer-version-regional-asymmetry",
+  "hero": false,
+  "body": true,
+  "logged": "none"
+ },
+ {
+  "id": "6ae099ff6f5daa00014d58b6",
+  "slug": "jack-osbourne-ozzy-ai-avatar-backlash-mea-culpa-digital-resurrection-ethics",
+  "hero": false,
+  "body": true,
+  "logged": "none"
+ },
+ {
+  "id": "6ae09a766f5daa00014d58cc",
+  "slug": "jujutsu-kaisen-complete-box-set-viz-media-october-2026",
+  "hero": false,
+  "body": true,
+  "logged": "none"
+ },
+ {
+  "id": "6adf54c06f5daa00014d57d0",
+  "slug": "olivia-rodrigo-chappell-roan-expectations-remix-aria-chart",
+  "hero": false,
+  "body": true,
+  "logged": "none"
+ },
+ {
+  "id": "6adf551f6f5daa00014d57f0",
+  "slug": "absolute-wonder-woman-25-absolute-cheetah-barbara-minerva-debut",
+  "hero": false,
+  "body": true,
+  "logged": "none"
+ },
+ {
+  "id": "6added7e6f5daa00014d5601",
+  "slug": "charli-xcx-scorsese-what-happens-at-night-music-fashion-film-casting",
   "hero": true,
   "body": true,
-  "logged": "fal.ai"
+  "logged": "none"
  },
  {
-  "id": "6ad0b5526f5daa00014d465f",
-  "slug": "bleach-thousand-year-blood-war-delay-episodes-49-50-quality",
+  "id": "6addedf76f5daa00014d561d",
+  "slug": "marvel-midnight-universe-issue-5-february-2027-solicitations",
+  "hero": false,
+  "body": true,
+  "logged": "none"
+ },
+ {
+  "id": "6adc957d6f5daa00014d557c",
+  "slug": "absolute-batman-25-milestone-snyder-dragotta-dc-absolute-universe",
+  "hero": false,
+  "body": true,
+  "logged": "none"
+ },
+ {
+  "id": "6adc95186f5daa00014d5559",
+  "slug": "sick-new-world-texas-2026-sellout-nostalgia-economy",
   "hero": true,
   "body": true,
-  "logged": "fal.ai"
+  "logged": "none"
  },
  {
-  "id": "6ad0b50f6f5daa00014d4645",
-  "slug": "netflix-cuts-vp-film-doug-belgrad-prestige-cinema-retreat",
+  "id": "6adc94aa6f5daa00014d553b",
+  "slug": "helen-chiang-xbox-coo-exit-three-months",
   "hero": true,
   "body": true,
-  "logged": "fal.ai"
+  "logged": "none"
  },
  {
-  "id": "6acfa0f16f5daa00014d462f",
-  "slug": "the-nice-house-by-the-sea-12-ending-tynion",
+  "id": "6adb4bc16f5daa00014d543d",
+  "slug": "raye-mercury-prize-2026-this-music-may-contain-hope",
+  "hero": false,
+  "body": true,
+  "logged": "none"
+ },
+ {
+  "id": "6adb4c256f5daa00014d545c",
+  "slug": "2000-ad-50th-anniversary-event-rebellion-london-march-2027",
   "hero": true,
   "body": true,
-  "logged": "fal.ai"
+  "logged": "none"
  },
  {
-  "id": "6acfa0aa6f5daa00014d4614",
-  "slug": "caine-prize-2026-ai-detection-bias-authorship",
+  "id": "6adb4ae06f5daa00014d5404",
+  "slug": "made-in-abyss-mezameru-shinpi-theatrical-trilogy-japan-opening",
+  "hero": false,
+  "body": true,
+  "logged": "none"
+ },
+ {
+  "id": "6adb4a626f5daa00014d53e6",
+  "slug": "james-bond-26-screen-tests-lowden-turner-oconnor-villeneuve-2026",
+  "hero": false,
+  "body": true,
+  "logged": "none"
+ },
+ {
+  "id": "6adb4b4e6f5daa00014d5424",
+  "slug": "miyamoto-order-of-culture-media-arts-gaming-japan-2026",
+  "hero": false,
+  "body": true,
+  "logged": "none"
+ },
+ {
+  "id": "6ad9fe016f5daa00014d5393",
+  "slug": "dc-year-of-wonder-2027-simonson-williams-wonder-woman",
+  "hero": false,
+  "body": true,
+  "logged": "none"
+ },
+ {
+  "id": "6ad9fd3c6f5daa00014d5356",
+  "slug": "capcom-id-data-breach-11-million-accounts-2026",
+  "hero": false,
+  "body": true,
+  "logged": "none"
+ },
+ {
+  "id": "6ad8abd86f5daa00014d52d9",
+  "slug": "avengers-armageddon-5-zdarsky-miracleman-mephisto-one-more-day-review",
+  "hero": false,
+  "body": true,
+  "logged": "none"
+ },
+ {
+  "id": "6ad8ab826f5daa00014d52be",
+  "slug": "kim-kardashian-dresses-north-west-halloween-2026-identity",
+  "hero": false,
+  "body": true,
+  "logged": "none"
+ },
+ {
+  "id": "6ad757f86f5daa00014d51eb",
+  "slug": "x-men-age-of-krakoa-kieron-gillen-omnibus-review-analysis",
+  "hero": false,
+  "body": true,
+  "logged": "none"
+ },
+ {
+  "id": "6ad755ff6f5daa00014d516a",
+  "slug": "dan-lin-netflix-film-chief-fired-de-luca-abdy-replacement",
   "hero": true,
   "body": true,
-  "logged": "fal.ai"
+  "logged": "none"
  },
  {
-  "id": "6acfa0616f5daa00014d45f7",
-  "slug": "castlevania-belmorts-curse-evil-empire-konami",
+  "id": "6ad61d3b6f5daa00014d5095",
+  "slug": "loznitsa-imperium-best-film-bfi-london-film-festival-70th-edition",
+  "hero": false,
+  "body": true,
+  "logged": "none"
+ },
+ {
+  "id": "6ad61ee76f5daa00014d5111",
+  "slug": "peter-kuper-monarchs-journey-amnh-permanent-installation",
   "hero": true,
   "body": true,
-  "logged": "fal.ai"
+  "logged": "none"
  },
  {
-  "id": "6acfa0126f5daa00014d45e3",
-  "slug": "apothecary-diaries-season-3-theatrical-film-two-races",
+  "id": "6ad61e856f5daa00014d50f3",
+  "slug": "miley-cyrus-hollywood-bowl-comeback-bass-persuades-return",
+  "hero": false,
+  "body": true,
+  "logged": "none"
+ },
+ {
+  "id": "6ad4ad9a6f5daa00014d4f14",
+  "slug": "victorias-secret-fashion-show-2026-los-angeles-youtube-amc",
   "hero": true,
   "body": true,
-  "logged": "fal.ai"
+  "logged": "none"
  },
  {
-  "id": "6acf9fc36f5daa00014d45cf",
-  "slug": "narnia-magicians-nephew-netflix-trailer-stairway-to-heaven",
+  "id": "6ad4acc56f5daa00014d4ee3",
+  "slug": "aniplex-new-tv-anime-announcement-october-2026-tease-trending",
   "hero": true,
   "body": true,
-  "logged": "fal.ai"
+  "logged": "none"
  },
  {
-  "id": "6acc99926f5daa00014d45b0",
-  "slug": "spirited-away-25-anniversary-gkids-rerelease-anime-canonization",
+  "id": "6ad34c856f5daa00014d4e3d",
+  "slug": "uma-musume-umayuru-full-gate-guinness-world-record-analysis",
   "hero": true,
   "body": true,
-  "logged": "fal.ai"
+  "logged": "none"
  },
  {
-  "id": "6acc87d16f5daa00014d452c",
-  "slug": "heckler-ambush-bug-gorilla-grodd-nycc-2026-back-issue-speculation",
-  "hero": true,
+  "id": "6ad26a2e6f5daa00014d4e09",
+  "slug": "hopetown-longdue-pre-alpha-certificate-of-human-creation-no-generative-ai",
+  "hero": false,
   "body": true,
-  "logged": "fal.ai"
+  "logged": "none"
  },
  {
-  "id": "6acc87806f5daa00014d4509",
-  "slug": "taylor-swift-snl-dakota-johnson-monologue-cultural-saturation",
-  "hero": true,
-  "body": true,
-  "logged": "fal.ai"
- },
- {
-  "id": "6acc87366f5daa00014d44ed",
-  "slug": "planet-zoo-2-console-launch-core-casual-gaming-2026",
-  "hero": true,
-  "body": true,
-  "logged": "fal.ai"
- },
- {
-  "id": "6acc86d86f5daa00014d44d0",
-  "slug": "dragon-ball-super-beerus-streaming-war-crunchyroll-netflix",
-  "hero": true,
-  "body": true,
-  "logged": "fal.ai"
- },
- {
-  "id": "6acc86816f5daa00014d44b3",
-  "slug": "fjord-palme-dor-specialty-box-office-us-opening-october-2026",
-  "hero": true,
-  "body": true,
-  "logged": "fal.ai"
- },
- {
-  "id": "6ac3feb06f5daa00014d41ff",
-  "slug": "marvel-unlimited-ends-webtoon-marvel-comics-app-digital-comics-access",
-  "hero": true,
-  "body": true,
-  "logged": "fal.ai"
- },
- {
-  "id": "6abd0a346f5daa00014d4094",
-  "slug": "amazing-spider-man-1000-landmark-issue-comics-industry",
-  "hero": true,
-  "body": true,
-  "logged": "fal.ai"
- },
- {
-  "id": "6abd09a16f5daa00014d406a",
-  "slug": "end-of-steam-sales-personalized-discounts-2027",
-  "hero": true,
-  "body": true,
-  "logged": "fal.ai"
- },
- {
-  "id": "6aba0a196f5daa00014d402a",
-  "slug": "alien-vs-x-men-1-marvel-fox-ip-crossover-analysis",
-  "hero": true,
-  "body": true,
-  "logged": "fal.ai"
- },
- {
-  "id": "6aba09d06f5daa00014d4019",
-  "slug": "2026-new-2016-ten-year-internet-memory-cycle",
-  "hero": true,
-  "body": true,
-  "logged": "fal.ai"
- },
- {
-  "id": "6ab4ddc86f5daa00014d3b54",
-  "slug": "coulson-to-daredevil-13-years-marvel-television",
-  "hero": true,
-  "body": true,
-  "logged": "fal.ai"
- },
- {
-  "id": "6ab4dcd06f5daa00014d3b1d",
-  "slug": "nevermind-nirvana-35-anniversary",
-  "hero": true,
-  "body": true,
-  "logged": "fal.ai"
- },
- {
-  "id": "6ab4da8c6f5daa00014d3abb",
-  "slug": "elon-musk-paramount-warner-bros-discovery-merger-hollywood",
-  "hero": true,
-  "body": true,
-  "logged": "fal.ai"
- },
- {
-  "id": "6ab23bf66f5daa00014d3aa9",
-  "slug": "absolute-batman-24-dc-absolute-week-imprint-analysis",
-  "hero": true,
-  "body": true,
-  "logged": "fal.ai"
- },
- {
-  "id": "6ab23baf6f5daa00014d3a97",
-  "slug": "mitski-nothings-about-to-happen-to-me-tour-end",
-  "hero": true,
-  "body": true,
-  "logged": "fal.ai"
- },
- {
-  "id": "6ab12cfc6f5daa00014d3a40",
-  "slug": "lucas-museum-narrative-art-opening-night-gala-public-debut-2026",
+  "id": "6ac6160c6f5daa00014d42c2",
+  "slug": "final-fantasy-resonance-hd-2d-brave-exvius-premium-resurrection",
   "hero": true,
   "body": false,
   "logged": "none"
  },
  {
-  "id": "6ab0dc026f5daa00014d3a2a",
-  "slug": "42nd-anniversary-american-cd-1984-vinyl-legacy",
-  "hero": true,
-  "body": true,
-  "logged": "fal.ai"
- },
- {
-  "id": "6ab0d2d26f5daa00014d3a16",
-  "slug": "dc-december-2026-solicitations-absolute-batman-absence-hitman-poison-ivy",
-  "hero": true,
-  "body": true,
-  "logged": "fal.ai"
- },
- {
-  "id": "6ab0d2896f5daa00014d39f6",
-  "slug": "lina-khan-paramount-warner-bros-discovery-merger-antitrust",
-  "hero": true,
-  "body": true,
-  "logged": "fal.ai"
- },
- {
-  "id": "6ab0d1fc6f5daa00014d39c5",
-  "slug": "bleach-thousand-year-blood-war-calamity-delay-episodes-49-50",
-  "hero": true,
-  "body": true,
-  "logged": "fal.ai"
- },
- {
-  "id": "6aafbfc76f5daa00014d3999",
-  "slug": "marvel-dnx-beast-bioterrorist-x-men-fantastic-four-event",
-  "hero": true,
-  "body": true,
-  "logged": "fal.ai"
- },
- {
-  "id": "6aafbf2f6f5daa00014d396c",
-  "slug": "tgs-2026-final-day-pc-gaming-show-tokyo-west-japan-game-culture",
-  "hero": true,
-  "body": true,
-  "logged": "fal.ai"
- },
- {
-  "id": "6aafbe9f6f5daa00014d3938",
-  "slug": "tiff-2026-peoples-choice-award-oscar-race",
-  "hero": true,
-  "body": true,
-  "logged": "fal.ai"
- },
- {
-  "id": "6aaced456f5daa00014d34cf",
-  "slug": "wonder-woman-37-the-wonder-war-act-2-dc-event-architecture",
-  "hero": true,
-  "body": true,
-  "logged": "fal.ai"
- },
- {
-  "id": "6aacecf56f5daa00014d34b7",
-  "slug": "widows-bay-matthew-rhys-emmys-78-genre-prestige-tv",
-  "hero": true,
-  "body": true,
-  "logged": "fal.ai"
- },
- {
-  "id": "6aabe5126f5daa00014d3453",
-  "slug": "marvel-comics-new-york-burbank-relocation-deadline-decision-day",
-  "hero": true,
-  "body": true,
-  "logged": "fal.ai"
- },
- {
-  "id": "6aabe4b66f5daa00014d343c",
-  "slug": "laleh-marzban-venice-orizzonti-iran-smear-campaign",
-  "hero": true,
-  "body": true,
-  "logged": "fal.ai"
- },
- {
-  "id": "6aabe4146f5daa00014d3407",
-  "slug": "kadokawa-studio-one-base-merger-analysis",
-  "hero": true,
-  "body": true,
-  "logged": "fal.ai"
- },
- {
-  "id": "6aaa628d6f5daa00014d33c2",
-  "slug": "batman-day-2026-franchise-synchronisation-dc-comics",
-  "hero": true,
-  "body": true,
-  "logged": "fal.ai"
- },
- {
-  "id": "6aaa62426f5daa00014d33a2",
-  "slug": "bob-mackie-dies-87-legacy-celebrity-performance-culture",
-  "hero": true,
-  "body": true,
-  "logged": "fal.ai"
- },
- {
-  "id": "6aa8e94c6f5daa00014d3341",
-  "slug": "amazing-spider-man-1000-legacy-numbering-market",
-  "hero": true,
-  "body": true,
-  "logged": "fal.ai"
- },
- {
-  "id": "6aa855916f5daa00014d32d2",
-  "slug": "sydney-sweeney-doesnt-go-viral-by-accident-anymore-thats-the-whole-business-model",
+  "id": "6ac615bf6f5daa00014d42a6",
+  "slug": "magic-knight-rayearth-remake-crunchyroll-legacy-ip-anime",
   "hero": true,
   "body": false,
   "logged": "none"
  },
  {
-  "id": "6aa84cc86f5daa00014d32b8",
-  "slug": "meet-the-actors-nobody-cast-inside-hollywoods-synthetic-performer-problem",
+  "id": "6ac3fda26f5daa00014d41b5",
+  "slug": "verity-colleen-hoover-adaptation-literary-ip-2026",
   "hero": true,
   "body": false,
   "logged": "none"
  },
  {
-  "id": "6aa7b6666f5daa00014d32a2",
-  "slug": "universal-epic-universe-digital-facial-recognition-rides",
-  "hero": true,
-  "body": true,
-  "logged": "fal.ai"
- },
- {
-  "id": "6aa7b5026f5daa00014d3270",
-  "slug": "dc-49-marvel-27-comic-market-share-gap-2026",
-  "hero": true,
-  "body": true,
-  "logged": "fal.ai"
- },
- {
-  "id": "6aa7b4b76f5daa00014d3259",
-  "slug": "2026-mtv-vmas-nominations-madonna-leads-taylor-swift-ariana-grande-sabrina-carpenter",
-  "hero": true,
-  "body": true,
-  "logged": "fal.ai"
- },
- {
-  "id": "6aa65eaf6f5daa00014d30e5",
-  "slug": "the-yuppie-aesthetic-is-back-hollywood-cant-figure-out-how-to-remake-its-warning-label",
+  "id": "6ac3fde36f5daa00014d41ce",
+  "slug": "cyberpunk-edgerunners-2-sequel-legacy-studio-trigger",
   "hero": true,
   "body": false,
   "logged": "none"
  },
  {
-  "id": "6aa657636f5daa00014d30d7",
-  "slug": "super-mario-bros-turns-41-the-cartridge-that-talked-an-industry-off-the-ledge",
+  "id": "6ac3fe256f5daa00014d41e1",
+  "slug": "gears-of-war-e-day-xbox-exclusivity-identity-crisis",
   "hero": true,
   "body": false,
   "logged": "none"
  },
  {
-  "id": "6aa657636f5daa00014d30c7",
-  "slug": "thirty-years-without-tupac-how-five-years-of-music-outlasted-three-decades-of-silence",
+  "id": "6ac3fe6b6f5daa00014d41ef",
+  "slug": "lanterns-season-1-finale-hbo-green-lantern-prestige-tv",
   "hero": true,
   "body": false,
   "logged": "none"
  },
  {
-  "id": "6aa260976f5daa00014d3028",
-  "slug": "batman-bad-seeds-fraction-wilson-gotham-event-dual-lens",
-  "hero": true,
-  "body": true,
-  "logged": "fal.ai"
- },
- {
-  "id": "6aa2605e6f5daa00014d3013",
-  "slug": "emmys-2026-mariska-hargitay-first-female-host",
-  "hero": true,
-  "body": true,
-  "logged": "fal.ai"
- },
- {
-  "id": "6aa18d8c6f5daa00014d2fa9",
-  "slug": "playstation-5-anniversary-2026-ps4-pace-ps6-uncertainty",
+  "id": "6abd09ef6f5daa00014d407e",
+  "slug": "forgotten-island-box-office-penalty-original-animation",
   "hero": true,
   "body": false,
   "logged": "none"
  },
  {
-  "id": "6aa12bce6f5daa00014d2f85",
-  "slug": "dc-marvel-cosmic-kiss-caper-intercompany-crossover-collection-2025",
-  "hero": true,
-  "body": true,
-  "logged": "fal.ai"
- },
- {
-  "id": "6aa12b946f5daa00014d2f6a",
-  "slug": "nyfw-2026-september-11-twenty-fifth-anniversary",
-  "hero": true,
-  "body": true,
-  "logged": "fal.ai"
- },
- {
-  "id": "6a99169ed220770001febcf4",
-  "slug": "tomb-raider-king-crunchyroll-vs-solo-leveling",
-  "hero": true,
-  "body": false,
-  "logged": "fal.ai"
- },
- {
-  "id": "6a991479d220770001febc9b",
-  "slug": "legion-of-super-heroes-1-2026-dc-relaunch-williamson-sherman",
-  "hero": true,
-  "body": true,
-  "logged": "fal.ai"
- },
- {
-  "id": "6a991439d220770001febc7b",
-  "slug": "lamine-yamal-american-eagle-capsule-athlete-brand-architecture",
-  "hero": true,
-  "body": true,
-  "logged": "fal.ai"
- },
- {
-  "id": "6a93e45fd220770001febc24",
-  "slug": "marvel-midnight-imprint-superhero-horror-universe-market-strategy",
-  "hero": true,
-  "body": true,
-  "logged": "fal.ai"
- },
- {
-  "id": "6a93e375d220770001febbd7",
-  "slug": "2026-summer-box-office-recovery-structural-contradictions",
-  "hero": true,
-  "body": true,
-  "logged": "fal.ai"
- },
- {
-  "id": "6a92da05d220770001febbbb",
-  "slug": "black-tower-raven-conspiracy-1-dc-vertigo-relaunch-ram-v-mike-perkins",
-  "hero": true,
-  "body": true,
-  "logged": "fal.ai"
- },
- {
-  "id": "6a92d9ccd220770001febba3",
-  "slug": "netflix-documentary-chair-death-of-polished-content",
-  "hero": true,
-  "body": true,
-  "logged": "fal.ai"
- },
- {
-  "id": "6a92d92cd220770001febb76",
-  "slug": "insidious-6-opens-25-million-horror-franchises-diminishing-returns",
-  "hero": true,
-  "body": true,
-  "logged": "fal.ai"
- },
- {
-  "id": "6a9066a7d220770001febb4b",
-  "slug": "amazing-spider-man-35-road-to-issue-1000",
-  "hero": true,
-  "body": true,
-  "logged": "fal.ai"
- },
- {
-  "id": "6a90666fd220770001febb3a",
-  "slug": "ariana-grande-petal-four-weeks-in-pop-stardom-2026",
-  "hero": true,
-  "body": true,
-  "logged": "fal.ai"
- },
- {
-  "id": "6a8e92d6d220770001febac4",
-  "slug": "dolly-parton-the-last-rhinestone",
-  "hero": true,
-  "body": false,
-  "logged": "fal.ai"
- },
- {
-  "id": "6a8e912dd220770001feba9b",
-  "slug": "concrete-stars-over-sand-3-quietest-comic-2026",
-  "hero": true,
-  "body": true,
-  "logged": "fal.ai"
- },
- {
-  "id": "6a8e90f2d220770001feba80",
-  "slug": "smithsonian-national-museum-american-latino-arts-industries-building",
-  "hero": true,
-  "body": true,
-  "logged": "fal.ai"
- },
- {
-  "id": "6a859b5dd220770001feba29",
-  "slug": "evolution-architecture-ancient-stone-to-ai",
-  "hero": true,
-  "body": true,
-  "logged": "fal.ai"
- },
- {
-  "id": "6a859a6fd220770001feba11",
-  "slug": "thor-800-marvel-milestone-legacy-anniversary-2026",
-  "hero": true,
-  "body": true,
-  "logged": "fal.ai"
- },
- {
-  "id": "6a859a31d220770001feb9f6",
-  "slug": "2026-is-the-new-2016-nostalgia-wave-meme-reset",
-  "hero": true,
-  "body": true,
-  "logged": "fal.ai"
- },
- {
-  "id": "6a847020d220770001feb933",
-  "slug": "batman-12-fraction-jimenez-best-selling-comic-august-2026",
-  "hero": true,
-  "body": true,
-  "logged": "fal.ai"
- },
- {
-  "id": "6a846fe4d220770001feb918",
-  "slug": "hello-kitty-godzilla-mcdonalds-happy-meal-ip-licensing",
-  "hero": true,
-  "body": true,
-  "logged": "fal.ai"
- },
- {
-  "id": "6a846f7ed220770001feb8e8",
-  "slug": "wit-studio-attack-on-titan-announcement-august-2026",
-  "hero": true,
-  "body": true,
-  "logged": "fal.ai"
- },
- {
-  "id": "6a835538d220770001feb8be",
-  "slug": "hayden-panettiere-obituary-2026",
+  "id": "6abd09586f5daa00014d405b",
+  "slug": "fall-2026-early-access-premiere-anticipation-anime",
   "hero": true,
   "body": false,
   "logged": "none"
  },
  {
-  "id": "6a835493d220770001feb8aa",
-  "slug": "d23-2025-disney-most-anticipated-releases-2026",
-  "hero": true,
-  "body": false,
-  "logged": "fal.ai"
- },
- {
-  "id": "6a83544cd220770001feb893",
-  "slug": "chachu-1-iman-vellani-image-comics-debut",
-  "hero": true,
-  "body": true,
-  "logged": "fal.ai"
- },
- {
-  "id": "6a8353dcd220770001feb869",
-  "slug": "sony-state-of-play-august-2026-playstation-strategy",
-  "hero": true,
-  "body": true,
-  "logged": "fal.ai"
- },
- {
-  "id": "6a7f0103d220770001feb81b",
-  "slug": "miles-morales-spider-man-relaunch-editorial-logic",
-  "hero": true,
-  "body": true,
-  "logged": "fal.ai"
- },
- {
-  "id": "6a7f00c0d220770001feb800",
-  "slug": "parabros-merger-stall-hollywood-labor-revolt",
-  "hero": true,
-  "body": true,
-  "logged": "fal.ai"
- },
- {
-  "id": "6a7dbaa8d220770001feb79b",
-  "slug": "black-torch-best-anime-summer-2026-analysis",
-  "hero": true,
-  "body": false,
-  "logged": "fal.ai"
- },
- {
-  "id": "6a7d800ad220770001feb738",
-  "slug": "warren-ellis-returns-image-comics-accountability-silence",
-  "hero": true,
-  "body": true,
-  "logged": "fal.ai"
- },
- {
-  "id": "6a7d7fd4d220770001feb720",
-  "slug": "rosalia-lux-tour-arena-concert-culture",
-  "hero": true,
-  "body": true,
-  "logged": "fal.ai"
- },
- {
-  "id": "6a76a35ad220770001feb6b4",
-  "slug": "marvel-midnight-imprint-horror-universe-analysis",
-  "hero": true,
-  "body": true,
-  "logged": "fal.ai"
- },
- {
-  "id": "6a76a324d220770001feb698",
-  "slug": "william-orbit-producer-ray-of-light-dies-69",
-  "hero": true,
-  "body": true,
-  "logged": "fal.ai"
- },
- {
-  "id": "6a74ff17d220770001feb5d3",
-  "slug": "fantastic-four-65th-anniversary-ryan-north-humberto-ramos-run",
-  "hero": true,
-  "body": true,
-  "logged": "fal.ai"
- },
- {
-  "id": "6a74fee1d220770001feb5bf",
-  "slug": "ariana-grande-petal-controlled-exit-mythology",
-  "hero": true,
-  "body": true,
-  "logged": "fal.ai"
- },
- {
-  "id": "6a74feb0d220770001feb5a4",
-  "slug": "saudi-55-billion-ea-acquisition-american-gaming-giant",
-  "hero": true,
-  "body": true,
-  "logged": "fal.ai"
- },
- {
-  "id": "6a74fe7ad220770001feb594",
-  "slug": "weekly-shonen-jump-below-one-million-print-copies",
-  "hero": true,
-  "body": true,
-  "logged": "fal.ai"
- },
- {
-  "id": "6a71decbd220770001feb54a",
-  "slug": "iman-vellani-image-comics-noir-debut-authorship",
-  "hero": true,
-  "body": true,
-  "logged": "fal.ai"
- },
- {
-  "id": "6a71de97d220770001feb52e",
-  "slug": "bts-arirang-world-tour-korean-cultural-architecture",
-  "hero": true,
-  "body": true,
-  "logged": "fal.ai"
- },
- {
-  "id": "6a6e2035d220770001feb4be",
-  "slug": "terminal-1-kirkman-new-superhero-universe-ip-machine",
-  "hero": true,
-  "body": true,
-  "logged": "fal.ai"
- },
- {
-  "id": "6a6e2003d220770001feb4ab",
-  "slug": "2026-is-the-new-2016-nostalgia-internet",
-  "hero": true,
-  "body": true,
-  "logged": "fal.ai"
- },
- {
-  "id": "6a6cb417d220770001feb440",
-  "slug": "dc-next-level-static-vixen-demon-sdcc",
-  "hero": true,
-  "body": true,
-  "logged": "fal.ai"
- },
- {
-  "id": "6a6b4f1cd220770001feb38c",
-  "slug": "ted-lasso-season-4-final-trailer-analysis",
-  "hero": true,
-  "body": false,
-  "logged": "?"
- },
- {
-  "id": "6a6b4e60d220770001feb377",
-  "slug": "lanterns-final-trailer-hbo-dc-series-what-to-expect",
-  "hero": true,
-  "body": false,
-  "logged": "?"
- },
- {
-  "id": "6a6b4c67d220770001feb35a",
-  "slug": "queen-in-black-1-hela-knull-marvel-summer-event",
-  "hero": true,
-  "body": false,
-  "logged": "?"
- },
- {
-  "id": "6a6b4c2fd220770001feb339",
-  "slug": "tyla-apop-african-music-is-pop",
-  "hero": true,
-  "body": false,
-  "logged": "?"
- },
- {
-  "id": "6a6b4bf0d220770001feb324",
-  "slug": "halo-campaign-evolved-steam-score-review-bomb",
-  "hero": true,
-  "body": false,
-  "logged": "?"
- },
- {
-  "id": "6a6b4bb4d220770001feb312",
-  "slug": "my-hero-academia-10th-anniversary-new-era-or-last-stand",
-  "hero": true,
-  "body": false,
-  "logged": "?"
- },
- {
-  "id": "6a6b4b81d220770001feb2fd",
-  "slug": "disney-live-action-moana-box-office-remake-machine",
-  "hero": true,
-  "body": false,
-  "logged": "?"
- },
- {
-  "id": "6a67febcd220770001feb2a0",
-  "slug": "garfield-48-anniversary-jim-davis-81-most-syndicated-comic-strip",
-  "hero": true,
-  "body": false,
-  "logged": "?"
- },
- {
-  "id": "6a67fde9d220770001feb286",
-  "slug": "dc-absolute-universe-eisner-marvel-crossovers-2025",
-  "hero": true,
-  "body": false,
-  "logged": "?"
- },
- {
-  "id": "6a67fdafd220770001feb271",
-  "slug": "swift-kelce-wedding-celebrity-branding-machine",
-  "hero": true,
-  "body": false,
-  "logged": "?"
- },
- {
-  "id": "6a67fd78d220770001feb260",
-  "slug": "sony-gamestop-end-physical-games-disc-dead",
-  "hero": true,
-  "body": false,
-  "logged": "?"
- },
- {
-  "id": "6a67fd39d220770001feb247",
-  "slug": "cyberpunk-edgerunners-season-2-the-cure-soundtrack-anime-global-identity",
-  "hero": true,
-  "body": false,
-  "logged": "?"
- },
- {
-  "id": "6a67fd00d220770001feb22f",
-  "slug": "project-hail-mary-amazon-mgm-streamers-real-cinema",
-  "hero": true,
-  "body": false,
-  "logged": "?"
- },
- {
-  "id": "6a622b8bd220770001feb21c",
-  "slug": "resident-evil-2026-franchise-analysis",
-  "hero": true,
-  "body": false,
-  "logged": "?"
- },
- {
-  "id": "6a620a5fd220770001feb208",
-  "slug": "avengers-doomsday-box-office-projections-analysis",
-  "hero": true,
-  "body": false,
-  "logged": "?"
- },
- {
-  "id": "6a620715d220770001feb1e9",
-  "slug": "action-comics-1100-superman-landmark-issue-review",
-  "hero": true,
-  "body": false,
-  "logged": "?"
- },
- {
-  "id": "6a6206dcd220770001feb1d0",
-  "slug": "taylor-swift-travis-kelce-wedding-attention-economy",
-  "hero": true,
-  "body": false,
-  "logged": "?"
- },
- {
-  "id": "6a62069bd220770001feb1b1",
-  "slug": "bethesda-confirms-fallout-3-new-vegas-remasters",
-  "hero": true,
-  "body": false,
-  "logged": "?"
- },
- {
-  "id": "6a620664d220770001feb19f",
-  "slug": "kagurabachi-world-tour-cypic-manga-anime-pipeline-strategy",
-  "hero": true,
-  "body": false,
-  "logged": "?"
- },
- {
-  "id": "6a620629d220770001feb18f",
-  "slug": "spider-man-brand-new-day-projection-no-imax-2026",
-  "hero": true,
-  "body": false,
-  "logged": "?"
- },
- {
-  "id": "6a607a4bd220770001feb17b",
-  "slug": "godzilla-conquers-the-multiverse-1-marvel-borrowed-monster",
-  "hero": true,
-  "body": false,
-  "logged": "?"
- },
- {
-  "id": "6a607a13d220770001feb162",
-  "slug": "ariana-grande-petal-album-tour-marketing-2026",
-  "hero": true,
-  "body": false,
-  "logged": "?"
- },
- {
-  "id": "6a6079ddd220770001feb14d",
-  "slug": "assassins-creed-black-flag-resynced-sales-review-bombing-ubisoft",
-  "hero": true,
-  "body": false,
-  "logged": "?"
- },
- {
-  "id": "6a6079a5d220770001feb13e",
-  "slug": "ghost-in-the-shell-2026-science-saru-fandom-backlash",
-  "hero": true,
-  "body": false,
-  "logged": "?"
- },
- {
-  "id": "6a60796ed220770001feb129",
-  "slug": "avatar-aang-leak-hackers-paramount-streaming-distribution",
-  "hero": true,
-  "body": false,
-  "logged": "?"
- },
- {
-  "id": "6a607211d220770001feb111",
-  "slug": "avengers-doomsday-fan-expectations-vs-reality",
-  "hero": true,
-  "body": false,
-  "logged": "?"
- },
- {
-  "id": "6a5f575ed220770001feb0e4",
-  "slug": "sdcc-2026-marvel-steve-wacker-absolute-universe-dc",
-  "hero": true,
-  "body": false,
-  "logged": "?"
- },
- {
-  "id": "6a5f5729d220770001feb0d6",
-  "slug": "spider-man-brand-new-day-presales-structural-hunger",
-  "hero": true,
-  "body": false,
-  "logged": "?"
- },
- {
-  "id": "6a5f56f4d220770001feb0c4",
-  "slug": "halo-campaign-evolved-xbox-multiplatform-test-2026",
-  "hero": true,
-  "body": false,
-  "logged": "?"
- },
- {
-  "id": "6a5f56bdd220770001feb0ab",
-  "slug": "daemons-of-the-shadow-realm-kyoani-arakawa-netflix-auteur-anime",
-  "hero": true,
-  "body": false,
-  "logged": "?"
- },
- {
-  "id": "6a5f5683d220770001feb099",
-  "slug": "christopher-nolan-the-odyssey-iliad-moral-weight-2026",
-  "hero": true,
-  "body": false,
-  "logged": "?"
- },
- {
-  "id": "6a5e9181d220770001feb07c",
-  "slug": "star-ocean-30th-anniversary-unresolved-anomaly",
-  "hero": true,
-  "body": false,
-  "logged": "?"
- },
- {
-  "id": "6a5e9102d220770001feb05a",
-  "slug": "x-men-97-season-2-comics-market-speculation-spike",
-  "hero": true,
-  "body": false,
-  "logged": "?"
- },
- {
-  "id": "6a5e90cdd220770001feb04a",
-  "slug": "infinity-castle-anime-business-model-theatrical-streaming",
-  "hero": true,
-  "body": false,
-  "logged": "?"
- },
- {
-  "id": "6a5e909dd220770001feb03e",
-  "slug": "palworld-1-0-early-access-graduation-nintendo-lawsuit",
-  "hero": true,
-  "body": false,
-  "logged": "?"
- },
- {
-  "id": "6a5e9064d220770001feb02d",
-  "slug": "demon-slayer-infinity-castle-crunchyroll-streaming-date-theatrical-model",
-  "hero": true,
-  "body": false,
-  "logged": "?"
- },
- {
-  "id": "6a5e9030d220770001feb01d",
-  "slug": "the-odyssey-2026-nolan-imax-epic-homer-review",
-  "hero": true,
-  "body": false,
-  "logged": "?"
- },
- {
-  "id": "6a5ca7c9d220770001feb001",
-  "slug": "sdcc-2026-eisners-queen-in-black-song-of-the-wasteland",
-  "hero": true,
-  "body": false,
-  "logged": "?"
- },
- {
-  "id": "6a5ca794d220770001feafe4",
-  "slug": "michael-2026-biopic-billion-dollar-silence",
-  "hero": true,
-  "body": false,
-  "logged": "?"
- },
- {
-  "id": "6a5ca760d220770001feafcf",
-  "slug": "halo-campaign-evolved-remake-xbox-playstation-2026",
-  "hero": true,
-  "body": false,
-  "logged": "?"
- },
- {
-  "id": "6a5ca725d220770001feafbb",
-  "slug": "bleach-thousand-year-blood-war-the-calamity-adaptation-verdict",
-  "hero": true,
-  "body": false,
-  "logged": "?"
- },
- {
-  "id": "6a5ca6e8d220770001feafa9",
-  "slug": "christopher-nolan-the-odyssey-auteur-epic-cinema-summer-2026",
-  "hero": true,
-  "body": false,
-  "logged": "?"
- },
- {
-  "id": "6a5b9932d220770001feaf8f",
-  "slug": "sdcc-2026-comic-speculation-market-nova-xmen-97-gi-joe",
-  "hero": true,
-  "body": false,
-  "logged": "?"
- },
- {
-  "id": "6a5b98f9d220770001feaf7b",
-  "slug": "christopher-nolan-the-odyssey-event-film-streaming-age",
-  "hero": true,
-  "body": false,
-  "logged": "?"
- },
- {
-  "id": "6a5b98c1d220770001feaf68",
-  "slug": "palworld-1-0-early-access-launch-nintendo-lawsuit",
-  "hero": true,
-  "body": false,
-  "logged": "?"
- },
- {
-  "id": "6a5b9887d220770001feaf57",
-  "slug": "demon-slayer-infinity-castle-crunchyroll-streaming-2026",
-  "hero": true,
-  "body": false,
-  "logged": "?"
- },
- {
-  "id": "6a5b9853d220770001feaf43",
-  "slug": "christopher-nolan-the-odyssey-2026-analysis",
-  "hero": true,
-  "body": false,
-  "logged": "?"
- },
- {
-  "id": "6a5a56add220770001feaf20",
-  "slug": "dungeon-crawler-carl-zero-issue-sold-out-seth-macfarlane-animation",
-  "hero": true,
-  "body": false,
-  "logged": "?"
- },
- {
-  "id": "6a5a5676d220770001feaf04",
-  "slug": "manhwa-takeover-korean-webtoons-dark-themes-dominating",
-  "hero": true,
-  "body": false,
-  "logged": "?"
- },
- {
-  "id": "6a5a55dbd220770001feaef3",
-  "slug": "asalto-splatoon-viral-nintendo-squid-invasion",
-  "hero": true,
-  "body": false,
-  "logged": "?"
- },
- {
-  "id": "6a5a55a1d220770001feaed8",
-  "slug": "viral-educational-self-defense-breakdowns-madeleine-west-public-harassment",
-  "hero": true,
-  "body": false,
-  "logged": "?"
- },
- {
-  "id": "6a59d104d220770001feaeac",
-  "slug": "ink-and-income-two-religions-tattoo-culture",
-  "hero": true,
-  "body": false,
-  "logged": "?"
- },
- {
-  "id": "6a59d046d220770001feae95",
-  "slug": "world-emoji-day-language-symbols-communication",
-  "hero": true,
-  "body": false,
-  "logged": "?"
- },
- {
-  "id": "6a59d00dd220770001feae7d",
-  "slug": "dc-absolute-universe-canon-redefinition-2026",
-  "hero": true,
-  "body": false,
-  "logged": "?"
- },
- {
-  "id": "6a59cfd9d220770001feae6c",
-  "slug": "spider-man-brand-new-day-mcu-real-test-2026",
-  "hero": true,
-  "body": false,
-  "logged": "?"
- },
- {
-  "id": "6a59cfa1d220770001feae54",
-  "slug": "black-flag-resynced-aaa-remake-dlc-model",
-  "hero": true,
-  "body": false,
-  "logged": "?"
- },
- {
-  "id": "6a59cf6cd220770001feae3e",
-  "slug": "ghost-in-the-shell-2026-science-saru-review",
-  "hero": true,
-  "body": false,
-  "logged": "?"
- },
- {
-  "id": "6a59cf35d220770001feae30",
-  "slug": "christopher-nolan-the-odyssey-imax-myth-scale-2026",
-  "hero": true,
-  "body": false,
-  "logged": "?"
- },
- {
-  "id": "6a55ddf5d220770001feadff",
-  "slug": "sony-physical-media-elimination-economic-cultural-analysis",
-  "hero": true,
-  "body": false,
-  "logged": "?"
- },
- {
-  "id": "6a55db2cd220770001feaddf",
-  "slug": "queen-in-black-marvel-crossover-saturation-2026",
-  "hero": true,
-  "body": false,
-  "logged": "?"
- },
- {
-  "id": "6a55daf4d220770001feadc9",
-  "slug": "ghost-in-the-shell-2026-science-saru-canon-debate",
-  "hero": true,
-  "body": false,
-  "logged": "?"
- },
- {
-  "id": "6a55dabdd220770001feadba",
-  "slug": "palworld-1-0-viral-hype-sustainable-franchise-2026",
-  "hero": true,
-  "body": false,
-  "logged": "?"
- },
- {
-  "id": "6a55da85d220770001feada7",
-  "slug": "ghost-in-the-shell-2026-science-saru-shirow-adaptation",
-  "hero": true,
-  "body": false,
-  "logged": "?"
- },
- {
-  "id": "6a55da53d220770001fead90",
-  "slug": "adam-driver-magneto-mcu-xmen-reboot",
-  "hero": true,
-  "body": false,
-  "logged": "?"
- },
- {
-  "id": "6a54de4c14334800012cd107",
-  "slug": "sam-neill-1947-2025-tribute",
-  "hero": true,
-  "body": false,
-  "logged": "?"
- },
- {
-  "id": "6a54dcf214334800012cd0d9",
-  "slug": "stranger-things-ten-years-legacy-streaming-nostalgia",
-  "hero": true,
-  "body": false,
-  "logged": "?"
- },
- {
-  "id": "6a54da2214334800012cd0bd",
-  "slug": "brand-new-day-absolute-universe-comics-july-2026",
-  "hero": true,
-  "body": false,
-  "logged": "?"
- },
- {
-  "id": "6a54d9e814334800012cd0ae",
-  "slug": "nolan-odyssey-2026-anticipation-as-product",
-  "hero": true,
-  "body": false,
-  "logged": "?"
- },
- {
-  "id": "6a54d9b614334800012cd0a0",
-  "slug": "palworld-1-0-early-access-hype-sustainable-base",
-  "hero": true,
-  "body": false,
-  "logged": "?"
- },
- {
-  "id": "6a54d98114334800012cd090",
-  "slug": "demon-slayer-infinity-castle-crunchyroll-july-28-2026-part-2",
-  "hero": true,
-  "body": false,
-  "logged": "?"
- },
- {
-  "id": "6a54d94b14334800012cd07e",
-  "slug": "christopher-nolan-the-odyssey-auteur-epic-scale",
-  "hero": true,
-  "body": false,
-  "logged": "?"
- },
- {
-  "id": "6a53ceae01aa170001c93c8c",
-  "slug": "supergirl-woman-of-tomorrow-2026-review-analysis",
-  "hero": true,
-  "body": false,
-  "logged": "?"
- },
- {
-  "id": "6a53c9e001aa170001c93c48",
-  "slug": "ted-lasso-season-4-return-kindness-counterculture-2026",
-  "hero": true,
-  "body": false,
-  "logged": "?"
- },
- {
-  "id": "6a53c79f01aa170001c93c2c",
-  "slug": "stranger-things-ten-year-anniversary-streaming-cultural-myth",
-  "hero": true,
-  "body": false,
-  "logged": "?"
- },
- {
-  "id": "6a53c65c01aa170001c93c12",
-  "slug": "kubrick-method-masterpiece-world-hates-first",
-  "hero": true,
-  "body": false,
-  "logged": "?"
- },
- {
-  "id": "6a53c57801aa170001c93bed",
-  "slug": "absolute-catwoman-outsells-absolute-batman-june-2026",
-  "hero": true,
-  "body": false,
-  "logged": "?"
- },
- {
-  "id": "6a53c54901aa170001c93bcd",
-  "slug": "demon-slayer-infinity-castle-streaming-distribution-model",
-  "hero": true,
-  "body": false,
-  "logged": "?"
- },
- {
-  "id": "6a53c51601aa170001c93baf",
-  "slug": "palworld-1-0-early-access-launch-nintendo-lawsuit-game-pass",
-  "hero": true,
-  "body": false,
-  "logged": "?"
- },
- {
-  "id": "6a53c4db01aa170001c93b99",
-  "slug": "bleach-thousand-year-blood-war-the-calamity-final-cour-analysis",
-  "hero": true,
-  "body": false,
-  "logged": "?"
- },
- {
-  "id": "6a53c4a901aa170001c93b7e",
-  "slug": "the-odyssey-nolan-2026-auteur-blockbuster-cultural-event",
-  "hero": true,
-  "body": false,
-  "logged": "?"
- },
- {
-  "id": "6a53bc1301aa170001c93b71",
-  "slug": "elden-ring-environmental-storytelling-masterclass",
+  "id": "6aba09406f5daa00014d3ff3",
+  "slug": "rezero-season-4-45-minute-finale-anime-endings",
   "hero": true,
   "body": false,
   "logged": "none"
  },
  {
-  "id": "6a527ff0fc6af60001d3f948",
-  "slug": "hayao-miyazaki-poetry-of-impermanence-animation",
+  "id": "6aba09866f5daa00014d4003",
+  "slug": "witcher-3-remastered-free-upgrade-definitive-edition-culture",
   "hero": true,
   "body": false,
   "logged": "none"
  },
  {
-  "id": "6a527ad2fc6af60001d3f922",
-  "slug": "batman-the-long-halloween-graphic-novel-as-literature",
+  "id": "6aba08ed6f5daa00014d3fe6",
+  "slug": "primetime-a24-robert-pattinson-chris-hansen",
   "hero": true,
   "body": false,
   "logged": "none"
  },
  {
-  "id": "6a527aa4fc6af60001d3f911",
-  "slug": "cyberpunk-aesthetic-contemporary-culture",
+  "id": "6ab4dad16f5daa00014d3ad0",
+  "slug": "rezero-season-4-episode-18-fan-petition-culture-vs-viewer-enthusiasm",
   "hero": true,
   "body": false,
   "logged": "none"
  },
  {
-  "id": "6a527a35fc6af60001d3f8f8",
-  "slug": "chainsaw-man-redefined-dark-anime",
+  "id": "6ab4db136f5daa00014d3ae0",
+  "slug": "silent-hill-townfall-konami-franchise-strategy",
   "hero": true,
   "body": false,
   "logged": "none"
  },
  {
-  "id": "6a5279f7fc6af60001d3f8e5",
-  "slug": "evolution-of-noir-modern-cinema",
+  "id": "6ab4db5c6f5daa00014d3af5",
+  "slug": "practical-magic-2-cult-classic-sequel-pipeline",
+  "hero": true,
+  "body": false,
+  "logged": "none"
+ },
+ {
+  "id": "6ab4dd176f5daa00014d3b3b",
+  "slug": "the-big-bang-theory-turns-19-when-being-a-geek-conquered-television",
+  "hero": true,
+  "body": false,
+  "logged": "none"
+ },
+ {
+  "id": "6ab23b636f5daa00014d3a7e",
+  "slug": "dune-awakening-console-launch-singleplayer-mode-live-service-concession",
+  "hero": true,
+  "body": false,
+  "logged": "none"
+ },
+ {
+  "id": "6ab23b1f6f5daa00014d3a6d",
+  "slug": "daemons-of-the-shadow-realm-season-2-announced",
+  "hero": true,
+  "body": false,
+  "logged": "none"
+ },
+ {
+  "id": "6ab23adb6f5daa00014d3a5c",
+  "slug": "zach-cregger-resident-evil-reboot-auteur-horror-franchise",
+  "hero": true,
+  "body": false,
+  "logged": "none"
+ },
+ {
+  "id": "6ab0d1a86f5daa00014d39b5",
+  "slug": "avengers-endgame-encore-infinity-vision-re-release-patch-note",
+  "hero": true,
+  "body": false,
+  "logged": "none"
+ },
+ {
+  "id": "6ab0d2436f5daa00014d39da",
+  "slug": "control-resonant-remedy-connected-universe-studio-model",
+  "hero": true,
+  "body": false,
+  "logged": "none"
+ },
+ {
+  "id": "6aafbee26f5daa00014d3950",
+  "slug": "magic-knight-rayearth-remake-trailer-opening-ending-themes-2026",
+  "hero": true,
+  "body": false,
+  "logged": "none"
+ },
+ {
+  "id": "6aacec696f5daa00014d3485",
+  "slug": "apothecary-diaries-season-3-october-2026-premiere-confirmed",
+  "hero": true,
+  "body": false,
+  "logged": "none"
+ },
+ {
+  "id": "6aacecac6f5daa00014d349f",
+  "slug": "gta-vi-online-post-launch-take-two-shareholder-strategy",
+  "hero": true,
+  "body": false,
+  "logged": "none"
+ },
+ {
+  "id": "6aabe4626f5daa00014d3421",
+  "slug": "physint-bill-skarsgard-xbox-kojima-identity",
+  "hero": true,
+  "body": false,
+  "logged": "none"
+ },
+ {
+  "id": "6aabe3d36f5daa00014d33ee",
+  "slug": "bethlehem-kudumba-unit-highest-grossing-malayalam-film",
+  "hero": true,
+  "body": false,
+  "logged": "none"
+ },
+ {
+  "id": "6aaa615b6f5daa00014d3367",
+  "slug": "practical-magic-2-critic-audience-score-divide",
+  "hero": true,
+  "body": false,
+  "logged": "none"
+ },
+ {
+  "id": "6aaa61f16f5daa00014d3394",
+  "slug": "marvels-wolverine-insomniac-metacritic-problem",
+  "hero": true,
+  "body": false,
+  "logged": "none"
+ },
+ {
+  "id": "6aaa61ab6f5daa00014d337b",
+  "slug": "overgeared-anime-adaptation-korean-gaming-fantasy",
+  "hero": true,
+  "body": false,
+  "logged": "none"
+ },
+ {
+  "id": "6aa8e8b86f5daa00014d3319",
+  "slug": "fire-emblem-fortunes-weave-identity-crisis-war-game-ensemble-drama",
+  "hero": true,
+  "body": false,
+  "logged": "none"
+ },
+ {
+  "id": "6aa8e9006f5daa00014d3331",
+  "slug": "star-trek-60-anniversary-fandom-template",
+  "hero": true,
+  "body": false,
+  "logged": "none"
+ },
+ {
+  "id": "6aa8e8236f5daa00014d32f4",
+  "slug": "zach-cregger-resident-evil-auteur-autonomy",
+  "hero": true,
+  "body": false,
+  "logged": "none"
+ },
+ {
+  "id": "6aa8e8706f5daa00014d3308",
+  "slug": "science-saru-ghost-in-the-shell-tv-anime-summer-2026",
+  "hero": true,
+  "body": false,
+  "logged": "none"
+ },
+ {
+  "id": "6aa7b3da6f5daa00014d321f",
+  "slug": "a24-primetime-pattinson-hansen-prestige-recalibration",
+  "hero": true,
+  "body": false,
+  "logged": "none"
+ },
+ {
+  "id": "6aa7b4206f5daa00014d3231",
+  "slug": "bleach-thousand-year-blood-war-delay-anime-production-culture",
+  "hero": true,
+  "body": false,
+  "logged": "none"
+ },
+ {
+  "id": "6aa7b46d6f5daa00014d3242",
+  "slug": "blizzcon-2026-starcraft-diablo-v-loyalty-test",
+  "hero": true,
+  "body": false,
+  "logged": "none"
+ },
+ {
+  "id": "6aa260246f5daa00014d2ffb",
+  "slug": "nintendo-direct-zelda-40th-birthday-switch-2-platform-statement",
+  "hero": true,
+  "body": false,
+  "logged": "none"
+ },
+ {
+  "id": "6aa25fef6f5daa00014d2fe4",
+  "slug": "sound-euphonium-final-movie-part-2-kyoani-legacy",
+  "hero": true,
+  "body": false,
+  "logged": "none"
+ },
+ {
+  "id": "6aa25fb56f5daa00014d2fc9",
+  "slug": "tiff-2026-opens-inaugural-film-market",
+  "hero": true,
+  "body": false,
+  "logged": "none"
+ },
+ {
+  "id": "6aa12b636f5daa00014d2f54",
+  "slug": "valheim-1-0-early-access-launch-finished-game",
+  "hero": true,
+  "body": false,
+  "logged": "none"
+ },
+ {
+  "id": "6aa18f876f5daa00014d2fb5",
+  "slug": "attack-on-titan-day-fandom-movement",
+  "hero": true,
+  "body": false,
+  "logged": "none"
+ },
+ {
+  "id": "6aa12b296f5daa00014d2f43",
+  "slug": "attack-on-titan-day-september-9-2026-franchise-legacy",
+  "hero": true,
+  "body": false,
+  "logged": "none"
+ },
+ {
+  "id": "6a9a7a14d220770001febd05",
+  "slug": "onslaught-2026-adam-wingard-a24-franchise-instincts",
+  "hero": true,
+  "body": false,
+  "logged": "none"
+ },
+ {
+  "id": "6a9913fdd220770001febc67",
+  "slug": "marvels-wolverine-gta6-september-2026-release-pileup",
+  "hero": true,
+  "body": false,
+  "logged": "none"
+ },
+ {
+  "id": "6a991391d220770001febc32",
+  "slug": "venice-2026-danny-boyle-ink-festival-circuit",
+  "hero": true,
+  "body": false,
+  "logged": "none"
+ },
+ {
+  "id": "6a9913c8d220770001febc52",
+  "slug": "jujutsu-kaisen-farewell-art-season-4-teaser-endings-monetized",
+  "hero": true,
+  "body": false,
+  "logged": "none"
+ },
+ {
+  "id": "6a991521d220770001febcac",
+  "slug": "street-fighter-live-action-history-new-trailer",
+  "hero": true,
+  "body": false,
+  "logged": "none"
+ },
+ {
+  "id": "6a991578d220770001febcbf",
+  "slug": "hbo-harry-potter-teaser-reimagining-or-repackaging",
+  "hero": true,
+  "body": false,
+  "logged": "none"
+ },
+ {
+  "id": "6a93e3ead220770001febbf3",
+  "slug": "hoyoverse-gamescom-souls-like-strategic-ambitions",
+  "hero": true,
+  "body": false,
+  "logged": "none"
+ },
+ {
+  "id": "6a93e424d220770001febc0e",
+  "slug": "adults-season-2-fx-hulu-ensemble-comedy-streaming",
+  "hero": true,
+  "body": false,
+  "logged": "none"
+ },
+ {
+  "id": "6a93e3aed220770001febbe6",
+  "slug": "crunchyroll-shinkai-global-rights-anime-distribution",
+  "hero": true,
+  "body": false,
+  "logged": "none"
+ },
+ {
+  "id": "6a92d996d220770001febb95",
+  "slug": "beast-of-reincarnation-game-freak-identity",
+  "hero": true,
+  "body": false,
+  "logged": "none"
+ },
+ {
+  "id": "6a92d961d220770001febb83",
+  "slug": "ribbon-hero-netflix-princess-knight-shojo-streaming",
+  "hero": true,
+  "body": false,
+  "logged": "none"
+ },
+ {
+  "id": "6a9065bdd220770001febaf9",
+  "slug": "spider-man-brand-new-day-fourth-weekend-marvel-theatrical-strategy",
+  "hero": true,
+  "body": false,
+  "logged": "none"
+ },
+ {
+  "id": "6a906604d220770001febb08",
+  "slug": "uma-musume-world-tour-anime-live-spectacle",
+  "hero": true,
+  "body": false,
+  "logged": "none"
+ },
+ {
+  "id": "6a90663bd220770001febb25",
+  "slug": "star-wars-zero-company-tactics-ex-firaxis-franchise-signal",
+  "hero": true,
+  "body": false,
+  "logged": "none"
+ },
+ {
+  "id": "6a8e90bfd220770001feba6b",
+  "slug": "witcher-3-songs-of-the-past-cdpr-gamescom-2026",
+  "hero": true,
+  "body": false,
+  "logged": "none"
+ },
+ {
+  "id": "6a8e9051d220770001feba3f",
+  "slug": "christopher-nolan-the-odyssey-adaptation-fidelity",
+  "hero": true,
+  "body": false,
+  "logged": "none"
+ },
+ {
+  "id": "6a8e9088d220770001feba4f",
+  "slug": "one-piece-god-valley-baad-toei-strategy-one-piece-day-26",
+  "hero": true,
+  "body": false,
+  "logged": "none"
+ },
+ {
+  "id": "6a8e9247d220770001febab4",
+  "slug": "puella-magi-madoka-magica-walpurgisnacht-rising-thirteen-years-magical-girl-genre",
+  "hero": true,
+  "body": false,
+  "logged": "none"
+ },
+ {
+  "id": "6a8e937bd220770001febad6",
+  "slug": "avengers-endgame-encore-re-release-analysis",
+  "hero": true,
+  "body": false,
+  "logged": "none"
+ },
+ {
+  "id": "6a8e9478d220770001febaed",
+  "slug": "coyote-vs-acme-2026-what-is-happening",
+  "hero": true,
+  "body": false,
+  "logged": "none"
+ },
+ {
+  "id": "6a8599c4d220770001feb9e9",
+  "slug": "ghost-in-the-shell-2026-science-saru-summer-anime-debate",
+  "hero": true,
+  "body": false,
+  "logged": "none"
+ },
+ {
+  "id": "6a85998cd220770001feb9d9",
+  "slug": "michael-2026-biopic-billion-dollars-critics-audiences",
+  "hero": true,
+  "body": false,
+  "logged": "none"
+ },
+ {
+  "id": "6a8483ded220770001feb9b5",
+  "slug": "mayday-2026-ryan-reynolds-apple-tv-plus",
+  "hero": true,
+  "body": false,
+  "logged": "none"
+ },
+ {
+  "id": "6a846f3dd220770001feb8d7",
+  "slug": "zach-cregger-resident-evil-reboot-2026",
+  "hero": true,
+  "body": false,
+  "logged": "none"
+ },
+ {
+  "id": "6a846faed220770001feb8fb",
+  "slug": "the-sinking-city-2-frogwares-survival",
+  "hero": true,
+  "body": false,
+  "logged": "none"
+ },
+ {
+  "id": "6a8471f8d220770001feb958",
+  "slug": "star-wars-ahsoka-season-2",
+  "hero": true,
+  "body": false,
+  "logged": "none"
+ },
+ {
+  "id": "6a847275d220770001feb96b",
+  "slug": "i-play-rocky-2026-tribute-film-review",
+  "hero": true,
+  "body": false,
+  "logged": "none"
+ },
+ {
+  "id": "6a8471b3d220770001feb94a",
+  "slug": "your-name-at-ten-makoto-shinkai-anime-cinema-threshold",
+  "hero": true,
+  "body": false,
+  "logged": "none"
+ },
+ {
+  "id": "6a83536ed220770001feb849",
+  "slug": "michael-jackson-biopic-billion-dollars-streaming",
+  "hero": true,
+  "body": false,
+  "logged": "none"
+ },
+ {
+  "id": "6a8353a7d220770001feb855",
+  "slug": "oshi-no-ko-season-4-final-season-announcement-analysis",
+  "hero": true,
+  "body": false,
+  "logged": "none"
+ },
+ {
+  "id": "6a835417d220770001feb87d",
+  "slug": "disney-legends-2026-anne-hathaway-dwayne-johnson-d23-canonization",
+  "hero": true,
+  "body": false,
+  "logged": "none"
+ },
+ {
+  "id": "6a7f0062d220770001feb7d1",
+  "slug": "wit-studio-attack-on-titan-2026-teaser-ip-nostalgia-reset",
+  "hero": true,
+  "body": false,
+  "logged": "none"
+ },
+ {
+  "id": "6a7f0024d220770001feb7b6",
+  "slug": "the-end-of-oak-street-david-robert-mitchell-returns",
+  "hero": true,
+  "body": false,
+  "logged": "none"
+ },
+ {
+  "id": "6a7f0144d220770001feb834",
+  "slug": "ryan-gosling-ghost-rider-2026-everything-we-know",
+  "hero": true,
+  "body": false,
+  "logged": "none"
+ },
+ {
+  "id": "6a7f009ad220770001feb7ec",
+  "slug": "elden-ring-switch-2-port-soul-hardware",
+  "hero": true,
+  "body": false,
+  "logged": "none"
+ },
+ {
+  "id": "6a7d7f1cd220770001feb6ec",
+  "slug": "the-odyssey-nolan-highest-grossing-box-office-trust",
+  "hero": true,
+  "body": false,
+  "logged": "none"
+ },
+ {
+  "id": "6a7d7f56d220770001feb6f8",
+  "slug": "crunchyroll-shinkai-next-film-global-distribution-rights",
+  "hero": true,
+  "body": false,
+  "logged": "none"
+ },
+ {
+  "id": "6a7d8138d220770001feb76a",
+  "slug": "how-much-we-miss-bruce-willis-kynari-legacy",
+  "hero": true,
+  "body": false,
+  "logged": "none"
+ },
+ {
+  "id": "6a7d7f8ad220770001feb70b",
+  "slug": "hell-let-loose-vietnam-tactical-shooters-industry-avoidance",
+  "hero": true,
+  "body": false,
+  "logged": "none"
+ },
+ {
+  "id": "6a7d8095d220770001feb74f",
+  "slug": "metroid-40-anniversary-genre-defining-underserved",
+  "hero": true,
+  "body": false,
+  "logged": "none"
+ },
+ {
+  "id": "6a76a2f5d220770001feb67a",
+  "slug": "star-wars-zero-company-turn-based-tactics-franchise-gamble",
+  "hero": true,
+  "body": false,
+  "logged": "none"
+ },
+ {
+  "id": "6a76a393d220770001feb6d7",
+  "slug": "clayface-2026-what-to-expect-dc",
+  "hero": true,
+  "body": false,
+  "logged": "none"
+ },
+ {
+  "id": "6a76a286d220770001feb64a",
+  "slug": "evil-dead-burn-franchise-box-office-ip-strategy",
+  "hero": true,
+  "body": false,
+  "logged": "none"
+ },
+ {
+  "id": "6a7533c9d220770001feb5eb",
+  "slug": "blade-runner-2099-prime-video-analysis",
+  "hero": true,
+  "body": false,
+  "logged": "none"
+ },
+ {
+  "id": "6a75342dd220770001feb603",
+  "slug": "marvels-wolverine-story-trailer-comic-con-2026",
+  "hero": true,
+  "body": false,
+  "logged": "none"
+ },
+ {
+  "id": "6a74fe4ad220770001feb579",
+  "slug": "project-hail-mary-star-vehicle-summer-2026",
+  "hero": true,
+  "body": false,
+  "logged": "none"
+ },
+ {
+  "id": "6a71de63d220770001feb515",
+  "slug": "big-walk-house-house-co-op-game-design-argument",
+  "hero": true,
+  "body": false,
+  "logged": "none"
+ },
+ {
+  "id": "6a71de30d220770001feb501",
+  "slug": "toho-animation-food-terror-anime-announced-2026",
+  "hero": true,
+  "body": false,
+  "logged": "none"
+ },
+ {
+  "id": "6a71ddfed220770001feb4ee",
+  "slug": "michael-2025-biopic-billion-dollars-omissions",
+  "hero": true,
+  "body": false,
+  "logged": "none"
+ },
+ {
+  "id": "6a71df72d220770001feb55e",
+  "slug": "labyrinth-at-40-cult-classic-david-bowie-anniversary",
+  "hero": true,
+  "body": false,
+  "logged": "none"
+ },
+ {
+  "id": "6a6e1fc0d220770001feb497",
+  "slug": "beast-of-reincarnation-game-freak-soulslike-aaa",
+  "hero": true,
+  "body": false,
+  "logged": "none"
+ },
+ {
+  "id": "6a6e1f8ad220770001feb482",
+  "slug": "the-ribbon-hero-netflix-tezuka-adaptation-2026",
+  "hero": true,
+  "body": false,
+  "logged": "none"
+ },
+ {
+  "id": "6a6e20c0d220770001feb4de",
+  "slug": "spider-man-brand-new-day-2026-box-office-opening-weekend-billion",
+  "hero": true,
+  "body": false,
+  "logged": "none"
+ },
+ {
+  "id": "6a6e1f51d220770001feb46a",
+  "slug": "coyote-vs-acme-film-hollywood-tried-to-erase",
+  "hero": true,
+  "body": false,
+  "logged": "none"
+ },
+ {
+  "id": "6a6cb379d220770001feb400",
+  "slug": "demon-slayer-infinity-castle-crunchyroll-streaming-theatrical-model",
+  "hero": true,
+  "body": false,
+  "logged": "none"
+ },
+ {
+  "id": "6a6cb3acd220770001feb412",
+  "slug": "xbox-game-pass-july-2025-removals-celeste",
+  "hero": true,
+  "body": false,
+  "logged": "none"
+ },
+ {
+  "id": "6a6cb3e2d220770001feb42c",
+  "slug": "spider-man-brand-new-day-165-brand-marketing-machine",
+  "hero": true,
+  "body": false,
+  "logged": "none"
+ },
+ {
+  "id": "6a6cb342d220770001feb3ec",
+  "slug": "nolan-odyssey-billion-without-china",
+  "hero": true,
+  "body": false,
+  "logged": "none"
+ },
+ {
+  "id": "6a6cb678d220770001feb455",
+  "slug": "classic-tv-themes-macgyver-a-team-knight-rider-he-man",
+  "hero": true,
+  "body": false,
+  "logged": "none"
+ },
+ {
+  "id": "6a6bda6fd220770001feb3a3",
+  "slug": "rick-moranis-returns-spaceballs-2",
+  "hero": true,
+  "body": false,
+  "logged": "none"
+ },
+ {
+  "id": "6a6bdfd5d220770001feb3d5",
+  "slug": "jumanji-open-world-2026-franchise-analysis",
+  "hero": true,
+  "body": false,
+  "logged": "none"
+ },
+ {
+  "id": "6a6bdd92d220770001feb3c0",
+  "slug": "slam-dunk-takehiko-inoue-greatest-manga-ever",
   "hero": true,
   "body": false,
   "logged": "none"
