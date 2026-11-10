@@ -94,6 +94,21 @@ function cleanTitle(t) {
   return String(t || '').replace(/(\*\*|\*)(?=\S)([^*]+?)(?<=\S)\1/g, '$2').replace(/[_`#]+/g, '').replace(/\s+/g, ' ').trim();
 }
 
+// ---------------------------------------------------------------------------
+// Marcas de cita de la búsqueda web: el modelo a veces deja en el texto
+// etiquetas cite con un atributo index alrededor de una frase (a veces con el signo de
+// apertura cambiado por un paréntesis).
+// Ghost las muestra como texto literal. Se quita la marca y se conserva la frase.
+// Entre el 16 oct. y el 10 nov. 2026 salieron 51 artículos así (QA del 2 y del 10 nov.).
+// ---------------------------------------------------------------------------
+function stripCiteTags(t) {
+  return String(t ?? '')
+    .replace(/[(<]\s*cite\b[^>]*>/gi, '')
+    .replace(/<\s*\/\s*cite\s*>/gi, '')
+    .replace(/&lt;\s*cite\b.*?&gt;/gi, '')
+    .replace(/&lt;\s*\/\s*cite\s*&gt;/gi, '');
+}
+
 // Alcance de cada categoría para el lote diario (16 oct. 2026). Culture es amplia a propósito:
 // Marc quiere tecnología o coches cuando tienen gancho de cultura pop (el Roadster «volador»
 // estilo Regreso al futuro), pero no noticias puramente empresariales, política ni deporte.
@@ -218,6 +233,7 @@ FACTS: use web_search to verify every concrete fact (dates, figures, names, quot
 LINKS: put 2-4 inline links to the reputable sources you used (<a href="https://...">descriptive words</a>) and 2 links to related Kynari articles from the list given, when relevant. No bare URLs, no "click here".
 TITLES OF WORKS: original English title in italics with the release year in parentheses the first time — e.g. <em>Ghostbusters</em> (1984).
 ARTICLE TITLE: plain text, no asterisks or markdown, 12 words or fewer.
+NO CITATION MARKUP: never write <cite> tags, index attributes or bracketed source numbers anywhere in the article; attribute facts with <a href> links only.
 If the article is about a specific film, series or anime, include tmdb_search_title, tmdb_year and tmdb_media_type. If it is about a specific game, include igdb_search_title and igdb_year. Otherwise give image_subject for a real photograph.
 When the research is done, call submit_article once with the complete article.`;
   const user = `Write a Kynari article. Target: ${wordCount} words.\n\nTOPIC: ${topic}\nCATEGORY: ${category}\nSECTION: ${section}${angle ? `\nEDITORIAL ANGLE: ${angle}` : ''}${sources.length ? `\nSTARTING SOURCES (check them, add others):\n${sources.map((s) => `- ${s}`).join('\n')}` : ''}${internal ? `\n\nKYNARI ARTICLES YOU MAY LINK TO (use 2 if relevant):\n${internal}` : ''}`;
@@ -468,6 +484,10 @@ async function markRanThisWeek() { await fs.writeFile(LEGACY_MARK_PATH, JSON.str
 async function publishOne({ topic, category, section, angle, youtube, sources = [], featured = false, batch = null }) {
   console.log(`\n-> Generating article: "${topic}" [${category} / ${section}]`);
   const article = await generateArticle({ topic, category, section, angle, sources });
+  // Marcas de cita fuera de todos los campos de texto antes de nada
+  for (const k of ['title', 'subtitle', 'body_html', 'excerpt', 'meta_title', 'meta_description']) {
+    if (typeof article[k] === 'string') article[k] = stripCiteTags(article[k]);
+  }
   article.title = cleanTitle(article.title);
   if (article.title.split(/\s+/).length > 14) console.warn(`   ⚠ Long title (${article.title.split(/\s+/).length} words)`);
 
@@ -609,7 +629,7 @@ async function main() {
 }
 
 // Exportado para las pruebas (tools/test_publisher.mjs).
-export { applyTagHygiene, tagSlug, detectImageFormat, cleanTitle, buildBody, verifyLinks, extractYoutubeId, PUBLIC_TAG_ALLOWLIST, GHOST_URL };
+export { applyTagHygiene, tagSlug, detectImageFormat, cleanTitle, stripCiteTags, buildBody, verifyLinks, extractYoutubeId, PUBLIC_TAG_ALLOWLIST, GHOST_URL };
 
 const isMain = process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url);
 if (isMain) main().catch((err) => { console.error('Fatal error:', err); process.exit(1); });

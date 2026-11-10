@@ -1,4 +1,4 @@
-import { applyTagHygiene, tagSlug, detectImageFormat, PUBLIC_TAG_ALLOWLIST } from '../pipeline/kynari-publisher.mjs';
+import { applyTagHygiene, tagSlug, detectImageFormat, stripCiteTags, PUBLIC_TAG_ALLOWLIST } from '../pipeline/kynari-publisher.mjs';
 
 let ok = 0, bad = 0;
 const check = (name, cond, extra = '') => {
@@ -56,6 +56,14 @@ check('WebP', detectImageFormat(webp).mime === 'image/webp');
 check('GIF',  detectImageFormat(gif).mime  === 'image/gif');
 check('buffer corto -> png por defecto', detectImageFormat(Buffer.alloc(3)).mime === 'image/png');
 check('null no revienta', detectImageFormat(null).mime === 'image/png');
+
+console.log('\n8) stripCiteTags: marcas de cita de la búsqueda web');
+check('variante rota con paréntesis', stripCiteTags('<p>Home. (cite index="33-2">When members told her.</cite> Broadway.</p>') === '<p>Home. When members told her. Broadway.</p>');
+check('etiqueta normal', stripCiteTags('<p><cite index="9-6,9-7">Nine titles</cite> line up.</p>') === '<p>Nine titles line up.</p>');
+check('escapada como entidades', stripCiteTags('&lt;cite index="1-2"&gt;Fact&lt;/cite&gt;.') === 'Fact.');
+check('no toca enlaces ni cursivas', stripCiteTags('<p><a href="https://x.com">x</a> <em>Title</em></p>') === '<p><a href="https://x.com">x</a> <em>Title</em></p>');
+check('no toca la palabra cite en el texto', stripCiteTags('<p>Critics cite the (cited) report.</p>') === '<p>Critics cite the (cited) report.</p>');
+check('null no revienta', stripCiteTags(null) === '');
 
 console.log(`\n${ok} pasan, ${bad} fallan`);
 process.exit(bad ? 1 : 0);
